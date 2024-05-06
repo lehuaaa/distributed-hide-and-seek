@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Buffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/simulator/Buffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/HRSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/simulator/HRSimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Measurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/simulator/Measurement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/simulator/Simulator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +38,14 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -53,19 +65,22 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2g5hJ2rqRl3kIONR0EN32DyET4Z" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.watch-out [:AdministrationServer.main()].executor": "Run",
     "Gradle.watch-out [:Main.main()].executor": "Run",
     "Gradle.watch-out [:StartServer.main()].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Andrea/Desktop/Personale/University/distributed-system/project/watch-out/src/main/java",
+    "last_opened_file_path": "C:/Users/Andrea/Desktop/lab4-examples",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -82,9 +97,32 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Andrea\Desktop\Personale\University\distributed-system\project\watch-out\src\main\java" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Andrea\Desktop\Personale\University\distributed-system\project\watch-out\src\main\java\simulator" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="AdministrationServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="server.AdministrationServer" />
+      <module name="watchOut.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.AdministrationServer" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -104,7 +142,7 @@
       <updated>1714993271418</updated>
       <workItem from="1714993272556" duration="163000" />
       <workItem from="1714993442072" duration="55000" />
-      <workItem from="1714993520878" duration="2248000" />
+      <workItem from="1714993520878" duration="10804000" />
     </task>
     <servers />
   </component>

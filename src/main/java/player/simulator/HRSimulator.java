@@ -1,4 +1,4 @@
-package simulator;
+package player.simulator;
 
 public class HRSimulator extends Simulator {
 
