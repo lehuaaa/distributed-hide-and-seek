@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 @Path("players")
 public class PlayersService {
 
-    /* Player initialization */
+    /* Add player into the match */
     @POST
     @Consumes({"application/json", "application/xml"})
     @Produces({"application/json", "application/xml"})

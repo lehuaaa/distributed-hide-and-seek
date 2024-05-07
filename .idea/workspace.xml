@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="added check if the game is full (coordinatesHandler has an empty stack of coordinates)">
+    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="general renaming of methods and variables">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/InitialPlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/beans/PlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/Coordinate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/beans/Coordinate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/CoordinatesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/handlers/CoordinatesHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/MeasurementsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/handlers/MeasurementsHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/PlayersHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/handlers/PlayersHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/services/PlayersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/services/PlayersService.java" afterDir="false" />
     </list>
@@ -146,7 +148,7 @@
       <workItem from="1715062690727" duration="10593000" />
       <workItem from="1715082970785" duration="1292000" />
       <workItem from="1715097946700" duration="4988000" />
-      <workItem from="1715112299527" duration="1290000" />
+      <workItem from="1715112299527" duration="2038000" />
     </task>
     <task id="LOCAL-00001" summary="moved simulator package into player package">
       <option name="closed" value="true" />
@@ -236,7 +238,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715113508736</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="refactored name of bean InitialPlayerInfo into PlayerInfo">
+      <option name="closed" value="true" />
+      <created>1715113661061</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1715113661061</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -277,6 +287,8 @@
     <MESSAGE value="general server code renaming" />
     <MESSAGE value="refactor logic of player's measurements insertion. added log message to each handlers" />
     <MESSAGE value="added check if the game is full (coordinatesHandler has an empty stack of coordinates)" />
-    <option name="LAST_COMMIT_MESSAGE" value="added check if the game is full (coordinatesHandler has an empty stack of coordinates)" />
+    <MESSAGE value="refactored name of bean InitialPlayerInfo into PlayerInfo" />
+    <MESSAGE value="general renaming of methods and variables" />
+    <option name="LAST_COMMIT_MESSAGE" value="general renaming of methods and variables" />
   </component>
 </project>

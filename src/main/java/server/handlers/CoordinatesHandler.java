@@ -23,12 +23,14 @@ public class CoordinatesHandler {
         return instance;
     }
 
-    public Coordinate getRandomPosition() {
+    /* Get free perimeter coordinate */
+    public Coordinate getFreePosition() {
         if (perimeterCoordinates.isEmpty())
             return null;
         return perimeterCoordinates.pop();
     }
 
+    /* Initialize list with all possible perimeter coordinates */
     private void initializeCoordinates() {
         perimeterCoordinates.clear();
 

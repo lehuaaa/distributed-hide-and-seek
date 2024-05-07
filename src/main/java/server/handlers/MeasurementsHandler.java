@@ -1,6 +1,5 @@
 package server.handlers;
 
-import server.beans.Player;
 import server.beans.PlayerMeasurement;
 
 import java.util.*;
@@ -34,9 +33,8 @@ public class MeasurementsHandler {
     public synchronized boolean addMeasurement(PlayerMeasurement measurement) {
         if (measurementsById.containsKey(measurement.getPlayerId())) {
             measurements.add(measurement);
-            System.out.println("Measurement : " + measurement + " successfully added to the general list");
             measurementsById.get(measurement.getPlayerId()).add(measurement);
-            System.out.println("Measurement : " + measurement + " successfully added to the player's list");
+            System.out.println("Measurement : " + measurement + " successfully added to the general list and to the player's list");
             return true;
         }
         System.out.println("Measurement: " + measurement + " not added to the list because player with Id: " + measurement.getPlayerId() + " doesn't exist");

@@ -44,7 +44,7 @@ public class PlayersHandler {
             return null;
         }
 
-        Coordinate coordinate = CoordinatesHandler.getInstance().getRandomPosition();
+        Coordinate coordinate = CoordinatesHandler.getInstance().getFreePosition();
 
         if (coordinate == null) {
             System.out.println("Player with Id: " + player.getId() + " cannot register to the match because it's already full");
@@ -53,7 +53,7 @@ public class PlayersHandler {
 
         players.add(player);
         MeasurementsHandler.getInstance().addPlayerToMeasurementsList(player.getId());
-        System.out.println("Player: " + player + " successfully added to the list");
+        System.out.println("Player: " + player + " successfully added to the list and obtained the position: " + coordinate);
         return new PlayerInfo(coordinate, playersCopy);
     }
 
