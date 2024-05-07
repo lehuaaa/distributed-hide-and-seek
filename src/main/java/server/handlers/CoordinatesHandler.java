@@ -24,6 +24,8 @@ public class CoordinatesHandler {
     }
 
     public Coordinate getRandomPosition() {
+        if (perimeterCoordinates.isEmpty())
+            return null;
         return perimeterCoordinates.pop();
     }
 

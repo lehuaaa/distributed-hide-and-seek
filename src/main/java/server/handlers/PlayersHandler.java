@@ -1,5 +1,6 @@
 package server.handlers;
 
+import server.beans.Coordinate;
 import server.beans.InitialPlayerInfo;
 import server.beans.Player;
 
@@ -34,17 +35,33 @@ public class PlayersHandler {
         this.players = players;
     }
 
-    /* Check if player's ID already exists, If not the player will be added to the list of players */
+    /* Add the new player to the list */
     public synchronized InitialPlayerInfo addPlayer(Player player) {
         List<Player> playersCopy = getPlayers();
-        for (Player p : playersCopy)
-            if (p.getId().equals(player.getId())){
-                System.out.println("PlayerId " + player.getId() + " already exists");
-                return null;
-            }
+
+        if(!checkPlayerId(playersCopy, player.getId())) {
+            System.out.println("PlayerId " + player.getId() + " already exists");
+            return null;
+        }
+
+        Coordinate coordinate = CoordinatesHandler.getInstance().getRandomPosition();
+
+        if (coordinate == null) {
+            System.out.println("Player with Id: " + player.getId() + " cannot register to the match because it's already full");
+            return null;
+        }
+
         players.add(player);
         MeasurementsHandler.getInstance().addPlayerToMeasurementsList(player.getId());
-        System.out.println("Player: " + player.toString() + " successfully added to the list");
-        return new InitialPlayerInfo(CoordinatesHandler.getInstance().getRandomPosition(), playersCopy);
+        System.out.println("Player: " + player + " successfully added to the list");
+        return new InitialPlayerInfo(coordinate, playersCopy);
+    }
+
+    /* Check if player's ID already exists */
+    private boolean checkPlayerId(List<Player> players, String playerId) {
+        for (Player p : players)
+            if (p.getId().equals(playerId))
+                return false;
+        return true;
     }
 }
