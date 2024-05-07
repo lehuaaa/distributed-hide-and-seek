@@ -1,4 +1,4 @@
-package player.simulator;
+package simulator;
 
 import java.util.Random;
 

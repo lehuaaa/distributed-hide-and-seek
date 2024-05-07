@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="">
+    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="moved simulator package into player package">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Buffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/simulator/Buffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/HRSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/simulator/HRSimulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Measurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/simulator/Measurement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/client/simulator/Simulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/Buffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Buffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/HRSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/HRSimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/Measurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Measurement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Simulator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,18 +49,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "lehuaaa"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;lehuaaa&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/lehuaaa/watch-out.git",
-    "accountId": "cd4f92af-bd98-410c-89e8-5c3fb81f46dd"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/lehuaaa/watch-out.git&quot;,
+    &quot;accountId&quot;: &quot;cd4f92af-bd98-410c-89e8-5c3fb81f46dd&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
 }</component>
@@ -80,7 +80,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Andrea/Desktop/lab4-examples",
+    "last_opened_file_path": "C:/Users/Andrea/Desktop/Personale/University/distributed-system/lab/lab4-examples",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -142,8 +142,19 @@
       <updated>1714993271418</updated>
       <workItem from="1714993272556" duration="163000" />
       <workItem from="1714993442072" duration="55000" />
-      <workItem from="1714993520878" duration="10804000" />
+      <workItem from="1714993520878" duration="16034000" />
+      <workItem from="1715026969372" duration="2857000" />
+      <workItem from="1715062690727" duration="9373000" />
     </task>
+    <task id="LOCAL-00001" summary="moved simulator package into player package">
+      <option name="closed" value="true" />
+      <created>1715007962286</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1715007962286</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,5 +182,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="moved simulator package into player package" />
+    <option name="LAST_COMMIT_MESSAGE" value="moved simulator package into player package" />
   </component>
 </project>
