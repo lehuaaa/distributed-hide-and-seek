@@ -33,7 +33,6 @@ public class MeasurementsService {
     @GET
     @Produces({"application/json", "application/xml"})
     public Response getAverageOfTheLastNMeasurementByPlayerId(@PathParam("t1") long t1, @PathParam("t2") long t2){
-        // TODO
-        return Response.ok(12).build();
+        return Response.ok(MeasurementsManager.getInstance().getAverageOfMeasurementsBetweenT1AndT2(t1, t2)).build();
     }
 }

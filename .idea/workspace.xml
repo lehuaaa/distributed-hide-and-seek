@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="generated and coded classes that manage player's information, position and measurements" />
+    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="auto update workspace.xml file">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/managers/CoordinatesManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/managers/CoordinatesManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/managers/MeasurementsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/managers/MeasurementsManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/services/MeasurementsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/services/MeasurementsService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,27 +71,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.watch-out [:AdministrationServer.main()].executor": "Run",
-    "Gradle.watch-out [:Main.main()].executor": "Run",
-    "Gradle.watch-out [:StartServer.main()].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Andrea/Desktop/Personale/University/distributed-system/lab/lab4-examples",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.watch-out [:AdministrationServer.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.watch-out [:Main.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.watch-out [:StartServer.main()].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Andrea/Desktop/Personale/University/distributed-system/lab/lab4-examples&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Andrea\Desktop\Personale\University\distributed-system\project\watch-out\src\main\java" />
@@ -138,7 +143,8 @@
       <workItem from="1714993442072" duration="55000" />
       <workItem from="1714993520878" duration="16034000" />
       <workItem from="1715026969372" duration="2857000" />
-      <workItem from="1715062690727" duration="9766000" />
+      <workItem from="1715062690727" duration="10593000" />
+      <workItem from="1715082970785" duration="1084000" />
     </task>
     <task id="LOCAL-00001" summary="moved simulator package into player package">
       <option name="closed" value="true" />
@@ -180,7 +186,23 @@
       <option name="project" value="LOCAL" />
       <updated>1715074155215</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="generated and coded services that handle requests inherent to players and measurements">
+      <option name="closed" value="true" />
+      <created>1715074226558</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1715074226558</updated>
+    </task>
+    <task id="LOCAL-00007" summary="auto update workspace.xml file">
+      <option name="closed" value="true" />
+      <created>1715074251679</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1715074251679</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,6 +237,8 @@
     <MESSAGE value="generated administration's server and client class" />
     <MESSAGE value="completely generated and coded beans for services" />
     <MESSAGE value="generated and coded classes that manage player's information, position and measurements" />
-    <option name="LAST_COMMIT_MESSAGE" value="generated and coded classes that manage player's information, position and measurements" />
+    <MESSAGE value="generated and coded services that handle requests inherent to players and measurements" />
+    <MESSAGE value="auto update workspace.xml file" />
+    <option name="LAST_COMMIT_MESSAGE" value="auto update workspace.xml file" />
   </component>
 </project>

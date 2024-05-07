@@ -50,7 +50,6 @@ public class CoordinatesManager {
             perimeterCoordinates.add(new Coordinate(0, i));
         }
 
-        System.out.println(perimeterCoordinates);
         Collections.shuffle(perimeterCoordinates);
     }
 
