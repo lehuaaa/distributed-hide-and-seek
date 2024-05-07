@@ -1,7 +1,7 @@
 package server.services;
 
 import server.beans.Player;
-import server.beans.InitialPlayerInfo;
+import server.beans.PlayerInfo;
 import server.handlers.PlayersHandler;
 
 import javax.ws.rs.*;
@@ -15,9 +15,9 @@ public class PlayersService {
     @Consumes({"application/json", "application/xml"})
     @Produces({"application/json", "application/xml"})
     public Response addPlayer(Player player){
-        InitialPlayerInfo initialPlayerInfo = PlayersHandler.getInstance().addPlayer(player);
-        if(initialPlayerInfo != null){
-            return Response.ok(initialPlayerInfo).build();
+        PlayerInfo playerInfo = PlayersHandler.getInstance().addPlayer(player);
+        if(playerInfo != null){
+            return Response.ok(playerInfo).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }

@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="refactor logic of player's measurements insertion. added log message to each handlers">
+    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="added check if the game is full (coordinatesHandler has an empty stack of coordinates)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/CoordinatesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/handlers/CoordinatesHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/InitialPlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/beans/PlayerInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/PlayersHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/handlers/PlayersHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/services/PlayersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/services/PlayersService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +146,7 @@
       <workItem from="1715062690727" duration="10593000" />
       <workItem from="1715082970785" duration="1292000" />
       <workItem from="1715097946700" duration="4988000" />
-      <workItem from="1715112299527" duration="1140000" />
+      <workItem from="1715112299527" duration="1290000" />
     </task>
     <task id="LOCAL-00001" summary="moved simulator package into player package">
       <option name="closed" value="true" />
@@ -227,7 +228,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715102934646</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="added check if the game is full (coordinatesHandler has an empty stack of coordinates)">
+      <option name="closed" value="true" />
+      <created>1715113508736</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1715113508736</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -267,6 +276,7 @@
     <MESSAGE value="integrated 'interval-average' request in MeasurementsService" />
     <MESSAGE value="general server code renaming" />
     <MESSAGE value="refactor logic of player's measurements insertion. added log message to each handlers" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor logic of player's measurements insertion. added log message to each handlers" />
+    <MESSAGE value="added check if the game is full (coordinatesHandler has an empty stack of coordinates)" />
+    <option name="LAST_COMMIT_MESSAGE" value="added check if the game is full (coordinatesHandler has an empty stack of coordinates)" />
   </component>
 </project>

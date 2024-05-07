@@ -1,7 +1,7 @@
 package server.handlers;
 
 import server.beans.Coordinate;
-import server.beans.InitialPlayerInfo;
+import server.beans.PlayerInfo;
 import server.beans.Player;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -36,7 +36,7 @@ public class PlayersHandler {
     }
 
     /* Add the new player to the list */
-    public synchronized InitialPlayerInfo addPlayer(Player player) {
+    public synchronized PlayerInfo addPlayer(Player player) {
         List<Player> playersCopy = getPlayers();
 
         if(!checkPlayerId(playersCopy, player.getId())) {
@@ -54,7 +54,7 @@ public class PlayersHandler {
         players.add(player);
         MeasurementsHandler.getInstance().addPlayerToMeasurementsList(player.getId());
         System.out.println("Player: " + player + " successfully added to the list");
-        return new InitialPlayerInfo(coordinate, playersCopy);
+        return new PlayerInfo(coordinate, playersCopy);
     }
 
     /* Check if player's ID already exists */
