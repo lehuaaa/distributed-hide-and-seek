@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="moved simulator package into player package">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/Buffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Buffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/HRSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/HRSimulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/Measurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Measurement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/simulator/Simulator.java" afterDir="false" />
-    </list>
+    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="generated and coded classes that manage player's information, position and measurements" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -144,7 +138,7 @@
       <workItem from="1714993442072" duration="55000" />
       <workItem from="1714993520878" duration="16034000" />
       <workItem from="1715026969372" duration="2857000" />
-      <workItem from="1715062690727" duration="9373000" />
+      <workItem from="1715062690727" duration="9766000" />
     </task>
     <task id="LOCAL-00001" summary="moved simulator package into player package">
       <option name="closed" value="true" />
@@ -154,7 +148,39 @@
       <option name="project" value="LOCAL" />
       <updated>1715007962286</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="refactor position of simulator code">
+      <option name="closed" value="true" />
+      <created>1715073879155</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1715073879155</updated>
+    </task>
+    <task id="LOCAL-00003" summary="generated administration's server and client class">
+      <option name="closed" value="true" />
+      <created>1715073953308</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1715073953308</updated>
+    </task>
+    <task id="LOCAL-00004" summary="completely generated and coded beans for services">
+      <option name="closed" value="true" />
+      <created>1715074095942</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1715074095942</updated>
+    </task>
+    <task id="LOCAL-00005" summary="generated and coded classes that manage player's information, position and measurements">
+      <option name="closed" value="true" />
+      <created>1715074155215</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1715074155215</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -185,6 +211,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="moved simulator package into player package" />
-    <option name="LAST_COMMIT_MESSAGE" value="moved simulator package into player package" />
+    <MESSAGE value="refactor position of simulator code" />
+    <MESSAGE value="generated administration's server and client class" />
+    <MESSAGE value="completely generated and coded beans for services" />
+    <MESSAGE value="generated and coded classes that manage player's information, position and measurements" />
+    <option name="LAST_COMMIT_MESSAGE" value="generated and coded classes that manage player's information, position and measurements" />
   </component>
 </project>
