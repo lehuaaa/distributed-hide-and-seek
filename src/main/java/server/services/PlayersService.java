@@ -1,8 +1,8 @@
 package server.services;
 
-import server.beans.PlayerInfo;
-import server.beans.InitialInfo;
-import server.managers.PlayersManager;
+import server.beans.Player;
+import server.beans.InitialPlayerInfo;
+import server.handlers.PlayersHandler;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -14,10 +14,10 @@ public class PlayersService {
     @POST
     @Consumes({"application/json", "application/xml"})
     @Produces({"application/json", "application/xml"})
-    public Response addPlayerToTheGame(PlayerInfo player){
-        InitialInfo initialInfo = PlayersManager.getInstance().addPlayer(player);
-        if(initialInfo != null){
-            return Response.ok(initialInfo).build();
+    public Response addPlayer(Player player){
+        InitialPlayerInfo initialPlayerInfo = PlayersHandler.getInstance().addPlayer(player);
+        if(initialPlayerInfo != null){
+            return Response.ok(initialPlayerInfo).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
@@ -26,6 +26,6 @@ public class PlayersService {
     @GET
     @Produces({"application/json", "application/xml"})
     public Response getPlayersList(){
-        return Response.ok(PlayersManager.getInstance()).build();
+        return Response.ok(PlayersHandler.getInstance()).build();
     }
 }

@@ -4,14 +4,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @XmlRootElement
-public class InitialInfo {
+public class InitialPlayerInfo {
 
     private Coordinate coordinate;
-    private List<PlayerInfo> players;
+    private List<Player> players;
 
-    public InitialInfo() {}
+    public InitialPlayerInfo() {}
 
-    public InitialInfo(Coordinate coordinate, List<PlayerInfo> players) {
+    public InitialPlayerInfo(Coordinate coordinate, List<Player> players) {
         this.coordinate = coordinate;
         this.players = players;
     }
@@ -24,11 +24,11 @@ public class InitialInfo {
         this.coordinate = coordinate;
     }
 
-    public List<PlayerInfo> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<PlayerInfo> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 }

@@ -1,6 +1,6 @@
 package server.services;
 
-import server.managers.MeasurementsManager;
+import server.handlers.MeasurementsHandler;
 import server.beans.PlayerMeasurement;
 
 import javax.ws.rs.*;
@@ -13,7 +13,7 @@ public class MeasurementsService {
     @POST
     @Consumes({"application/json", "application/xml"})
     public Response addPlayerMeasurement(PlayerMeasurement measurement){
-        MeasurementsManager.getInstance().addMeasurement(measurement);
+        MeasurementsHandler.getInstance().addMeasurement(measurement);
         return Response.ok().build();
     }
 
@@ -21,8 +21,8 @@ public class MeasurementsService {
     @Path("player-average/{playerId}/{n}")
     @GET
     @Produces({"application/json", "application/xml"})
-    public Response getAverageOfTheLastNMeasurementByPlayerId(@PathParam("playerId") String playerId, @PathParam("n") int n){
-        double result = MeasurementsManager.getInstance().getAverageOfLastNMeasurementsById(playerId, n);
+    public Response getPlayerAverageOfTheLastNMeasurements(@PathParam("playerId") String playerId, @PathParam("n") int n){
+        double result = MeasurementsHandler.getInstance().getPlayerAverage(playerId, n);
         if(result == -1)
             return Response.status(Response.Status.NOT_FOUND).build();
         return Response.ok(result).build();
@@ -32,7 +32,7 @@ public class MeasurementsService {
     @Path("interval-average/{t1}/{t2}")
     @GET
     @Produces({"application/json", "application/xml"})
-    public Response getAverageOfTheLastNMeasurementByPlayerId(@PathParam("t1") long t1, @PathParam("t2") long t2){
-        return Response.ok(MeasurementsManager.getInstance().getAverageOfMeasurementsBetweenT1AndT2(t1, t2)).build();
+    public Response getAverageOfTheMeasurementsBetweenT1AndT2(@PathParam("t1") long t1, @PathParam("t2") long t2){
+        return Response.ok(MeasurementsHandler.getInstance().getIntervalAverage(t1, t2)).build();
     }
 }

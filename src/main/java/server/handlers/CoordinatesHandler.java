@@ -1,33 +1,33 @@
-package server.managers;
+package server.handlers;
 
 import server.beans.Coordinate;
 
 import java.util.Collections;
 import java.util.Stack;
 
-public class CoordinatesManager {
+public class CoordinatesHandler {
 
     private final Stack<Coordinate> perimeterCoordinates;
 
-    private static CoordinatesManager instance;
+    private static CoordinatesHandler instance;
 
-    private CoordinatesManager() {
+    private CoordinatesHandler() {
         perimeterCoordinates = new Stack<>();
-        initializePerimeterCoordinates();
+        initializeCoordinates();
     }
 
-    public synchronized static CoordinatesManager getInstance() {
+    public synchronized static CoordinatesHandler getInstance() {
         if (instance == null) {
-            instance = new CoordinatesManager();
+            instance = new CoordinatesHandler();
         }
         return instance;
     }
 
-    public Coordinate getFreePosition() {
+    public Coordinate getRandomPosition() {
         return perimeterCoordinates.pop();
     }
 
-    private void initializePerimeterCoordinates() {
+    private void initializeCoordinates() {
         perimeterCoordinates.clear();
 
         /* Bottom side -1 */

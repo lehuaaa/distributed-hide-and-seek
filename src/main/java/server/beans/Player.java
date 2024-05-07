@@ -3,15 +3,15 @@ package server.beans;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class PlayerInfo {
+public class Player {
 
     private String id;
     private String address;
     private int port;
 
-    public PlayerInfo() {}
+    public Player() {}
 
-    public PlayerInfo(String id, String address, int port) {
+    public Player(String id, String address, int port) {
         this.id = id;
         this.address = address;
         this.port = port;

@@ -1,25 +1,25 @@
-package server.managers;
+package server.handlers;
 
 import server.beans.PlayerMeasurement;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MeasurementsManager {
+public class MeasurementsHandler {
 
     private final HashMap<String, List<PlayerMeasurement>> measurementsById;
     private final List<PlayerMeasurement> measurements;
 
-    private static MeasurementsManager instance;
+    private static MeasurementsHandler instance;
 
-    private MeasurementsManager() {
+    private MeasurementsHandler() {
         measurementsById = new HashMap<>();
         measurements = new ArrayList<>();
     }
 
-    public synchronized static MeasurementsManager getInstance() {
+    public synchronized static MeasurementsHandler getInstance() {
         if(instance == null) {
-            instance = new MeasurementsManager();
+            instance = new MeasurementsHandler();
         }
         return instance;
     }
@@ -33,19 +33,19 @@ public class MeasurementsManager {
     }
 
     /* Get the average of the last N measurements of a specific player */
-    public synchronized double getAverageOfLastNMeasurementsById(String playerId, int n) {
+    public synchronized double getPlayerAverage(String playerId, int n) {
         if (measurementsById.containsKey(playerId)) {
             List<PlayerMeasurement> measurements = measurementsById.get(playerId);
             return measurements.size() >= n
-                    ? getAverageFromListOfMeasurement(measurements.subList(measurements.size() - n, measurements.size()))
-                    : getAverageFromListOfMeasurement(measurements);
+                    ? computeAverage(measurements.subList(measurements.size() - n, measurements.size()))
+                    : computeAverage(measurements);
         }
         return -1;
     }
 
     /* Get the average of the measurements occurred between timestamp t1 and timestamp t2 */
-    public synchronized double getAverageOfMeasurementsBetweenT1AndT2(long t1, long t2) {
-        return getAverageFromListOfMeasurement(
+    public synchronized double getIntervalAverage(long t1, long t2) {
+        return computeAverage(
                 measurements.stream()
                         .filter(m -> m.getTimestamp() >= t1 && m.getTimestamp() <= t2)
                         .collect(Collectors.toList())
@@ -53,7 +53,7 @@ public class MeasurementsManager {
     }
 
     /* Get the average from a list of measurements */
-    private double getAverageFromListOfMeasurement(List<PlayerMeasurement> m) {
+    private double computeAverage(List<PlayerMeasurement> m) {
         return m.stream()
                 .mapToDouble(PlayerMeasurement::getHrValue)
                 .average()

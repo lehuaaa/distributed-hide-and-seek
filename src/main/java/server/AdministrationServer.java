@@ -18,7 +18,6 @@ public class AdministrationServer {
 
             System.out.println("Server is running on: http://" + HOST + ":" + PORT);
             System.in.read();
-            System.out.println("Stopping server");
             administrationServer.stop(0);
             System.out.println("Server stopped");
 
