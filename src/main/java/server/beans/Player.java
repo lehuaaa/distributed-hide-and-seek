@@ -40,4 +40,9 @@ public class Player {
     public void setPort(int port) {
         this.port = port;
     }
+
+    @Override
+    public String toString() {
+        return "{ Id: " + id + ", Address: " + address + ", Port: " + port + " }";
+    }
 }

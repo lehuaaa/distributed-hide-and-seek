@@ -47,4 +47,9 @@ public class PlayerMeasurement implements Comparable<PlayerMeasurement> {
         Long otherTimestamp = m.getTimestamp();
         return thisTimestamp.compareTo(otherTimestamp);
     }
+
+    @Override
+    public String toString() {
+        return "{ PlayerId: " + playerId + ", HeartRateValue: " + hrValue + ", TimeStamp: " + timestamp + "}";
+    }
 }

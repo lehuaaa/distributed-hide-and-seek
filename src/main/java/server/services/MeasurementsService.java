@@ -13,8 +13,10 @@ public class MeasurementsService {
     @POST
     @Consumes({"application/json", "application/xml"})
     public Response addPlayerMeasurement(PlayerMeasurement measurement){
-        MeasurementsHandler.getInstance().addMeasurement(measurement);
-        return Response.ok().build();
+        boolean result = MeasurementsHandler.getInstance().addMeasurement(measurement);
+        if (result)
+            return Response.ok().build();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     /* Get the average of last n heart rate given a playerId */

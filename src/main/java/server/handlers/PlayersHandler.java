@@ -38,9 +38,13 @@ public class PlayersHandler {
     public synchronized InitialPlayerInfo addPlayer(Player player) {
         List<Player> playersCopy = getPlayers();
         for (Player p : playersCopy)
-            if (p.getId().equals(player.getId()))
+            if (p.getId().equals(player.getId())){
+                System.out.println("PlayerId " + player.getId() + " already exists");
                 return null;
+            }
         players.add(player);
+        MeasurementsHandler.getInstance().addPlayerToMeasurementsList(player.getId());
+        System.out.println("Player: " + player.toString() + " successfully added to the list");
         return new InitialPlayerInfo(CoordinatesHandler.getInstance().getRandomPosition(), playersCopy);
     }
 }

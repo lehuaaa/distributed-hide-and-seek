@@ -1,5 +1,6 @@
 package server.handlers;
 
+import server.beans.Player;
 import server.beans.PlayerMeasurement;
 
 import java.util.*;
@@ -24,32 +25,47 @@ public class MeasurementsHandler {
         return instance;
     }
 
-    /* Add player's measurement inside his list */
-    public synchronized void addMeasurement(PlayerMeasurement measurement) {
-        measurements.add(measurement);
-        measurementsById.computeIfAbsent(measurement.getPlayerId(), k -> new ArrayList<>());
-        List<PlayerMeasurement> playerMeasurements = measurementsById.get(measurement.getPlayerId());
-        playerMeasurements.add(measurement);
+    /* Add player to the HashMap */
+    public synchronized void addPlayerToMeasurementsList(String playerId) {
+        measurementsById.put(playerId, new ArrayList<>());
+    }
+
+    /* Add player's measurement inside his list and the general one */
+    public synchronized boolean addMeasurement(PlayerMeasurement measurement) {
+        if (measurementsById.containsKey(measurement.getPlayerId())) {
+            measurements.add(measurement);
+            System.out.println("Measurement : " + measurement + " successfully added to the general list");
+            measurementsById.get(measurement.getPlayerId()).add(measurement);
+            System.out.println("Measurement : " + measurement + " successfully added to the player's list");
+            return true;
+        }
+        System.out.println("Measurement: " + measurement + " not added to the list because player with Id: " + measurement.getPlayerId() + " doesn't exist");
+        return false;
     }
 
     /* Get the average of the last N measurements of a specific player */
     public synchronized double getPlayerAverage(String playerId, int n) {
         if (measurementsById.containsKey(playerId)) {
             List<PlayerMeasurement> measurements = measurementsById.get(playerId);
-            return measurements.size() >= n
+            double average = measurements.size() >= n
                     ? computeAverage(measurements.subList(measurements.size() - n, measurements.size()))
                     : computeAverage(measurements);
+            System.out.println("Average of the last " + n + " measurements of player " + playerId + " has a result of: " + average);
+            return average;
         }
+        System.out.println("Player with Id: " + playerId + " not found");
         return -1;
     }
 
     /* Get the average of the measurements occurred between timestamp t1 and timestamp t2 */
     public synchronized double getIntervalAverage(long t1, long t2) {
-        return computeAverage(
+        double average = computeAverage(
                 measurements.stream()
                         .filter(m -> m.getTimestamp() >= t1 && m.getTimestamp() <= t2)
                         .collect(Collectors.toList())
         );
+        System.out.println("Average of the measurements with timestamp between " + t1 + " and " + t2 + " has a result of: " + average);
+        return average;
     }
 
     /* Get the average from a list of measurements */

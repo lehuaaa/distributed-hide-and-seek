@@ -52,5 +52,4 @@ public class CoordinatesHandler {
 
         Collections.shuffle(perimeterCoordinates);
     }
-
 }

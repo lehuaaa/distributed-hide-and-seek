@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="integrated 'interval-average' request in MeasurementsService">
-      <change afterPath="$PROJECT_DIR$/src/main/java/server/handlers/PlayersHandler.java" afterDir="false" />
+    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="general server code renaming">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/AdministrationServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/AdministrationServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/InitialInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/beans/InitialPlayerInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/beans/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/managers/CoordinatesManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/handlers/CoordinatesHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/managers/MeasurementsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/handlers/MeasurementsHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/managers/PlayersManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/beans/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/PlayerMeasurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/beans/PlayerMeasurement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/CoordinatesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/handlers/CoordinatesHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/MeasurementsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/handlers/MeasurementsHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/PlayersHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/handlers/PlayersHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/services/MeasurementsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/services/MeasurementsService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/server/services/PlayersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/server/services/PlayersService.java" afterDir="false" />
     </list>
@@ -151,7 +149,7 @@
       <workItem from="1715026969372" duration="2857000" />
       <workItem from="1715062690727" duration="10593000" />
       <workItem from="1715082970785" duration="1292000" />
-      <workItem from="1715097946700" duration="1700000" />
+      <workItem from="1715097946700" duration="4749000" />
     </task>
     <task id="LOCAL-00001" summary="moved simulator package into player package">
       <option name="closed" value="true" />
@@ -217,7 +215,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715084209935</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="general server code renaming">
+      <option name="closed" value="true" />
+      <created>1715099725254</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1715099725254</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,6 +261,7 @@
     <MESSAGE value="generated and coded services that handle requests inherent to players and measurements" />
     <MESSAGE value="auto update workspace.xml file" />
     <MESSAGE value="integrated 'interval-average' request in MeasurementsService" />
-    <option name="LAST_COMMIT_MESSAGE" value="integrated 'interval-average' request in MeasurementsService" />
+    <MESSAGE value="general server code renaming" />
+    <option name="LAST_COMMIT_MESSAGE" value="general server code renaming" />
   </component>
 </project>
