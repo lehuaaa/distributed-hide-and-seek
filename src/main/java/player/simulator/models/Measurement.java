@@ -1,4 +1,4 @@
-package simulator;
+package player.simulator.models;
 
 public class Measurement implements Comparable<Measurement> {
 

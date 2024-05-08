@@ -1,3 +1,3 @@
-package client;
+package administration.client;
 
 public class AdministrationClient { }

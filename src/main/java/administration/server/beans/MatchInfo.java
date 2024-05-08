@@ -1,17 +1,17 @@
-package server.beans;
+package administration.server.beans;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @XmlRootElement
-public class PlayerInfo {
+public class MatchInfo {
 
     private Coordinate coordinate;
     private List<Player> players;
 
-    public PlayerInfo() {}
+    public MatchInfo() {}
 
-    public PlayerInfo(Coordinate coordinate, List<Player> players) {
+    public MatchInfo(Coordinate coordinate, List<Player> players) {
         this.coordinate = coordinate;
         this.players = players;
     }

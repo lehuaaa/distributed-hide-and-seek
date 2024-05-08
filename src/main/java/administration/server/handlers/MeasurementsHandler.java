@@ -1,6 +1,6 @@
-package server.handlers;
+package administration.server.handlers;
 
-import server.beans.PlayerMeasurement;
+import administration.server.beans.PlayerMeasurement;
 
 import java.util.*;
 import java.util.stream.Collectors;

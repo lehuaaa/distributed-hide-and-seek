@@ -1,4 +1,6 @@
-package simulator;
+package player.simulator.models;
+
+import player.simulator.buffer.Buffer;
 
 import java.util.Random;
 

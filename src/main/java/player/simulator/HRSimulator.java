@@ -1,4 +1,7 @@
-package simulator;
+package player.simulator;
+
+import player.simulator.buffer.Buffer;
+import player.simulator.models.Simulator;
 
 public class HRSimulator extends Simulator {
 

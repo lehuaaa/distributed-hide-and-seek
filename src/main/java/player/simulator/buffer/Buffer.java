@@ -1,4 +1,6 @@
-package simulator;
+package player.simulator.buffer;
+
+import player.simulator.models.Measurement;
 
 import java.util.List;
 

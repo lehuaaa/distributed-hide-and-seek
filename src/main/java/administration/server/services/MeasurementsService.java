@@ -1,7 +1,7 @@
-package server.services;
+package administration.server.services;
 
-import server.handlers.MeasurementsHandler;
-import server.beans.PlayerMeasurement;
+import administration.server.beans.PlayerMeasurement;
+import administration.server.handlers.MeasurementsHandler;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;

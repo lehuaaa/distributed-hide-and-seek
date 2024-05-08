@@ -1,6 +1,6 @@
-package server.handlers;
+package administration.server.handlers;
 
-import server.beans.Coordinate;
+import administration.server.beans.Coordinate;
 
 import java.util.Collections;
 import java.util.Stack;

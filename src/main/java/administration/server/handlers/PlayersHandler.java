@@ -1,8 +1,8 @@
-package server.handlers;
+package administration.server.handlers;
 
-import server.beans.Coordinate;
-import server.beans.PlayerInfo;
-import server.beans.Player;
+import administration.server.beans.Coordinate;
+import administration.server.beans.MatchInfo;
+import administration.server.beans.Player;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,7 +36,7 @@ public class PlayersHandler {
     }
 
     /* Add the new player to the list */
-    public synchronized PlayerInfo addPlayer(Player player) {
+    public synchronized MatchInfo addPlayer(Player player) {
         List<Player> playersCopy = getPlayers();
 
         if(!checkPlayerId(playersCopy, player.getId())) {
@@ -54,7 +54,7 @@ public class PlayersHandler {
         players.add(player);
         MeasurementsHandler.getInstance().addPlayerToMeasurementsList(player.getId());
         System.out.println("Player: " + player + " successfully added to the list and obtained the position: " + coordinate);
-        return new PlayerInfo(coordinate, playersCopy);
+        return new MatchInfo(coordinate, playersCopy);
     }
 
     /* Check if player's ID already exists */
