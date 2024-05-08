@@ -4,14 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="server package renaming following spring boot best practices">
+    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="general renaming of methods and variables">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/player/WatchOutPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/WatchOutPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/HRSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/measurements/producer/HRSimulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/buffer/Buffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/measurements/buffer/Buffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/buffer/implementation/BufferImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/measurements/buffer/implementation/BufferImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/models/Measurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/measurements/model/Measurement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/player/simulator/models/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/measurements/producer/Simulator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,11 +73,10 @@
     &quot;Gradle.watch-out [:AdministrationServer.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.watch-out [:Main.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.watch-out [:StartServer.main()].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/albaa/Desktop/University/Magistrale/Distributed-system/Laboratory/project/watch-out&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Andrea/Desktop/Personale/Projects/Java/spring boot/JPA/postgresql&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -130,9 +123,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-1.8.0_402-corretto-1.8.0_402-4caba194b151-ae57be32" />
-        <option value="jdk-15.0.10-azul-15.0.10-4caba194b151-739f9a4f" />
-        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.15989.150" />
+        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-IU-241.15989.150" />
       </set>
     </attachedChunks>
   </component>
@@ -152,12 +144,6 @@
       <workItem from="1715082970785" duration="1292000" />
       <workItem from="1715097946700" duration="4988000" />
       <workItem from="1715112299527" duration="2038000" />
-      <workItem from="1715150464278" duration="595000" />
-      <workItem from="1715165302602" duration="2184000" />
-      <workItem from="1715167713733" duration="190000" />
-      <workItem from="1715168895847" duration="2529000" />
-      <workItem from="1715172688514" duration="458000" />
-      <workItem from="1715178622044" duration="1795000" />
     </task>
     <task id="LOCAL-00001" summary="moved simulator package into player package">
       <option name="closed" value="true" />
@@ -255,31 +241,7 @@
       <option name="project" value="LOCAL" />
       <updated>1715113661061</updated>
     </task>
-    <task id="LOCAL-00013" summary="completely refactor entire project structure">
-      <option name="closed" value="true" />
-      <created>1715173092353</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1715173092353</updated>
-    </task>
-    <task id="LOCAL-00014" summary="added buffer implementation and WatchOutPlayer class">
-      <option name="closed" value="true" />
-      <created>1715173134913</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1715173134913</updated>
-    </task>
-    <task id="LOCAL-00015" summary="server package renaming following spring boot best practices">
-      <option name="closed" value="true" />
-      <created>1715179754160</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1715179754160</updated>
-    </task>
-    <option name="localTasksCounter" value="16" />
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -322,9 +284,6 @@
     <MESSAGE value="added check if the game is full (coordinatesHandler has an empty stack of coordinates)" />
     <MESSAGE value="refactored name of bean InitialPlayerInfo into PlayerInfo" />
     <MESSAGE value="general renaming of methods and variables" />
-    <MESSAGE value="completely refactor entire project structure" />
-    <MESSAGE value="added buffer implementation and WatchOutPlayer class" />
-    <MESSAGE value="server package renaming following spring boot best practices" />
-    <option name="LAST_COMMIT_MESSAGE" value="server package renaming following spring boot best practices" />
+    <option name="LAST_COMMIT_MESSAGE" value="general renaming of methods and variables" />
   </component>
 </project>
