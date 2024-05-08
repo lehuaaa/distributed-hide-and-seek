@@ -1,7 +1,7 @@
 package player;
 
-import administration.server.beans.MatchInfo;
-import administration.server.beans.Player;
+import administration.server.entities.MatchInfo;
+import administration.server.entities.Player;
 import player.simulator.HRSimulator;
 import player.simulator.buffer.Buffer;
 import player.simulator.buffer.implementation.BufferImpl;

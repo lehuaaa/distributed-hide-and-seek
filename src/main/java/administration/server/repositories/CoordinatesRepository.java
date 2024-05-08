@@ -1,30 +1,30 @@
-package administration.server.handlers;
+package administration.server.repositories;
 
-import administration.server.beans.Coordinate;
+import administration.server.entities.Coordinate;
 
 import java.util.Collections;
 import java.util.Stack;
 
-public class CoordinatesHandler {
+public class CoordinatesRepository {
 
     private final Stack<Coordinate> perimeterCoordinates;
 
-    private static CoordinatesHandler instance;
+    private static CoordinatesRepository instance;
 
-    private CoordinatesHandler() {
+    private CoordinatesRepository() {
         perimeterCoordinates = new Stack<>();
         initializeCoordinates();
     }
 
-    public synchronized static CoordinatesHandler getInstance() {
+    public synchronized static CoordinatesRepository getInstance() {
         if (instance == null) {
-            instance = new CoordinatesHandler();
+            instance = new CoordinatesRepository();
         }
         return instance;
     }
 
     /* Get free perimeter coordinate */
-    public Coordinate getFreePosition() {
+    public Coordinate getPerimeterPosition() {
         if (perimeterCoordinates.isEmpty())
             return null;
         return perimeterCoordinates.pop();

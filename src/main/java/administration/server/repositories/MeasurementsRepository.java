@@ -1,25 +1,25 @@
-package administration.server.handlers;
+package administration.server.repositories;
 
-import administration.server.beans.PlayerMeasurement;
+import administration.server.entities.PlayerMeasurement;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MeasurementsHandler {
+public class MeasurementsRepository {
 
     private final HashMap<String, List<PlayerMeasurement>> measurementsById;
     private final List<PlayerMeasurement> measurements;
 
-    private static MeasurementsHandler instance;
+    private static MeasurementsRepository instance;
 
-    private MeasurementsHandler() {
+    private MeasurementsRepository() {
         measurementsById = new HashMap<>();
         measurements = new ArrayList<>();
     }
 
-    public synchronized static MeasurementsHandler getInstance() {
+    public synchronized static MeasurementsRepository getInstance() {
         if(instance == null) {
-            instance = new MeasurementsHandler();
+            instance = new MeasurementsRepository();
         }
         return instance;
     }

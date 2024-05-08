@@ -4,25 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="general renaming of methods and variables">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="added buffer implementation and WatchOutPlayer class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/client/AdministrationClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/client/AdministrationClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/AdministrationServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/AdministrationServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/Coordinate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/beans/Coordinate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/beans/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/beans/MatchInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/beans/PlayerMeasurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/beans/PlayerMeasurement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/CoordinatesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/handlers/CoordinatesHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/MeasurementsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/handlers/MeasurementsHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/handlers/PlayersHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/handlers/PlayersHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/services/MeasurementsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/services/MeasurementsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/server/services/PlayersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/services/PlayersService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Buffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/simulator/buffer/Buffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/HRSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/simulator/HRSimulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Measurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/simulator/models/Measurement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/simulator/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/simulator/models/Simulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/beans/Coordinate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/entities/Coordinate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/beans/MatchInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/entities/MatchInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/beans/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/entities/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/beans/PlayerMeasurement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/entities/PlayerMeasurement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/handlers/CoordinatesHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/repositories/CoordinatesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/handlers/MeasurementsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/repositories/MeasurementsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/handlers/PlayersHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/repositories/PlayersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/services/MeasurementsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/controllers/MeasurementsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/services/PlayersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/controllers/PlayersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/player/WatchOutPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/WatchOutPlayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +160,8 @@
       <workItem from="1715165302602" duration="2184000" />
       <workItem from="1715167713733" duration="190000" />
       <workItem from="1715168895847" duration="2529000" />
-      <workItem from="1715172688514" duration="303000" />
+      <workItem from="1715172688514" duration="458000" />
+      <workItem from="1715178622044" duration="1041000" />
     </task>
     <task id="LOCAL-00001" summary="moved simulator package into player package">
       <option name="closed" value="true" />
@@ -265,7 +259,23 @@
       <option name="project" value="LOCAL" />
       <updated>1715113661061</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="completely refactor entire project structure">
+      <option name="closed" value="true" />
+      <created>1715173092353</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1715173092353</updated>
+    </task>
+    <task id="LOCAL-00014" summary="added buffer implementation and WatchOutPlayer class">
+      <option name="closed" value="true" />
+      <created>1715173134913</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1715173134913</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,6 +318,8 @@
     <MESSAGE value="added check if the game is full (coordinatesHandler has an empty stack of coordinates)" />
     <MESSAGE value="refactored name of bean InitialPlayerInfo into PlayerInfo" />
     <MESSAGE value="general renaming of methods and variables" />
-    <option name="LAST_COMMIT_MESSAGE" value="general renaming of methods and variables" />
+    <MESSAGE value="completely refactor entire project structure" />
+    <MESSAGE value="added buffer implementation and WatchOutPlayer class" />
+    <option name="LAST_COMMIT_MESSAGE" value="added buffer implementation and WatchOutPlayer class" />
   </component>
 </project>

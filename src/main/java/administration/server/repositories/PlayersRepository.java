@@ -1,8 +1,8 @@
-package administration.server.handlers;
+package administration.server.repositories;
 
-import administration.server.beans.Coordinate;
-import administration.server.beans.MatchInfo;
-import administration.server.beans.Player;
+import administration.server.entities.Coordinate;
+import administration.server.entities.MatchInfo;
+import administration.server.entities.Player;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,17 +12,17 @@ import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PlayersHandler {
+public class PlayersRepository {
 
     private List<Player> players;
 
-    private static PlayersHandler instance;
+    private static PlayersRepository instance;
 
-    private PlayersHandler() { players = new ArrayList<>(); }
+    private PlayersRepository() { players = new ArrayList<>(); }
 
-    public synchronized static PlayersHandler getInstance() {
+    public synchronized static PlayersRepository getInstance() {
         if(instance == null) {
-            instance = new PlayersHandler();
+            instance = new PlayersRepository();
         }
         return instance;
     }
@@ -44,7 +44,7 @@ public class PlayersHandler {
             return null;
         }
 
-        Coordinate coordinate = CoordinatesHandler.getInstance().getFreePosition();
+        Coordinate coordinate = CoordinatesRepository.getInstance().getPerimeterPosition();
 
         if (coordinate == null) {
             System.out.println("Player with Id: " + player.getId() + " cannot register to the match because it's already full");
@@ -52,7 +52,7 @@ public class PlayersHandler {
         }
 
         players.add(player);
-        MeasurementsHandler.getInstance().addPlayerToMeasurementsList(player.getId());
+        MeasurementsRepository.getInstance().addPlayerToMeasurementsList(player.getId());
         System.out.println("Player: " + player + " successfully added to the list and obtained the position: " + coordinate);
         return new MatchInfo(coordinate, playersCopy);
     }
