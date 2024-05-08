@@ -1,6 +1,7 @@
-package player.simulator.models;
+package player.measurements.producer;
 
-import player.simulator.buffer.Buffer;
+import player.measurements.buffer.Buffer;
+import player.measurements.model.Measurement;
 
 import java.util.Random;
 

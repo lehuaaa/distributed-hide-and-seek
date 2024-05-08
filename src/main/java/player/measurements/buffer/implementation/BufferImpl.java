@@ -1,7 +1,7 @@
-package player.simulator.buffer.implementation;
+package player.measurements.buffer.implementation;
 
-import player.simulator.buffer.Buffer;
-import player.simulator.models.Measurement;
+import player.measurements.buffer.Buffer;
+import player.measurements.model.Measurement;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -2,9 +2,9 @@ package player;
 
 import administration.server.entities.MatchInfo;
 import administration.server.entities.Player;
-import player.simulator.HRSimulator;
-import player.simulator.buffer.Buffer;
-import player.simulator.buffer.implementation.BufferImpl;
+import player.measurements.producer.HRSimulator;
+import player.measurements.buffer.Buffer;
+import player.measurements.buffer.implementation.BufferImpl;
 
 public class WatchOutPlayer extends Player {
 
