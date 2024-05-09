@@ -16,21 +16,20 @@ import javax.ws.rs.core.Response;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AdministrationClient {
 
     public static void main(String[] args) {
 
+        System.out.println("Welcome to the administration console!");
+
         String administrationServerAddress = "http://localhost:8080";
-        MqttClient mqttClient = connectToMqttBroker("tcp://localhost:1883");
+        String mqttServerAddress = "tcp://localhost:1883";
+        MqttClient mqttClient = connectToMqttBroker(mqttServerAddress);
 
         Scanner scanner = new Scanner(System.in);
         ClientResponse response;
         String choice;
-
-        System.out.println("Welcome to the administration console!");
 
         do {
             System.out.println();
@@ -187,7 +186,7 @@ public class AdministrationClient {
             mqttClient.connect(connectOptions);
             return mqttClient;
         } catch (MqttException e) {
-            System.out.println("Failed to connect to mqtt broker!");
+            System.out.println("Unfortunately the console failed to connect to mqtt broker :(");
             return null;
         }
     }
