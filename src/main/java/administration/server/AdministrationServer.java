@@ -20,6 +20,7 @@ public class AdministrationServer {
             System.in.read();
             administrationServer.stop(0);
             System.out.println("Server stopped");
+            System.exit(0);
 
         } catch (IOException e) {
 

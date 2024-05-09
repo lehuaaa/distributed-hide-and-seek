@@ -4,8 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="general renaming of methods and variables">
+    <list default="true" id="49cc617a-d91e-49b1-932e-08ff191e4bdb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/player/measurements/handler/MeasurementsHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/player/measurements/model/PlayerMeasurements.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/AdministrationServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/AdministrationServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/controllers/MeasurementsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/controllers/MeasurementsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/entities/PlayerMeasurement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/repositories/CoordinatesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/repositories/CoordinatesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/repositories/MeasurementsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/repositories/MeasurementsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/administration/server/repositories/PlayersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/administration/server/repositories/PlayersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/player/WatchOutPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/models/WatchOutPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/player/measurements/buffer/implementation/BufferImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/measurements/buffer/implementation/ProducerBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/player/measurements/consumer/MeasurementsHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/player/measurements/producer/HRSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/measurements/simulator/HRSimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/player/measurements/producer/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/player/measurements/simulator/Simulator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +86,7 @@
     &quot;Gradle.watch-out [:AdministrationServer.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.watch-out [:Main.main()].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.watch-out [:StartServer.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.watch-out [:WatchOutPlayer.main()].executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
@@ -100,7 +114,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="AdministrationServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="server.AdministrationServer" />
       <module name="watchOut.main" />
@@ -114,8 +128,56 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" singleton="false" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="player.Main" />
+      <module name="watchOut.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="player.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WatchOutPlayer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="player.models.WatchOutPlayer" />
+      <module name="watchOut.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="player.models.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="administration.server.AdministrationServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="administration.server.AdministrationServer" />
+      <module name="watchOut.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="administration.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.administration.server.AdministrationServer" />
+      <item itemvalue="Application.AdministrationServer" />
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.WatchOutPlayer" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.administration.server.AdministrationServer" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.WatchOutPlayer" />
         <item itemvalue="Application.AdministrationServer" />
       </list>
     </recent_temporary>
@@ -144,6 +206,7 @@
       <workItem from="1715082970785" duration="1292000" />
       <workItem from="1715097946700" duration="4988000" />
       <workItem from="1715112299527" duration="2038000" />
+      <workItem from="1715234184225" duration="13330000" />
     </task>
     <task id="LOCAL-00001" summary="moved simulator package into player package">
       <option name="closed" value="true" />
@@ -241,7 +304,23 @@
       <option name="project" value="LOCAL" />
       <updated>1715113661061</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="updated workspace.xml and misc.xml">
+      <option name="closed" value="true" />
+      <created>1715198549000</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1715198549000</updated>
+    </task>
+    <task id="LOCAL-00014" summary="resolved conflict on workspace.xml">
+      <option name="closed" value="true" />
+      <created>1715198601895</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1715198601895</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,6 +363,8 @@
     <MESSAGE value="added check if the game is full (coordinatesHandler has an empty stack of coordinates)" />
     <MESSAGE value="refactored name of bean InitialPlayerInfo into PlayerInfo" />
     <MESSAGE value="general renaming of methods and variables" />
-    <option name="LAST_COMMIT_MESSAGE" value="general renaming of methods and variables" />
+    <MESSAGE value="updated workspace.xml and misc.xml" />
+    <MESSAGE value="resolved conflict on workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolved conflict on workspace.xml" />
   </component>
 </project>

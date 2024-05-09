@@ -13,7 +13,7 @@ public class CoordinatesRepository {
 
     private CoordinatesRepository() {
         perimeterCoordinates = new Stack<>();
-        initializeCoordinates();
+        initializePerimeterCoordinates();
     }
 
     public synchronized static CoordinatesRepository getInstance() {
@@ -31,7 +31,7 @@ public class CoordinatesRepository {
     }
 
     /* Initialize list with all possible perimeter coordinates */
-    private void initializeCoordinates() {
+    private void initializePerimeterCoordinates() {
         perimeterCoordinates.clear();
 
         /* Bottom side -1 */

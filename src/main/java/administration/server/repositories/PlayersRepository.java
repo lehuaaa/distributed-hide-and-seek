@@ -40,7 +40,7 @@ public class PlayersRepository {
         List<Player> playersCopy = getPlayers();
 
         if(!checkPlayerId(playersCopy, player.getId())) {
-            System.out.println("PlayerId " + player.getId() + " already exists");
+            System.out.println("Player with id: " + player.getId() + " already exists");
             return null;
         }
 
