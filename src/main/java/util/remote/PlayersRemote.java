@@ -1,8 +1,7 @@
 package util.remote;
 
-import administration.server.entities.Player;
+import administration.server.entities.Client;
 import com.google.gson.Gson;
-import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -10,11 +9,11 @@ import com.sun.jersey.api.client.WebResource;
 public class PlayersRemote {
 
     private static PlayersRemote instance;
-    private final Client client;
+    private final com.sun.jersey.api.client.Client client;
     private final Gson gson;
 
     private PlayersRemote() {
-        client = Client.create();
+        client = com.sun.jersey.api.client.Client.create();
         gson = new Gson();
     }
 
@@ -24,7 +23,7 @@ public class PlayersRemote {
         return instance;
     }
 
-    public ClientResponse requestAddPlayer(String serverAddress, Player player) {
+    public ClientResponse requestAddPlayer(String serverAddress, Client player) {
         WebResource webResource = client.resource(serverAddress + "/players");
         String jsonPlayer = gson.toJson(player);
         try {

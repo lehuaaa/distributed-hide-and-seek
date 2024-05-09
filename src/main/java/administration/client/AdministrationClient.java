@@ -1,9 +1,10 @@
 package administration.client;
 
 import administration.server.entities.Average;
-import administration.server.entities.Player;
+import administration.server.entities.Client;
 import administration.server.repositories.PlayersRepository;
 import com.sun.jersey.api.client.ClientResponse;
+import util.checker.StringChecker;
 import util.remote.MeasurementsRemote;
 import util.remote.PlayersRemote;
 
@@ -60,7 +61,7 @@ public class AdministrationClient {
                 case "3":
                     response = PlayersRemote.getInstance().requestGetPlayers(administrationServerAddress);
                     if (response != null) {
-                        List<Player> players = response.getEntity(PlayersRepository.class).getPlayers();
+                        List<Client> players = response.getEntity(PlayersRepository.class).getPlayers();
                         if(!players.isEmpty()) {
                             System.out.println("There are " + players.size() + " players in the match:");
                             for (int i = 0; i <  players.size(); i++) {
@@ -77,7 +78,7 @@ public class AdministrationClient {
                 case "4":
                     System.out.println("Insert player Id:");
                     String playerId = scanner.nextLine();
-                    while (playerId.isEmpty() || containsIllegalsCharacters(playerId)) {
+                    while (playerId.isEmpty() || StringChecker.containsIllegalsCharacters(playerId)) {
                         System.out.println("The entered id is not valid, try with another one:");
                         playerId = scanner.nextLine();
                     }
@@ -158,11 +159,5 @@ public class AdministrationClient {
                     break;
             }
         } while (!choice.equals("6"));
-    }
-
-    private static boolean containsIllegalsCharacters(String toExamine) {
-        Pattern pattern = Pattern.compile("[-._~:/?*#\\[\\]\"@!$&'()+,;=\\s^]");
-        Matcher matcher = pattern.matcher(toExamine);
-        return matcher.find();
     }
 }

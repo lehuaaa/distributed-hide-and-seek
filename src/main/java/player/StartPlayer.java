@@ -1,6 +1,7 @@
 package player;
 
-import administration.server.entities.Player;
+import administration.server.entities.Client;
+import administration.server.entities.MatchInfo;
 import com.sun.jersey.api.client.ClientResponse;
 import player.measurements.buffer.Buffer;
 import player.measurements.buffer.implementation.ProducerBuffer;
@@ -8,13 +9,15 @@ import player.measurements.buffer.implementation.SenderBuffer;
 import player.measurements.handler.MeasurementsHandler;
 import player.measurements.simulator.HRSimulator;
 import player.measurements.sender.SmartWatch;
+import player.models.Player;
+import util.checker.StringChecker;
 import util.remote.PlayersRemote;
 
 import javax.ws.rs.core.Response;
-import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
-public class Main {
+public class StartPlayer {
 
     private static final String address = "localhost";
     private static final String serverAddress = "http://localhost:8080";
@@ -22,35 +25,20 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-
         /* Get player's id*/
         System.out.println("Insert your player Id:");
         String playerId = scanner.nextLine();
-        while (playerId.isEmpty()) {
+        while (playerId.isEmpty() || StringChecker.containsIllegalsCharacters(playerId)) {
             System.out.println("The entered id is not valid, try with another one:");
             playerId = scanner.nextLine();
         }
 
+        /* Set player's listening port */
+        int listeningPort = 8081 + new Random().nextInt(200);
 
-        /* Get player's listening port */
-        System.out.println("Insert your listening port:");
-        int listeningPort = -1;
-        while (listeningPort == -1) {
-            try {
-                listeningPort = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("The entered listening port is not valid, try with another one:");
-            }
-            scanner.nextLine();
-        }
-
-
-        /* Player initialization */
-        Player player = new Player(playerId, address, listeningPort);
-
-
-        /* Player registration request */
-        ClientResponse response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, player);
+        /* Client registration */
+        Client client = new Client(playerId, address, listeningPort);
+        ClientResponse response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, client);
 
         if (response == null) {
             System.exit(0);
@@ -58,23 +46,29 @@ public class Main {
 
         while (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             System.out.println("Unfortunately id" + playerId + " has already been taken, try with another one:");
-            player.setId(scanner.nextLine());
-            response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, player);
+            playerId = scanner.nextLine();
+            while (playerId.isEmpty() || StringChecker.containsIllegalsCharacters(playerId)) {
+                System.out.println("The entered id is not valid, try with another one:");
+                playerId = scanner.nextLine();
+            }
+            response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, client);
             if (response == null) {
                 System.exit(0);
             }
         }
 
+        /* Player initialization */
+        MatchInfo info = response.getEntity(MatchInfo.class);
+        Player player = new Player(client, serverAddress, info.getCoordinate(), info.getOtherPlayers());
+
         System.out.println("You have registered successfully!");
+        System.out.println("Your position on the map is: " + player.getCoordinate().toString());
 
-
-        /* Buffer used to store the HRvalues product by the simulator */
+        /* Buffer used to store the HRvalues produced by the simulator */
         Buffer productionBuffer = new ProducerBuffer();
 
-
-        /* Buffer used to store the meas product by the simulator */
+        /* Buffer used to store the measurements produced by the measurementsHandler */
         SenderBuffer senderBuffer = new SenderBuffer();
-
 
         /* Threads that produce, compute and send the list of measurements */
         HRSimulator hrSimulator = new HRSimulator(productionBuffer);

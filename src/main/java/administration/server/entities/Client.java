@@ -3,15 +3,15 @@ package administration.server.entities;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Player {
+public class Client {
 
     private String id;
     private String address;
     private int port;
 
-    public Player() {}
+    public Client() {}
 
-    public Player(String id, String address, int port) {
+    public Client(String id, String address, int port) {
         this.id = id;
         this.address = address;
         this.port = port;

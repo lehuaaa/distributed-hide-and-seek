@@ -1,7 +1,7 @@
 package administration.server.controllers;
 
 import administration.server.repositories.PlayersRepository;
-import administration.server.entities.Player;
+import administration.server.entities.Client;
 import administration.server.entities.MatchInfo;
 
 import javax.ws.rs.*;
@@ -14,7 +14,7 @@ public class PlayersController {
     @POST
     @Consumes({"application/json", "application/xml"})
     @Produces({"application/json", "application/xml"})
-    public Response addPlayer(Player player){
+    public Response addPlayer(Client player){
         MatchInfo matchInfo = PlayersRepository.getInstance().addPlayer(player);
         if(matchInfo != null){
             return Response.ok(matchInfo).build();

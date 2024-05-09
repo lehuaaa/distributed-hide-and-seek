@@ -2,7 +2,7 @@ package administration.server.repositories;
 
 import administration.server.entities.Coordinate;
 import administration.server.entities.MatchInfo;
-import administration.server.entities.Player;
+import administration.server.entities.Client;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,7 +14,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PlayersRepository {
 
-    private List<Player> players;
+    private List<Client> players;
 
     private static PlayersRepository instance;
 
@@ -27,17 +27,17 @@ public class PlayersRepository {
         return instance;
     }
 
-    public synchronized List<Player> getPlayers() {
+    public synchronized List<Client> getPlayers() {
         return new ArrayList<>(players);
     }
 
-    public synchronized void setPlayers(List<Player> players) {
+    public synchronized void setPlayers(List<Client> players) {
         this.players = players;
     }
 
     /* Add the new player to the list */
-    public synchronized MatchInfo addPlayer(Player player) {
-        List<Player> playersCopy = getPlayers();
+    public synchronized MatchInfo addPlayer(Client player) {
+        List<Client> playersCopy = getPlayers();
 
         if(!checkPlayerId(playersCopy, player.getId())) {
             System.out.println("Player with id: " + player.getId() + " already exists");
@@ -58,8 +58,8 @@ public class PlayersRepository {
     }
 
     /* Check if player's ID already exists */
-    private boolean checkPlayerId(List<Player> players, String playerId) {
-        for (Player p : players)
+    private boolean checkPlayerId(List<Client> players, String playerId) {
+        for (Client p : players)
             if (p.getId().equals(playerId))
                 return false;
         return true;

@@ -1,34 +1,39 @@
 package administration.server.entities;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement
 public class MatchInfo {
 
     private Coordinate coordinate;
-    private List<Player> players;
+    private List<Client> otherPlayers;
 
     public MatchInfo() {}
 
-    public MatchInfo(Coordinate coordinate, List<Player> players) {
-        this.coordinate = coordinate;
-        this.players = players;
+    public MatchInfo(Coordinate coordinate, List<Client> otherPlayers) {
+        this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
+        setOtherPlayers(otherPlayers);
     }
 
     public Coordinate getCoordinate() {
-        return coordinate;
+        return new Coordinate(coordinate.getX(), coordinate.getY());
     }
 
     public void setCoordinate(Coordinate coordinate) {
-        this.coordinate = coordinate;
+        this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public List<Client> getOtherPlayers() {
+        return new ArrayList<>(otherPlayers);
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public void setOtherPlayers(List<Client> otherPlayers) {
+        if (otherPlayers != null) {
+            this.otherPlayers = new ArrayList<>(otherPlayers);
+        } else {
+            this.otherPlayers = new ArrayList<>();
+        }
     }
 }
