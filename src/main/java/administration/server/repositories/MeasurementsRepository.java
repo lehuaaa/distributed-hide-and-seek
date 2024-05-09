@@ -1,5 +1,6 @@
 package administration.server.repositories;
 
+import administration.server.entities.Average;
 import administration.server.entities.PlayerMeasurement;
 import player.measurements.model.PlayerMeasurements;
 
@@ -47,28 +48,28 @@ public class MeasurementsRepository {
     }
 
     /* Get the average of the last N measurements of a specific player */
-    public synchronized double getPlayerAverage(String playerId, int n) {
+    public synchronized Average getPlayerAverage(String playerId, int n) {
         if (measurementsMap.containsKey(playerId)) {
             List<PlayerMeasurement> measurements = measurementsMap.get(playerId);
-            double average = measurements.size() >= n
+            double result = measurements.size() >= n
                     ? computeAverage(measurements.subList(measurements.size() - n, measurements.size()))
                     : computeAverage(measurements);
-            System.out.println("Average of the last " + n + " measurements of player " + playerId + " has a result of: " + average);
-            return average;
+            System.out.println("Average of the last " + n + " measurements of player " + playerId + " has a result of: " + result);
+            return new Average(result);
         }
         System.out.println("Player with Id: " + playerId + " not found");
-        return -1;
+        return new Average(-1);
     }
 
     /* Get the average of the measurements occurred between timestamp t1 and timestamp t2 */
-    public synchronized double getIntervalAverage(long t1, long t2) {
-        double average = computeAverage(
+    public synchronized Average getIntervalAverage(long t1, long t2) {
+        double result = computeAverage(
                 measurementsList.stream()
                         .filter(m -> m.getTimestamp() >= t1 && m.getTimestamp() <= t2)
                         .collect(Collectors.toList())
         );
-        System.out.println("Average of the measurements with timestamp between " + t1 + " and " + t2 + " has a result of: " + average);
-        return average;
+        System.out.println("Average of the measurements with timestamp between " + t1 + " and " + t2 + " has a result of: " + result);
+        return new Average(result);
     }
 
     /* Get the average from a list of measurements */

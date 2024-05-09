@@ -1,5 +1,6 @@
 package administration.server.controllers;
 
+import administration.server.entities.Average;
 import player.measurements.model.PlayerMeasurements;
 import administration.server.repositories.MeasurementsRepository;
 
@@ -24,8 +25,8 @@ public class MeasurementsController {
     @GET
     @Produces({"application/json", "application/xml"})
     public Response getPlayerAverageOfTheLastNMeasurements(@PathParam("playerId") String playerId, @PathParam("n") int n){
-        double average = MeasurementsRepository.getInstance().getPlayerAverage(playerId, n);
-        if(average == -1)
+        Average average = MeasurementsRepository.getInstance().getPlayerAverage(playerId, n);
+        if(average.getResult() == -1)
             return Response.status(Response.Status.NOT_FOUND).build();
         return Response.ok(average).build();
     }
@@ -35,8 +36,6 @@ public class MeasurementsController {
     @GET
     @Produces({"application/json", "application/xml"})
     public Response getAverageOfTheMeasurementsBetweenT1AndT2(@PathParam("t1") long t1, @PathParam("t2") long t2){
-        if ( t1 > t2)
-            return Response.status(Response.Status.BAD_REQUEST).build();
         return Response.ok(MeasurementsRepository.getInstance().getIntervalAverage(t1, t2)).build();
     }
 }
