@@ -33,4 +33,22 @@ public class MeasurementsRemote {
          return null;
         }
     }
+
+    public ClientResponse requestGetPlayerAverage(String serverAddress, String playerId, int n) {
+        WebResource webResource = client.resource(serverAddress + "/measurements/player-average/" + playerId + "/" + n );
+        try {
+            return webResource.get(ClientResponse.class);
+        } catch (ClientHandlerException e) {
+            return null;
+        }
+    }
+
+    public ClientResponse requestGetIntervalAverage(String serverAddress, long t1, long t2) {
+        WebResource webResource = client.resource(serverAddress + "/measurements/interval-average/" + t1 + "/" + t2 );
+        try {
+            return webResource.get(ClientResponse.class);
+        } catch (ClientHandlerException e) {
+            return null;
+        }
+    }
 }
