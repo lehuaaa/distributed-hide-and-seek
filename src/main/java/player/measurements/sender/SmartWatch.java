@@ -1,7 +1,6 @@
 package player.measurements.sender;
 
 import com.sun.jersey.api.client.ClientResponse;
-import player.measurements.buffer.Buffer;
 import player.measurements.buffer.implementation.SenderBuffer;
 import player.measurements.model.PlayerMeasurements;
 import util.remote.MeasurementsRemote;
