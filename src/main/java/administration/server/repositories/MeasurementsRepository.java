@@ -1,20 +1,21 @@
 package administration.server.repositories;
 
 import administration.server.entities.PlayerMeasurement;
+import player.measurements.model.PlayerMeasurements;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class MeasurementsRepository {
 
-    private final HashMap<String, List<PlayerMeasurement>> measurementsById;
-    private final List<PlayerMeasurement> measurements;
+    private final HashMap<String, List<PlayerMeasurement>> measurementsMap;
+    private final List<PlayerMeasurement> measurementsList;
 
     private static MeasurementsRepository instance;
 
     private MeasurementsRepository() {
-        measurementsById = new HashMap<>();
-        measurements = new ArrayList<>();
+        measurementsMap = new HashMap<>();
+        measurementsList = new ArrayList<>();
     }
 
     public synchronized static MeasurementsRepository getInstance() {
@@ -24,27 +25,31 @@ public class MeasurementsRepository {
         return instance;
     }
 
-    /* Add player to the HashMap */
+    /* Add playerId to the HashMap */
     public synchronized void addPlayerToMeasurementsList(String playerId) {
-        measurementsById.put(playerId, new ArrayList<>());
+        measurementsMap.put(playerId, new ArrayList<>());
     }
 
-    /* Add player's measurement inside his list and the general one */
-    public synchronized boolean addMeasurement(PlayerMeasurement measurement) {
-        if (measurementsById.containsKey(measurement.getPlayerId())) {
-            measurements.add(measurement);
-            measurementsById.get(measurement.getPlayerId()).add(measurement);
-            System.out.println("Measurement : " + measurement + " successfully added to the general list and to the player's list");
+    /* Add player's measurements inside his list and the general one */
+    public synchronized boolean addMeasurement(PlayerMeasurements measurements) {
+        if (measurementsMap.containsKey(measurements.getPlayerId())) {
+            List<PlayerMeasurement> playerMeasurements = measurementsMap.get(measurements.getPlayerId());
+            for (Double hrValue : measurements.getHrValues()) {
+                PlayerMeasurement measurement = new PlayerMeasurement(measurements.getPlayerId(), hrValue, measurements.getTimestamp());
+                playerMeasurements.add(measurement);
+                measurementsList.add(measurement);
+                System.out.println("Measurement : " + measurement + " successfully added to the general and player's list");
+            }
             return true;
         }
-        System.out.println("Measurement: " + measurement + " not added to the list because player with Id: " + measurement.getPlayerId() + " doesn't exist");
+        System.out.println("Measurements not added to the list because player with Id: " + measurements.getPlayerId() + " doesn't exist");
         return false;
     }
 
     /* Get the average of the last N measurements of a specific player */
     public synchronized double getPlayerAverage(String playerId, int n) {
-        if (measurementsById.containsKey(playerId)) {
-            List<PlayerMeasurement> measurements = measurementsById.get(playerId);
+        if (measurementsMap.containsKey(playerId)) {
+            List<PlayerMeasurement> measurements = measurementsMap.get(playerId);
             double average = measurements.size() >= n
                     ? computeAverage(measurements.subList(measurements.size() - n, measurements.size()))
                     : computeAverage(measurements);
@@ -58,7 +63,7 @@ public class MeasurementsRepository {
     /* Get the average of the measurements occurred between timestamp t1 and timestamp t2 */
     public synchronized double getIntervalAverage(long t1, long t2) {
         double average = computeAverage(
-                measurements.stream()
+                measurementsList.stream()
                         .filter(m -> m.getTimestamp() >= t1 && m.getTimestamp() <= t2)
                         .collect(Collectors.toList())
         );

@@ -1,4 +1,4 @@
-package player.measurements.producer;
+package player.measurements.simulator;
 
 import player.measurements.buffer.Buffer;
 import player.measurements.model.Measurement;

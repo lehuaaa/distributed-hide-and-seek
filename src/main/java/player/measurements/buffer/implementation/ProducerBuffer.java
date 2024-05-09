@@ -4,22 +4,20 @@ import player.measurements.buffer.Buffer;
 import player.measurements.model.Measurement;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
-public class BufferImpl implements Buffer {
+public class ProducerBuffer implements Buffer {
 
-    private final Queue<Measurement> queue;
+    private final List<Measurement> list;
     private final int maxSize = 8;
 
-    public BufferImpl() {
-        queue = new LinkedList<>();
+    public ProducerBuffer() {
+        list = new ArrayList<>();
     }
 
     @Override
-    public void addMeasurement(Measurement m) {
-        while (queue.size() == maxSize) {
+    public synchronized void addMeasurement(Measurement m) {
+        while (list.size() == maxSize) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -27,15 +25,15 @@ public class BufferImpl implements Buffer {
             }
         }
 
-        queue.add(m);
+        list.add(m);
 
-        if (queue.size() == maxSize)
-            notifyAll();
+        if (list.size() == maxSize)
+            notify();
     }
 
     @Override
-    public List<Measurement> readAllAndClean() {
-        while (queue.size() < maxSize) {
+    public synchronized List<Measurement> readAllAndClean() {
+        while (list.size() < maxSize) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -43,8 +41,8 @@ public class BufferImpl implements Buffer {
             }
         }
 
-        List<Measurement> measurements = new ArrayList<>(queue);
-        queue.clear();
+        List<Measurement> measurements = new ArrayList<>(list);
+        list.clear();
         notifyAll();
         return measurements;
     }

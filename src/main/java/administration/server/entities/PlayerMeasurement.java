@@ -1,9 +1,6 @@
 package administration.server.entities;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
-public class PlayerMeasurement implements Comparable<PlayerMeasurement> {
+public class PlayerMeasurement {
 
     private String playerId;
     private double hrValue;
@@ -25,13 +22,9 @@ public class PlayerMeasurement implements Comparable<PlayerMeasurement> {
         this.playerId = playerId;
     }
 
-    public double getHrValue() {
-        return hrValue;
-    }
+    public double getHrValue() { return hrValue; }
 
-    public void setHrValue(double hrValue) {
-        this.hrValue = hrValue;
-    }
+    public void setHrValue(double hrValue) { this.hrValue = hrValue; }
 
     public long getTimestamp() {
         return timestamp;
@@ -39,13 +32,6 @@ public class PlayerMeasurement implements Comparable<PlayerMeasurement> {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
-    }
-
-    @Override
-    public int compareTo(PlayerMeasurement m) {
-        Long thisTimestamp = timestamp;
-        Long otherTimestamp = m.getTimestamp();
-        return thisTimestamp.compareTo(otherTimestamp);
     }
 
     @Override
