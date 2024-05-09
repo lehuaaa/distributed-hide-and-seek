@@ -4,6 +4,10 @@ import administration.server.entities.Average;
 import administration.server.entities.Client;
 import administration.server.repositories.PlayersRepository;
 import com.sun.jersey.api.client.ClientResponse;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import util.checker.StringChecker;
 import util.remote.MeasurementsRemote;
 import util.remote.PlayersRemote;
@@ -20,6 +24,8 @@ public class AdministrationClient {
     public static void main(String[] args) {
 
         String administrationServerAddress = "http://localhost:8080";
+        MqttClient mqttClient = connectToMqttBroker("tcp://localhost:1883");
+
         Scanner scanner = new Scanner(System.in);
         ClientResponse response;
         String choice;
@@ -47,13 +53,25 @@ public class AdministrationClient {
 
                 /* Start the watchOut match */
                 case "1":
-                    System.out.println("The match is starting, the players are now identifying the seeker!");
+                    if (mqttClient != null) {
+                        MqttMessage startMatchMessage = new MqttMessage("Start".getBytes());
+                        startMatchMessage.setQos(1);
+                        startMatchMessage.setRetained(true);
+
+                        System.out.println("Match is starting, the players are now identifying the seeker!");
+                    } else {
+                        System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Try to restart the administration console.");
+                    }
                     break;
 
 
                 /* Send a message to all the player in the match */
                 case "2":
-                    System.out.println("Message successfully sent!");
+                    if (mqttClient != null) {
+                        System.out.println("Message successfully sent!");
+                    } else {
+                        System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Try to restart the administration console.");
+                    }
                     break;
 
 
@@ -159,5 +177,18 @@ public class AdministrationClient {
                     break;
             }
         } while (!choice.equals("6"));
+    }
+
+    private static MqttClient connectToMqttBroker(String mqttBrokerAddress) {
+        try {
+            MqttClient mqttClient = new MqttClient(mqttBrokerAddress, MqttClient.generateClientId());
+            MqttConnectOptions connectOptions = new MqttConnectOptions();
+            connectOptions.setCleanSession(true);
+            mqttClient.connect(connectOptions);
+            return mqttClient;
+        } catch (MqttException e) {
+            System.out.println("Failed to connect to mqtt broker!");
+            return null;
+        }
     }
 }
