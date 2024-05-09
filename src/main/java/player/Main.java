@@ -40,8 +40,8 @@ public class Main {
                 listeningPort = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("The entered listening port is not valid, try with another one:");
-                scanner.nextLine();
             }
+            scanner.nextLine();
         }
 
 
@@ -53,7 +53,6 @@ public class Main {
         ClientResponse response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, player);
 
         if (response == null) {
-            System.out.println("Server not available");
             System.exit(0);
         }
 
@@ -62,7 +61,6 @@ public class Main {
             player.setId(scanner.nextLine());
             response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, player);
             if (response == null) {
-                System.out.println("Server not available");
                 System.exit(0);
             }
         }

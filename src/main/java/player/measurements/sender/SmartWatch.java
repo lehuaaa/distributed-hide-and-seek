@@ -26,12 +26,8 @@ public class SmartWatch extends Thread {
         while (true) {
             if (!senderBuffer.isEmpty()) {
                 List<Double> averages = senderBuffer.readAllAndClean();
-                ClientResponse response = sendMeasurements(new PlayerMeasurements(playerId, averages, System.currentTimeMillis()));
-                if(response == null) {
-                    System.out.println("Server not available");
-                } else {
+                if (sendMeasurements(new PlayerMeasurements(playerId, averages, System.currentTimeMillis())) != null)
                     System.out.println("Measurements successfully sent");
-                }
             }
             try {
                 Thread.sleep(10000);

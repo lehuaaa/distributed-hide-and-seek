@@ -30,6 +30,7 @@ public class PlayersRemote {
         try {
             return webResource.type("application/json").post(ClientResponse.class, jsonPlayer);
         } catch (ClientHandlerException e) {
+            System.out.println("Server not available");
             return null;
         }
     }
@@ -39,6 +40,7 @@ public class PlayersRemote {
         try {
             return webResource.get(ClientResponse.class);
         } catch (ClientHandlerException e) {
+            System.out.println("Server not available");
             return null;
         }
     }
