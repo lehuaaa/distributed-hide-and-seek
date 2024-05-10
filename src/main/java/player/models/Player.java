@@ -39,4 +39,12 @@ public class Player extends Client {
             this.otherPlayers = new ArrayList<>();
         }
     }
+
+    public List<Client> getOtherPlayers() {
+        if (otherPlayers != null) {
+            return new ArrayList<>(otherPlayers);
+        } else {
+            return new ArrayList<>();
+        }
+    }
 }

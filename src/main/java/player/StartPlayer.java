@@ -10,6 +10,7 @@ import player.measurements.handler.MeasurementsHandler;
 import player.measurements.simulator.HRSimulator;
 import player.measurements.sender.SmartWatch;
 import player.models.Player;
+import player.mqtt.MqttMessageHandler;
 import util.checker.StringChecker;
 import util.remote.PlayersRemote;
 
@@ -21,6 +22,7 @@ public class StartPlayer {
 
     private static final String address = "localhost";
     private static final String serverAddress = "http://localhost:8080";
+    private static final String mqttServerAddress = "tcp://localhost:1883";
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -78,5 +80,8 @@ public class StartPlayer {
         hrSimulator.start();
         measurementsHandler.start();
         smartWatch.start();
+
+        /* Initialize MqttClient */
+        MqttMessageHandler mqttMessageHandler = new MqttMessageHandler(mqttServerAddress);
     }
 }

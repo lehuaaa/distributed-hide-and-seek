@@ -26,7 +26,11 @@ public class MatchInfo {
     }
 
     public List<Client> getOtherPlayers() {
-        return new ArrayList<>(otherPlayers);
+        if (otherPlayers != null) {
+            return new ArrayList<>(otherPlayers);
+        } else {
+            return new ArrayList<>();
+        }
     }
 
     public void setOtherPlayers(List<Client> otherPlayers) {

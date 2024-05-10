@@ -27,19 +27,19 @@ public class PlayersRepository {
         return instance;
     }
 
-    public synchronized List<Client> getPlayers() {
-        return new ArrayList<>(players);
-    }
+    public synchronized List<Client> getPlayers() { return new ArrayList<>(players); }
 
     public synchronized void setPlayers(List<Client> players) {
-        this.players = players;
+        if (players.isEmpty()) {
+            this.players = new ArrayList<>(players);
+        } else {
+            this.players = new ArrayList<>();
+        }
     }
 
     /* Add the new player to the list */
     public synchronized MatchInfo addPlayer(Client player) {
-        List<Client> playersCopy = getPlayers();
-
-        if(!checkPlayerId(playersCopy, player.getId())) {
+        if(!checkPlayerId(player.getId())) {
             System.out.println("Player with id: " + player.getId() + " already exists");
             return null;
         }
@@ -51,14 +51,14 @@ public class PlayersRepository {
             return null;
         }
 
+        List<Client> playersCopy = getPlayers();
         players.add(player);
-        MeasurementsRepository.getInstance().addPlayerToMeasurementsList(player.getId());
         System.out.println("Player: " + player + " successfully added to the list and obtained the position: " + coordinate);
         return new MatchInfo(coordinate, playersCopy);
     }
 
     /* Check if player's ID already exists */
-    private boolean checkPlayerId(List<Client> players, String playerId) {
+    private boolean checkPlayerId(String playerId) {
         for (Client p : players)
             if (p.getId().equals(playerId))
                 return false;
