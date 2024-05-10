@@ -45,7 +45,7 @@ public class PlayersRepository {
 
     /* Add the new player to the list */
     public synchronized MatchInfo addPlayer(Client player) {
-        if(!checkPlayerId(player.getId())) {
+        if(containsPlayer(player.getId())) {
             System.out.println("Player with id: " + player.getId() + " already exists");
             return null;
         }
@@ -64,10 +64,10 @@ public class PlayersRepository {
     }
 
     /* Check if player's ID already exists */
-    private boolean checkPlayerId(String playerId) {
+    public synchronized boolean containsPlayer(String playerId) {
         for (Client p : players)
             if (p.getId().equals(playerId))
-                return false;
-        return true;
+                return true;
+        return false;
     }
 }

@@ -33,16 +33,27 @@ public class MeasurementsRepository {
 
     /* Add player's measurements inside the list */
     public synchronized boolean addMeasurement(PlayerMeasurements playerMeasurements) {
+        if (!PlayersRepository.getInstance().containsPlayer(playerMeasurements.getPlayerId())){
+            System.out.println("Player with id: " + playerMeasurements.getPlayerId() + " does not exist");
+            return false;
+        }
+
         for (Double hrValue : playerMeasurements.getHrValues()) {
             PlayerMeasurement measurement = new PlayerMeasurement(playerMeasurements.getPlayerId(), hrValue, playerMeasurements.getTimestamp());
             measurements.add(measurement);
             System.out.println("Measurement : " + measurement + " successfully added!");
         }
+
         return true;
     }
 
     /* Get the average of the last N measurements of a specific player */
     public Average getPlayerAverage(String playerId, int n) {
+        if (!PlayersRepository.getInstance().containsPlayer(playerId)){
+            System.out.println("Player with id: " + playerId + " does not exist");
+            return new Average(-1);
+        }
+
         List<PlayerMeasurement> measurementsCopy = getMeasurements();
         double sum = 0;
         int count = 0;
@@ -57,10 +68,10 @@ public class MeasurementsRepository {
         }
 
         if (count == 0)
-            return new Average(-1);
+            return new Average(0);
 
         double result = sum / count;
-        System.out.println("Average of the last " + n + " measurements of player " + playerId + " has a result of: " + result);
+        System.out.println("Average of the last " + n + " measurements of player with id: " + playerId + " has a result of: " + result);
         return new Average(result);
     }
 
