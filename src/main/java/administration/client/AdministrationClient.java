@@ -68,7 +68,16 @@ public class AdministrationClient {
                 /* Send a message to all the player in the match */
                 case "2":
                     if (mqttClient != null) {
-                        System.out.println("Message successfully sent!");
+                        String message = scanner.nextLine();
+                        MqttMessage startMatchMessage = new MqttMessage(message.getBytes());
+                        startMatchMessage.setQos(1);
+                        startMatchMessage.setRetained(false);
+                        try {
+                            mqttClient.publish("game/message", startMatchMessage);
+                            System.out.println("Message successfully sent!");
+                        } catch (MqttException e) {
+                            System.out.println("The mqtt broker is not available");
+                        }
                     } else {
                         System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Try to restart the administration console.");
                     }
@@ -187,7 +196,7 @@ public class AdministrationClient {
             mqttClient.connect(connectOptions);
             return mqttClient;
         } catch (MqttException e) {
-            System.out.println("Unfortunately the console failed to connect to mqtt broker :(");
+            System.out.println("Unfortunately the console failed to connect to mqtt broker!");
             return null;
         }
     }
