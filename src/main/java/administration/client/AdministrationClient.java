@@ -4,10 +4,7 @@ import administration.server.entities.Average;
 import administration.server.entities.Client;
 import administration.server.repositories.PlayersRepository;
 import com.sun.jersey.api.client.ClientResponse;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.*;
 import util.checker.StringChecker;
 import util.remote.MeasurementsRemote;
 import util.remote.PlayersRemote;
@@ -25,7 +22,7 @@ public class AdministrationClient {
 
         String administrationServerAddress = "http://localhost:8080";
         String mqttServerAddress = "tcp://localhost:1883";
-        MqttClient mqttClient = connectToMqttBroker(mqttServerAddress);
+        MqttClient mqttClient = generateMqttClient(mqttServerAddress);
 
         Scanner scanner = new Scanner(System.in);
         ClientResponse response;
@@ -53,11 +50,15 @@ public class AdministrationClient {
                 /* Start the watchOut match */
                 case "1":
                     if (mqttClient != null) {
-                        MqttMessage startMatchMessage = new MqttMessage("Start".getBytes());
-                        startMatchMessage.setQos(1);
+                        MqttMessage startMatchMessage = new MqttMessage("start".getBytes());
+                        startMatchMessage.setQos(2);
                         startMatchMessage.setRetained(true);
-
-                        System.out.println("Match is starting, the players are now identifying the seeker!");
+                        try {
+                            mqttClient.publish("game/start", startMatchMessage);
+                            System.out.println("Match is starting, the players are now identifying the seeker!");
+                        } catch (MqttException e) {
+                            System.out.println("The mqtt broker is not available");
+                        }
                     } else {
                         System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Try to restart the administration console.");
                     }
@@ -178,7 +179,7 @@ public class AdministrationClient {
         } while (!choice.equals("6"));
     }
 
-    private static MqttClient connectToMqttBroker(String mqttBrokerAddress) {
+    private static MqttClient generateMqttClient(String mqttBrokerAddress) {
         try {
             MqttClient mqttClient = new MqttClient(mqttBrokerAddress, MqttClient.generateClientId());
             MqttConnectOptions connectOptions = new MqttConnectOptions();
