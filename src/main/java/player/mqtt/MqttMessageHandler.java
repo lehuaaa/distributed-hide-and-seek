@@ -13,7 +13,7 @@ public class MqttMessageHandler {
         if (mqttClient != null) {
             startListening();
         } else {
-            System.out.println("You can't receive messages form the game manager");
+            System.out.println("You can't receive messages from the game manager");
         }
     }
 

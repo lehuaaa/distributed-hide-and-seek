@@ -73,7 +73,7 @@ public class AdministrationClient {
                         startMatchMessage.setQos(1);
                         startMatchMessage.setRetained(false);
                         try {
-                            mqttClient.publish("game/message", startMatchMessage);
+                            mqttClient.publish("game/messages", startMatchMessage);
                             System.out.println("Message successfully sent!");
                         } catch (MqttException e) {
                             System.out.println("The mqtt broker is not available");
