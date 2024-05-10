@@ -27,7 +27,13 @@ public class PlayersRepository {
         return instance;
     }
 
-    public synchronized List<Client> getPlayers() { return new ArrayList<>(players); }
+    public synchronized List<Client> getPlayers() {
+        if (!players.isEmpty()) {
+            return new ArrayList<>(players);
+        } else {
+            return new ArrayList<>();
+        }
+    }
 
     public synchronized void setPlayers(List<Client> players) {
         if (players.isEmpty()) {

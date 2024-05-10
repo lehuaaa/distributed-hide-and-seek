@@ -5,7 +5,6 @@ import administration.server.entities.PlayerMeasurement;
 import player.measurements.model.PlayerMeasurements;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class MeasurementsRepository {
 
@@ -37,7 +36,7 @@ public class MeasurementsRepository {
         for (Double hrValue : playerMeasurements.getHrValues()) {
             PlayerMeasurement measurement = new PlayerMeasurement(playerMeasurements.getPlayerId(), hrValue, playerMeasurements.getTimestamp());
             measurements.add(measurement);
-            System.out.println("Measurement : " + measurement + " successfully added to the general and player's list");
+            System.out.println("Measurement : " + measurement + " successfully added!");
         }
         return true;
     }

@@ -16,7 +16,7 @@ public class CoordinatesRepository {
         initializePerimeterCoordinates();
     }
 
-    public synchronized static CoordinatesRepository getInstance() {
+    public static CoordinatesRepository getInstance() {
         if (instance == null) {
             instance = new CoordinatesRepository();
         }
