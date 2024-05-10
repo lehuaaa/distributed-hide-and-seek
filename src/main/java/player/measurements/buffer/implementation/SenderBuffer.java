@@ -10,17 +10,13 @@ public class SenderBuffer {
         list = new ArrayList<>();
     }
 
-    public void addAll(List<Double> averages) {
-        list.addAll(averages);
+    public synchronized void addAverage(Double average) {
+        list.add(average);
     }
 
-    public List<Double> readAllAndClean() {
+    public synchronized List<Double> readAllAndClean() {
         List<Double> measurements = new ArrayList<>(list);
         list.clear();
         return measurements;
-    }
-
-    public boolean isEmpty() {
-        return list.isEmpty();
     }
 }

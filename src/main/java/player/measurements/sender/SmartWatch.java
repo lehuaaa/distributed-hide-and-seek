@@ -1,12 +1,10 @@
 package player.measurements.sender;
 
-import com.sun.jersey.api.client.ClientResponse;
 import player.measurements.buffer.implementation.SenderBuffer;
 import player.measurements.model.PlayerMeasurements;
 import util.remote.MeasurementsRemote;
 
 import java.util.List;
-
 
 public class SmartWatch extends Thread {
 
@@ -23,11 +21,9 @@ public class SmartWatch extends Thread {
     @Override
     public void run() {
         while (true) {
-            if (!senderBuffer.isEmpty()) {
-                List<Double> averages = senderBuffer.readAllAndClean();
-                if (sendMeasurements(new PlayerMeasurements(playerId, averages, System.currentTimeMillis())) != null)
-                    System.out.println("Measurements successfully sent");
-            }
+            List<Double> averages = senderBuffer.readAllAndClean();
+            if (!averages.isEmpty())
+                sendMeasurements(new PlayerMeasurements(playerId, averages, System.currentTimeMillis()));
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
@@ -37,7 +33,7 @@ public class SmartWatch extends Thread {
     }
 
     /* Call remote's method in order to perform the http request */
-    private ClientResponse sendMeasurements(PlayerMeasurements measurements) {
-        return MeasurementsRemote.getInstance().requestAddMeasurements(serverAddress, measurements);
+    private void sendMeasurements(PlayerMeasurements measurements) {
+        MeasurementsRemote.getInstance().requestAddMeasurements(serverAddress, measurements);
     }
 }

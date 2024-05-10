@@ -4,20 +4,23 @@ import player.measurements.buffer.Buffer;
 import player.measurements.model.Measurement;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class ProducerBuffer implements Buffer {
 
-    private final List<Measurement> list;
+    private final Queue<Measurement> queue;
     private final int maxSize = 8;
+    private final int slideFactor = 4;
 
     public ProducerBuffer() {
-        list = new ArrayList<>();
+        queue = new LinkedList<>();
     }
 
     @Override
     public synchronized void addMeasurement(Measurement m) {
-        while (list.size() == maxSize) {
+        while (queue.size() == maxSize) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -25,15 +28,15 @@ public class ProducerBuffer implements Buffer {
             }
         }
 
-        list.add(m);
+        queue.add(m);
 
-        if (list.size() == maxSize)
+        if (queue.size() == maxSize)
             notify();
     }
 
     @Override
     public synchronized List<Measurement> readAllAndClean() {
-        while (list.size() < maxSize) {
+        while (queue.size() < maxSize) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -41,9 +44,13 @@ public class ProducerBuffer implements Buffer {
             }
         }
 
-        List<Measurement> measurements = new ArrayList<>(list);
-        list.clear();
-        notifyAll();
+        List<Measurement> measurements = new ArrayList<>(queue);
+
+        while (queue.size() > slideFactor) {
+            queue.poll();
+        }
+
+        notify();
         return measurements;
     }
 }
