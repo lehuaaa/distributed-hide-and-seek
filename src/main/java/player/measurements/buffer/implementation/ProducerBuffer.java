@@ -12,9 +12,10 @@ public class ProducerBuffer implements Buffer {
 
     private final Queue<Measurement> queue;
     private final int maxSize = 8;
-    private final int slideFactor = 4;
+    private final int slideFactor;
 
-    public ProducerBuffer() {
+    public ProducerBuffer(int slideFactor) {
+        this.slideFactor = slideFactor;
         queue = new LinkedList<>();
     }
 

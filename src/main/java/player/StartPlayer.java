@@ -67,7 +67,7 @@ public class StartPlayer {
         System.out.println("Your position on the map is: " + player.getCoordinate().toString());
 
         /* Buffer used to store the HRvalues produced by the simulator */
-        Buffer productionBuffer = new ProducerBuffer();
+        Buffer productionBuffer = new ProducerBuffer(4);
 
         /* Buffer used to store the measurements produced by the measurementsHandler */
         SenderBuffer senderBuffer = new SenderBuffer();

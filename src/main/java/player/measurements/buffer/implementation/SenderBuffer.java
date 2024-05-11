@@ -4,19 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SenderBuffer {
-    private final List<Double> list;
+    private final List<Double> queue;
 
     public SenderBuffer() {
-        list = new ArrayList<>();
+        queue = new ArrayList<>();
     }
 
-    public synchronized void addAverage(Double average) {
-        list.add(average);
+    public synchronized void add(Double average) {
+        queue.add(average);
     }
 
     public synchronized List<Double> readAllAndClean() {
-        List<Double> measurements = new ArrayList<>(list);
-        list.clear();
+        if (queue.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Double> measurements = new ArrayList<>(queue);
+        queue.clear();
         return measurements;
+    }
+
+    public synchronized void addAll(List<Double> averages) {
+        queue.addAll(averages);
     }
 }

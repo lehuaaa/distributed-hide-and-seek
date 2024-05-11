@@ -4,7 +4,6 @@ import player.measurements.buffer.Buffer;
 import player.measurements.buffer.implementation.SenderBuffer;
 import player.measurements.model.Measurement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MeasurementsHandler extends Thread{
@@ -20,8 +19,7 @@ public class MeasurementsHandler extends Thread{
     @Override
     public void run() {
         while (true) {
-              Double average = getAverage(producerBuffer.readAllAndClean());
-              senderBuffer.addAverage(average);
+              senderBuffer.add(getAverage(producerBuffer.readAllAndClean()));
         }
     }
 
