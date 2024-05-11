@@ -16,14 +16,15 @@ import java.util.Scanner;
 
 public class AdministrationClient {
 
+    private static String administrationServerAddress = "http://localhost:8080";
+    private static String mqttServerAddress = "tcp://localhost:1883";
+    private static MqttClient mqttClient;
+
     public static void main(String[] args) {
 
-        System.out.println("Welcome to the administration console!");
+        System.out.println("Welcome to the game manager console!");
 
-        String administrationServerAddress = "http://localhost:8080";
-        String mqttServerAddress = "tcp://localhost:1883";
-        MqttClient mqttClient = generateMqttClient(mqttServerAddress);
-
+        mqttClient = generateMqttClient(mqttServerAddress);
         Scanner scanner = new Scanner(System.in);
         ClientResponse response;
         String choice;
@@ -50,15 +51,7 @@ public class AdministrationClient {
                 /* Start the watchOut match */
                 case "1":
                     if (mqttClient != null) {
-                        MqttMessage startMatchMessage = new MqttMessage("start".getBytes());
-                        startMatchMessage.setQos(2);
-                        startMatchMessage.setRetained(true);
-                        try {
-                            mqttClient.publish("game/start", startMatchMessage);
-                            System.out.println("Match is starting, the players are now identifying the seeker!");
-                        } catch (MqttException e) {
-                            System.out.println("The mqtt broker is not available");
-                        }
+                        sendMqttMessage("game/start", "start", 2, true, "Match is starting, the players are now identifying the seeker!");
                     } else {
                         System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Try to restart the administration console.");
                     }
@@ -68,16 +61,8 @@ public class AdministrationClient {
                 /* Send a message to all the player in the match */
                 case "2":
                     if (mqttClient != null) {
-                        String message = scanner.nextLine();
-                        MqttMessage startMatchMessage = new MqttMessage(message.getBytes());
-                        startMatchMessage.setQos(1);
-                        startMatchMessage.setRetained(false);
-                        try {
-                            mqttClient.publish("game/messages", startMatchMessage);
-                            System.out.println("Message successfully sent!");
-                        } catch (MqttException e) {
-                            System.out.println("The mqtt broker is not available");
-                        }
+                        System.out.println("Enter a message:");
+                        sendMqttMessage("game/messages", scanner.nextLine(), 1, false, "Message successfully sent!");
                     } else {
                         System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Try to restart the administration console.");
                     }
@@ -92,10 +77,10 @@ public class AdministrationClient {
                         if(!players.isEmpty()) {
                             System.out.println("There are " + players.size() + " players in the match:");
                             for (int i = 0; i <  players.size(); i++) {
-                                System.out.println("Player " + i + ": " + players.get(i));
+                                System.out.println(i + ". " + players.get(i));
                             }
                         } else {
-                            System.out.println("There are no players in the match!");
+                            System.out.println("There are no players in the match.");
                         }
                     }
                     break;
@@ -103,23 +88,23 @@ public class AdministrationClient {
 
                 /* Get the average of the last N heart rate values by a given player */
                 case "4":
-                    System.out.println("Insert player Id:");
+                    System.out.println("Enter player Id:");
                     String playerId = scanner.nextLine();
                     while (playerId.isEmpty() || StringChecker.containsIllegalsCharacters(playerId)) {
-                        System.out.println("The entered id is not valid, try with another one:");
+                        System.out.println("The entered Id is not valid, try with another one.");
                         playerId = scanner.nextLine();
                     }
 
-                    System.out.println("Insert the number of measurements:");
+                    System.out.println("Enter number of measurements:");
                     int n = 0;
                     while (n < 1) {
                         try {
                             n = scanner.nextInt();
                             if (n < 1) {
-                                System.out.println("The number must be grater than 0, try with another one:");
+                                System.out.println("The number must be grater than 0, try with another one.");
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("The entered number is not valid, try with another one:");
+                            System.out.println("The entered number is not valid, try with another one.");
                         }
                         scanner.nextLine();
                     }
@@ -129,7 +114,7 @@ public class AdministrationClient {
                         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
                             System.out.println("The average of the last " + n + " measurements of the player with id " + playerId + " is " + response.getEntity(Average.class).getResult());
                         } else {
-                            System.out.println("The player with Id " + playerId + " was not found");
+                            System.out.println("The player with Id " + playerId + " was not found.");
                         }
                     }
                     break;
@@ -137,32 +122,32 @@ public class AdministrationClient {
 
                 /* Get the average of the heart rate values that occurred between timestamp t1 and timestamp t2 */
                 case "5":
-                    System.out.println("Insert first timestamp:");
+                    System.out.println("Enter first timestamp:");
                     long t1 = -1;
                     while (t1 < 0) {
                         try {
                             t1 = scanner.nextInt();
                             if (t1 < 0) {
-                                System.out.println("The timestamp must be grater equal than 0, try with another one:");
+                                System.out.println("The timestamp must be grater equal than 0, try with another one.");
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("The entered timestamp is not valid, try with another one:");
+                            System.out.println("The entered timestamp is not valid, try with another one.");
                         }
                         scanner.nextLine();
                     }
 
-                    System.out.println("Insert second timestamp:");
+                    System.out.println("Enter second timestamp:");
                     long t2 = -1;
                     while (t2 < 0 || t1 > t2) {
                         try {
                             t2 = scanner.nextLong();
                             if (t2 < 0) {
-                                System.out.println("The timestamp must be grater equal than 0, try with another one:");
+                                System.out.println("The timestamp must be grater equal than 0, try with another one.");
                             } else if (t1 > t2) {
-                                System.out.println("The second timestamp must be grater than the first one, try with another one:");
+                                System.out.println("The second timestamp must be grater than the first one, try with another one.");
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("The entered timestamp is not valid, try with another one:");
+                            System.out.println("The entered timestamp is not valid, try with another one.");
                         }
                         scanner.nextLine();
                     }
@@ -182,10 +167,11 @@ public class AdministrationClient {
 
                 /* Invalid choice */
                 default:
-                    System.out.println("Invalid choice please try again!");
+                    System.out.println("Invalid choice, please try again.");
                     break;
             }
         } while (!choice.equals("6"));
+        System.exit(0);
     }
 
     private static MqttClient generateMqttClient(String mqttBrokerAddress) {
@@ -196,8 +182,20 @@ public class AdministrationClient {
             mqttClient.connect(connectOptions);
             return mqttClient;
         } catch (MqttException e) {
-            System.out.println("Unfortunately the console failed to connect to mqtt broker!");
+            System.out.println("Unfortunately the console failed to connect to mqtt broker.");
             return null;
+        }
+    }
+
+    private static void sendMqttMessage(String topic, String message, int qos, boolean isRetained, String messageToShow) {
+        MqttMessage mqttMessage = new MqttMessage(message.getBytes());
+        mqttMessage.setQos(qos);
+        mqttMessage.setRetained(isRetained);
+        try {
+            mqttClient.publish(topic, mqttMessage);
+            System.out.println(messageToShow);
+        } catch (MqttException e) {
+            System.out.println("The mqtt broker is not available at the moment.");
         }
     }
 }
