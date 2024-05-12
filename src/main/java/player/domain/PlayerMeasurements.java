@@ -5,9 +5,11 @@ import java.util.List;
 
 public class PlayerMeasurements {
 
-    private final String playerId;
+    private String playerId;
     private List<Double> hrValues;
-    private final long timestamp;
+    private long timestamp;
+
+    public PlayerMeasurements() {}
 
     public PlayerMeasurements(String playerId, List<Double> hrValues, long timestamp) {
         this.playerId = playerId;
@@ -23,6 +25,14 @@ public class PlayerMeasurements {
         return new ArrayList<>(hrValues);
     }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
+
     public void setHrValues(List<Double> hrValues) {
         if (hrValues == null) {
             this.hrValues = new ArrayList<>();
@@ -31,7 +41,7 @@ public class PlayerMeasurements {
         }
     }
 
-    public long getTimestamp() {
-        return timestamp;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }
