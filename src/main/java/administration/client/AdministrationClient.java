@@ -24,7 +24,7 @@ public class AdministrationClient {
 
         System.out.println("Welcome to the game manager console!");
 
-        mqttClient = generateMqttClient(mqttServerAddress);
+        mqttClient = createMqttClient(mqttServerAddress);
         Scanner scanner = new Scanner(System.in);
         ClientResponse response;
         String choice;
@@ -171,10 +171,12 @@ public class AdministrationClient {
                     break;
             }
         } while (!choice.equals("6"));
-        System.exit(0);
+
+        if (mqttClient != null)
+            closeMqttConnection();
     }
 
-    private static MqttClient generateMqttClient(String mqttBrokerAddress) {
+    private static MqttClient createMqttClient(String mqttBrokerAddress) {
         try {
             MqttClient mqttClient = new MqttClient(mqttBrokerAddress, MqttClient.generateClientId());
             MqttConnectOptions connectOptions = new MqttConnectOptions();
@@ -197,5 +199,12 @@ public class AdministrationClient {
         } catch (MqttException e) {
             System.out.println("The mqtt broker is not available at the moment.");
         }
+    }
+
+    private static void closeMqttConnection() {
+        try {
+            mqttClient.disconnect();
+            mqttClient.close();
+        } catch (MqttException ignored) { }
     }
 }
