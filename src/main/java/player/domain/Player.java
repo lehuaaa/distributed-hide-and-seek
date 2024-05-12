@@ -8,8 +8,8 @@ import java.util.List;
 
 public class Player extends Client {
 
-    private String serverAddress;
-    private Coordinate coordinate;
+    private final String serverAddress;
+    private final Coordinate coordinate;
     private List<Client> otherPlayers;
 
     public Player(Client client, String serverAddress, Coordinate coordinate, List<Client> otherPlayers) {
@@ -23,28 +23,19 @@ public class Player extends Client {
         return serverAddress;
     }
 
-    public void setCoordinates(Coordinate coordinate) {
-        this.coordinate.setX(coordinate.getX());
-        this.coordinate.setY(coordinate.getY());
-    }
-
     public Coordinate getCoordinate() {
         return coordinate;
     }
 
     public void setOtherPlayers(List<Client> otherPlayers) {
-        if (otherPlayers != null) {
-            this.otherPlayers = new ArrayList<>(otherPlayers);
-        } else {
+        if (otherPlayers == null) {
             this.otherPlayers = new ArrayList<>();
+        } else {
+            this.otherPlayers = new ArrayList<>(otherPlayers);
         }
     }
 
     public List<Client> getOtherPlayers() {
-        if (otherPlayers != null) {
-            return new ArrayList<>(otherPlayers);
-        } else {
-            return new ArrayList<>();
-        }
+        return new ArrayList<>(otherPlayers);
     }
 }

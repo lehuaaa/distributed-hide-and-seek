@@ -18,24 +18,14 @@ public class PlayerMeasurement {
         return playerId;
     }
 
-    public void setPlayerId(String playerId) {
-        this.playerId = playerId;
-    }
-
     public double getHrValue() { return hrValue; }
-
-    public void setHrValue(double hrValue) { this.hrValue = hrValue; }
 
     public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
-
     @Override
     public String toString() {
-        return "{ PlayerId: " + playerId + ", HeartRateValue: " + hrValue + ", TimeStamp: " + timestamp + "}";
+        return "measurement of player with id " + playerId + " with an heart rate value of " + hrValue + " and a timestamp of " + timestamp;
     }
 }

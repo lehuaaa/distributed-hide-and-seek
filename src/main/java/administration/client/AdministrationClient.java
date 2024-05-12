@@ -16,15 +16,15 @@ import java.util.Scanner;
 
 public class AdministrationClient {
 
-    private static String administrationServerAddress = "http://localhost:8080";
-    private static String mqttServerAddress = "tcp://localhost:1883";
+    private final static String administrationServerAddress = "http://localhost:8080";
+    private final static String mqttBrokerAddress = "tcp://localhost:1883";
     private static MqttClient mqttClient;
 
     public static void main(String[] args) {
 
         System.out.println("Welcome to the game manager console!");
 
-        mqttClient = createMqttClient(mqttServerAddress);
+        mqttClient = createMqttClient();
         Scanner scanner = new Scanner(System.in);
         ClientResponse response;
         String choice;
@@ -176,7 +176,7 @@ public class AdministrationClient {
             closeMqttConnection();
     }
 
-    private static MqttClient createMqttClient(String mqttBrokerAddress) {
+    private static MqttClient createMqttClient() {
         try {
             MqttClient mqttClient = new MqttClient(mqttBrokerAddress, MqttClient.generateClientId());
             MqttConnectOptions connectOptions = new MqttConnectOptions();

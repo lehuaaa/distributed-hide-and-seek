@@ -28,38 +28,37 @@ public class PlayersRepository {
     }
 
     public synchronized List<Client> getPlayers() {
-        if (!players.isEmpty()) {
-            return new ArrayList<>(players);
-        } else {
+        if (players == null) {
             return new ArrayList<>();
         }
+        return new ArrayList<>(players);
     }
 
     public synchronized void setPlayers(List<Client> players) {
-        if (players.isEmpty()) {
-            this.players = new ArrayList<>(players);
-        } else {
+        if (players == null) {
             this.players = new ArrayList<>();
+        } else {
+            this.players = new ArrayList<>(players);
         }
     }
 
     /* Add the new player to the list */
     public synchronized MatchInfo addPlayer(Client player) {
         if(containsPlayer(player.getId())) {
-            System.out.println("Player with id: " + player.getId() + " already exists");
+            System.out.println("The player with id " + player.getId() + " already exists.");
             return null;
         }
 
         Coordinate coordinate = CoordinatesRepository.getInstance().getPerimeterPosition();
 
         if (coordinate == null) {
-            System.out.println("Player with Id: " + player.getId() + " cannot register to the match because it's already full");
+            System.out.println("The player with id " + player.getId() + " cannot register to the match because it's already full.");
             return null;
         }
 
         List<Client> playersCopy = getPlayers();
         players.add(player);
-        System.out.println("Player: " + player + " successfully added to the list and obtained the position: " + coordinate);
+        System.out.println("The player with id " + player.getId() + " obtained the position: " + coordinate + ".");
         return new MatchInfo(coordinate, playersCopy);
     }
 

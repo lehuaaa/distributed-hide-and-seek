@@ -9,7 +9,7 @@ public class MqttHandler {
 
     public MqttHandler(String mqttBrokerAddress) {
         this.mqttBrokerAddress = mqttBrokerAddress;
-        this.mqttClient = generateMqttClient();
+        this.mqttClient = createMqttClient();
         if (mqttClient != null) {
             startListening();
         } else {
@@ -25,7 +25,7 @@ public class MqttHandler {
             }
 
             @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
+            public void messageArrived(String topic, MqttMessage message) {
                 if (topic.equals("game/start")) {
                     System.out.println("The game manager started the game!");
                 } else {
@@ -40,7 +40,7 @@ public class MqttHandler {
         });
     }
 
-    private MqttClient generateMqttClient() {
+    private MqttClient createMqttClient() {
         try {
             MqttClient mqttClient = new MqttClient(mqttBrokerAddress, MqttClient.generateClientId());
             MqttConnectOptions connectOptions = new MqttConnectOptions();
