@@ -1,20 +1,20 @@
-package player.measurements.buffer.implementation;
+package player.measurements.buffers.implementations;
 
-import player.measurements.buffer.Buffer;
-import player.measurements.model.Measurement;
+import player.measurements.buffers.Buffer;
+import player.domain.Measurement;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class ProducerBuffer implements Buffer {
+public class ProductionBuffer implements Buffer {
 
     private final Queue<Measurement> queue;
     private final int maxSize = 8;
     private final int slideFactor;
 
-    public ProducerBuffer(int slideFactor) {
+    public ProductionBuffer(int slideFactor) {
         this.slideFactor = slideFactor;
         queue = new LinkedList<>();
     }

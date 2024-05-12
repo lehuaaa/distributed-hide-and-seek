@@ -1,8 +1,8 @@
 package administration.server.controllers;
 
 import administration.server.repositories.PlayersRepository;
-import administration.server.entities.Client;
-import administration.server.entities.MatchInfo;
+import administration.server.domain.Client;
+import administration.server.domain.MatchInfo;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;

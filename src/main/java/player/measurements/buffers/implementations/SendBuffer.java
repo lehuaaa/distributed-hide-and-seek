@@ -1,12 +1,12 @@
-package player.measurements.buffer.implementation;
+package player.measurements.buffers.implementations;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SenderBuffer {
+public class SendBuffer {
     private final List<Double> queue;
 
-    public SenderBuffer() {
+    public SendBuffer() {
         queue = new ArrayList<>();
     }
 

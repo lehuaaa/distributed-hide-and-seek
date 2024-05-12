@@ -1,4 +1,4 @@
-package player.measurements.model;
+package player.domain;
 
 public class Measurement implements Comparable<Measurement> {
 

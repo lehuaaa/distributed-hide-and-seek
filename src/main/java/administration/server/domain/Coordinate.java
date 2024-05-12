@@ -1,4 +1,4 @@
-package administration.server.entities;
+package administration.server.domain;
 
 import javax.xml.bind.annotation.XmlRootElement;
 

@@ -1,7 +1,7 @@
 package administration.client;
 
-import administration.server.entities.Average;
-import administration.server.entities.Client;
+import administration.server.domain.Average;
+import administration.server.domain.Client;
 import administration.server.repositories.PlayersRepository;
 import com.sun.jersey.api.client.ClientResponse;
 import org.eclipse.paho.client.mqttv3.*;
@@ -77,7 +77,7 @@ public class AdministrationClient {
                         if(!players.isEmpty()) {
                             System.out.println("There are " + players.size() + " players in the match:");
                             for (int i = 0; i <  players.size(); i++) {
-                                System.out.println(i + ". " + players.get(i));
+                                System.out.println((i + 1) + ". " + players.get(i));
                             }
                         } else {
                             System.out.println("There are no players in the match.");

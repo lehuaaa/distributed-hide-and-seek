@@ -1,6 +1,6 @@
-package player.measurements.simulator;
+package player.measurements.handlers.producer;
 
-import player.measurements.buffer.Buffer;
+import player.measurements.buffers.Buffer;
 
 public class HRSimulator extends Simulator {
 

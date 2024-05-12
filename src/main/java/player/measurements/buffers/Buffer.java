@@ -1,6 +1,6 @@
-package player.measurements.buffer;
+package player.measurements.buffers;
 
-import player.measurements.model.Measurement;
+import player.domain.Measurement;
 
 import java.util.List;
 

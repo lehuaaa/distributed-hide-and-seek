@@ -1,16 +1,16 @@
 package player;
 
-import administration.server.entities.Client;
-import administration.server.entities.MatchInfo;
+import administration.server.domain.Client;
+import administration.server.domain.MatchInfo;
 import com.sun.jersey.api.client.ClientResponse;
-import player.measurements.buffer.Buffer;
-import player.measurements.buffer.implementation.ProducerBuffer;
-import player.measurements.buffer.implementation.SenderBuffer;
-import player.measurements.handler.MeasurementsHandler;
-import player.measurements.simulator.HRSimulator;
-import player.measurements.sender.SmartWatch;
-import player.models.Player;
-import player.mqtt.MqttMessageHandler;
+import player.measurements.buffers.Buffer;
+import player.measurements.buffers.implementations.ProductionBuffer;
+import player.measurements.buffers.implementations.SendBuffer;
+import player.measurements.handlers.consumer.MeasurementsConsumer;
+import player.measurements.handlers.producer.HRSimulator;
+import player.measurements.handlers.sender.MeasurementsSender;
+import player.domain.Player;
+import player.mqtt.MqttHandler;
 import util.checker.StringChecker;
 import util.remote.PlayersRemote;
 
@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import java.util.Random;
 import java.util.Scanner;
 
-public class StartPlayer {
+public class PlayerMain {
 
     private static final String address = "localhost";
     private static final String serverAddress = "http://localhost:8080";
@@ -67,21 +67,21 @@ public class StartPlayer {
         System.out.println("Your position on the map is: " + player.getCoordinate().toString());
 
         /* Buffer used to store the HRvalues produced by the simulator */
-        Buffer productionBuffer = new ProducerBuffer(4);
+        Buffer productionBuffer = new ProductionBuffer(4);
 
         /* Buffer used to store the measurements produced by the measurementsHandler */
-        SenderBuffer senderBuffer = new SenderBuffer();
+        SendBuffer sendBuffer = new SendBuffer();
 
         /* Threads that produce, compute and send the list of measurements */
         HRSimulator hrSimulator = new HRSimulator(productionBuffer);
-        MeasurementsHandler measurementsHandler = new MeasurementsHandler(productionBuffer, senderBuffer);
-        SmartWatch smartWatch = new SmartWatch(playerId, serverAddress, senderBuffer);
+        MeasurementsConsumer measurementsConsumer = new MeasurementsConsumer(productionBuffer, sendBuffer);
+        MeasurementsSender measurementsSender = new MeasurementsSender(playerId, serverAddress, sendBuffer);
 
         hrSimulator.start();
-        measurementsHandler.start();
-        smartWatch.start();
+        measurementsConsumer.start();
+        measurementsSender.start();
 
         /* Initialize MqttClient */
-        MqttMessageHandler mqttMessageHandler = new MqttMessageHandler(mqttServerAddress);
+        MqttHandler mqttHandler = new MqttHandler(mqttServerAddress);
     }
 }

@@ -1,4 +1,4 @@
-package player.measurements.model;
+package player.domain;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,34 +1,33 @@
-package player.measurements.sender;
+package player.measurements.handlers.sender;
 
 import com.sun.jersey.api.client.ClientResponse;
-import player.measurements.buffer.implementation.SenderBuffer;
-import player.measurements.model.PlayerMeasurements;
+import player.measurements.buffers.implementations.SendBuffer;
+import player.domain.PlayerMeasurements;
 import util.remote.MeasurementsRemote;
 
-import javax.ws.rs.core.Response;
 import java.util.List;
 
-public class SmartWatch extends Thread {
+public class MeasurementsSender extends Thread {
 
     private final String playerId;
     private final String serverAddress;
-    private final SenderBuffer senderBuffer;
+    private final SendBuffer sendBuffer;
 
-    public SmartWatch(String playerId, String serverAddress, SenderBuffer senderBuffer) {
+    public MeasurementsSender(String playerId, String serverAddress, SendBuffer sendBuffer) {
         this.playerId = playerId;
         this.serverAddress = serverAddress;
-        this.senderBuffer = senderBuffer;
+        this.sendBuffer = sendBuffer;
     }
 
     @Override
     public void run() {
         while (true) {
-            List<Double> averages = senderBuffer.readAllAndClean();
+            List<Double> averages = sendBuffer.readAllAndClean();
             if (!averages.isEmpty()) {
                 ClientResponse response =
                         sendMeasurements(new PlayerMeasurements(playerId, averages, System.currentTimeMillis()));
                 if (response == null)
-                    senderBuffer.addAll(averages);
+                    sendBuffer.addAll(averages);
             }
             try {
                 Thread.sleep(10000);

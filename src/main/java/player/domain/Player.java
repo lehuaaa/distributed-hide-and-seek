@@ -1,7 +1,7 @@
-package player.models;
+package player.domain;
 
-import administration.server.entities.Client;
-import administration.server.entities.Coordinate;
+import administration.server.domain.Client;
+import administration.server.domain.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package administration.server.repositories;
 
-import administration.server.entities.Coordinate;
-import administration.server.entities.MatchInfo;
-import administration.server.entities.Client;
+import administration.server.domain.Coordinate;
+import administration.server.domain.MatchInfo;
+import administration.server.domain.Client;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

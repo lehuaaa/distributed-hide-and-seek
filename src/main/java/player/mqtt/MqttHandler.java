@@ -2,12 +2,12 @@ package player.mqtt;
 
 import org.eclipse.paho.client.mqttv3.*;
 
-public class MqttMessageHandler {
+public class MqttHandler {
 
     private final String mqttBrokerAddress;
     private final MqttClient mqttClient;
 
-    public MqttMessageHandler(String mqttBrokerAddress) {
+    public MqttHandler(String mqttBrokerAddress) {
         this.mqttBrokerAddress = mqttBrokerAddress;
         this.mqttClient = generateMqttClient();
         if (mqttClient != null) {

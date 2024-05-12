@@ -1,6 +1,6 @@
 package administration.server.repositories;
 
-import administration.server.entities.Coordinate;
+import administration.server.domain.Coordinate;
 
 import java.util.Collections;
 import java.util.Stack;

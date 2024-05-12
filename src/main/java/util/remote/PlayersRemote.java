@@ -1,6 +1,6 @@
 package util.remote;
 
-import administration.server.entities.Client;
+import administration.server.domain.Client;
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;

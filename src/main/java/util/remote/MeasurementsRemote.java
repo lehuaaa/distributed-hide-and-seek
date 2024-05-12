@@ -1,7 +1,7 @@
 package util.remote;
 
 import com.sun.jersey.api.client.ClientHandlerException;
-import player.measurements.model.PlayerMeasurements;
+import player.domain.PlayerMeasurements;
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

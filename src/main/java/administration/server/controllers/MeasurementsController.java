@@ -1,7 +1,7 @@
 package administration.server.controllers;
 
-import administration.server.entities.Average;
-import player.measurements.model.PlayerMeasurements;
+import administration.server.domain.Average;
+import player.domain.PlayerMeasurements;
 import administration.server.repositories.MeasurementsRepository;
 
 import javax.ws.rs.*;
@@ -36,6 +36,8 @@ public class MeasurementsController {
     @GET
     @Produces({"application/json", "application/xml"})
     public Response getAverageOfTheMeasurementsBetweenT1AndT2(@PathParam("t1") long t1, @PathParam("t2") long t2){
+        if (t1 > t2)
+            return Response.status(Response.Status.BAD_REQUEST).build();
         return Response.ok(MeasurementsRepository.getInstance().getIntervalAverage(t1, t2)).build();
     }
 }
