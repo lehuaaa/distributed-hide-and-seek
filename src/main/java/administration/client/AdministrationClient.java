@@ -53,7 +53,7 @@ public class AdministrationClient {
                     if (mqttClient != null) {
                         sendMqttMessage("game/start", "start", 2, true, "Match is starting, the players are now identifying the seeker!");
                     } else {
-                        System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Try to restart the administration console.");
+                        System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Please restart the administration console.");
                     }
                     break;
 
@@ -64,7 +64,7 @@ public class AdministrationClient {
                         System.out.println("Enter a message:");
                         sendMqttMessage("game/messages", scanner.nextLine(), 1, false, "Message successfully sent!");
                     } else {
-                        System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Try to restart the administration console.");
+                        System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Please restart the administration console.");
                     }
                     break;
 
@@ -91,7 +91,7 @@ public class AdministrationClient {
                     System.out.println("Enter player Id:");
                     String playerId = scanner.nextLine();
                     while (playerId.isEmpty() || StringChecker.containsIllegalsCharacters(playerId)) {
-                        System.out.println("The entered Id is not valid, try with another one.");
+                        System.out.println("The entered Id is not valid, please try with another one.");
                         playerId = scanner.nextLine();
                     }
 
@@ -101,10 +101,10 @@ public class AdministrationClient {
                         try {
                             n = scanner.nextInt();
                             if (n < 1) {
-                                System.out.println("The number must be grater than 0, try with another one.");
+                                System.out.println("The number must be grater than 0, please try with another one.");
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("The entered number is not valid, try with another one.");
+                            System.out.println("The entered number is not valid, please try with another one.");
                         }
                         scanner.nextLine();
                     }
@@ -128,10 +128,10 @@ public class AdministrationClient {
                         try {
                             t1 = scanner.nextInt();
                             if (t1 < 0) {
-                                System.out.println("The timestamp must be grater equal than 0, try with another one.");
+                                System.out.println("The timestamp must be grater equal than 0, please try with another one.");
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("The entered timestamp is not valid, try with another one.");
+                            System.out.println("The entered timestamp is not valid, please try with another one.");
                         }
                         scanner.nextLine();
                     }
@@ -142,12 +142,12 @@ public class AdministrationClient {
                         try {
                             t2 = scanner.nextLong();
                             if (t2 < 0) {
-                                System.out.println("The timestamp must be grater equal than 0, try with another one.");
+                                System.out.println("The timestamp must be grater equal than 0, please try with another one.");
                             } else if (t1 > t2) {
-                                System.out.println("The second timestamp must be grater than the first one, try with another one.");
+                                System.out.println("The second timestamp must be grater than the first one, please try with another one.");
                             }
                         } catch (InputMismatchException e) {
-                            System.out.println("The entered timestamp is not valid, try with another one.");
+                            System.out.println("The entered timestamp is not valid, please try with another one.");
                         }
                         scanner.nextLine();
                     }
@@ -161,7 +161,7 @@ public class AdministrationClient {
 
                 /* Exit */
                 case "6":
-                    System.out.println("The console is shutting down!");
+                    System.out.println("The console is shutting down.");
                     break;
 
 

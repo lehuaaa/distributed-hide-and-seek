@@ -28,10 +28,10 @@ public class PlayerMain {
         Scanner scanner = new Scanner(System.in);
 
         /* Get player's id*/
-        System.out.println("Insert your player Id:");
+        System.out.println("Enter your player Id:");
         String playerId = scanner.nextLine();
         while (playerId.isEmpty() || StringChecker.containsIllegalsCharacters(playerId)) {
-            System.out.println("The entered id is not valid, try with another one:");
+            System.out.println("The entered id is not valid, please try with another one.");
             playerId = scanner.nextLine();
         }
 
@@ -42,21 +42,16 @@ public class PlayerMain {
         Client client = new Client(playerId, address, listeningPort);
         ClientResponse response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, client);
 
-        if (response == null) {
-            System.exit(0);
-        }
+        while (response == null || response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
+            if (response != null)
+                System.out.println("Unfortunately id" + playerId + " has already been taken, please try with another one.");
 
-        while (response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
-            System.out.println("Unfortunately id" + playerId + " has already been taken, try with another one:");
             playerId = scanner.nextLine();
             while (playerId.isEmpty() || StringChecker.containsIllegalsCharacters(playerId)) {
-                System.out.println("The entered id is not valid, try with another one:");
+                System.out.println("The entered id is not valid, please try with another one.");
                 playerId = scanner.nextLine();
             }
             response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, client);
-            if (response == null) {
-                System.exit(0);
-            }
         }
 
         /* Player initialization */

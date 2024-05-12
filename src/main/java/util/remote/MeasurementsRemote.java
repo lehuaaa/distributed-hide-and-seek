@@ -30,7 +30,7 @@ public class MeasurementsRemote {
         try {
             return webResource.type("application/json").post(ClientResponse.class, jsonMeasurements);
         } catch (ClientHandlerException e) {
-            System.out.println("Server not available");
+            System.out.println("The server is not available, try again.");
             return null;
         }
     }
@@ -40,7 +40,7 @@ public class MeasurementsRemote {
         try {
             return webResource.get(ClientResponse.class);
         } catch (ClientHandlerException e) {
-            System.out.println("Server not available");
+            System.out.println("The server is not available, try again.");
             return null;
         }
     }
@@ -50,7 +50,7 @@ public class MeasurementsRemote {
         try {
             return webResource.get(ClientResponse.class);
         } catch (ClientHandlerException e) {
-            System.out.println("Server not available");
+            System.out.println("The server is not available, try again.");
             return null;
         }
     }

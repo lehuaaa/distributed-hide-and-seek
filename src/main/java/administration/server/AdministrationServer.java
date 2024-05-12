@@ -17,10 +17,9 @@ public class AdministrationServer {
             System.out.println("Server is running on: http://" + HOST + ":" + PORT);
             System.in.read();
             administrationServer.stop(0);
-            System.out.println("Server stopped");
+            System.out.println("The server is shutting down.");
             System.exit(0);
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
