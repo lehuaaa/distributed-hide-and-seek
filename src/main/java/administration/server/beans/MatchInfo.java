@@ -1,4 +1,4 @@
-package administration.server.domain;
+package administration.server.beans;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -8,11 +8,11 @@ import java.util.List;
 public class MatchInfo {
 
     private Coordinate coordinate;
-    private List<Client> otherPlayers;
+    private List<Node> otherPlayers;
 
     public MatchInfo() {}
 
-    public MatchInfo(Coordinate coordinate, List<Client> otherPlayers) {
+    public MatchInfo(Coordinate coordinate, List<Node> otherPlayers) {
         this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
         setOtherPlayers(otherPlayers);
     }
@@ -25,14 +25,14 @@ public class MatchInfo {
         this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
     }
 
-    public List<Client> getOtherPlayers() {
+    public List<Node> getOtherPlayers() {
         if (otherPlayers == null) {
             return new ArrayList<>();
         }
         return new ArrayList<>(otherPlayers);
     }
 
-    public void setOtherPlayers(List<Client> otherPlayers) {
+    public void setOtherPlayers(List<Node> otherPlayers) {
         if (otherPlayers == null) {
             this.otherPlayers = new ArrayList<>();
         } else {

@@ -1,14 +1,14 @@
 package player;
 
-import administration.server.domain.Client;
-import administration.server.domain.MatchInfo;
+import administration.server.beans.Node;
+import administration.server.beans.MatchInfo;
 import com.sun.jersey.api.client.ClientResponse;
-import player.measurements.buffers.Buffer;
-import player.measurements.buffers.implementations.ProductionBuffer;
-import player.measurements.buffers.implementations.SendBuffer;
-import player.measurements.handlers.consumer.MeasurementsConsumer;
-import player.measurements.handlers.producer.HRSimulator;
-import player.measurements.handlers.sender.MeasurementsSender;
+import player.smartwatch.buffers.Buffer;
+import player.smartwatch.buffers.implementations.ProductionBuffer;
+import player.smartwatch.buffers.implementations.SendBuffer;
+import player.smartwatch.handlers.consumer.MeasurementsConsumer;
+import player.smartwatch.handlers.producer.HRSimulator;
+import player.smartwatch.handlers.sender.MeasurementsSender;
 import player.domain.Player;
 import player.mqtt.MqttHandler;
 import util.checker.StringChecker;
@@ -39,8 +39,8 @@ public class PlayerMain {
         int listeningPort = 8081 + new Random().nextInt(200);
 
         /* Client registration */
-        Client client = new Client(playerId, address, listeningPort);
-        ClientResponse response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, client);
+        Node node = new Node(playerId, address, listeningPort);
+        ClientResponse response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, node);
 
         while (response == null || response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             if (response != null)
@@ -51,12 +51,12 @@ public class PlayerMain {
                 System.out.println("The entered id is not valid, please try with another one.");
                 playerId = scanner.nextLine();
             }
-            response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, client);
+            response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, node);
         }
 
         /* Player initialization */
         MatchInfo info = response.getEntity(MatchInfo.class);
-        Player player = new Player(client, serverAddress, info.getCoordinate(), info.getOtherPlayers());
+        Player player = new Player(node, serverAddress, info.getCoordinate(), info.getOtherPlayers());
 
         System.out.println("You have registered successfully!");
         System.out.println("Your position on the map is: " + player.getCoordinate().toString());

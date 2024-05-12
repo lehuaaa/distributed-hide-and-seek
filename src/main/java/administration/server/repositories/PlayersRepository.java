@@ -1,8 +1,8 @@
 package administration.server.repositories;
 
-import administration.server.domain.Coordinate;
-import administration.server.domain.MatchInfo;
-import administration.server.domain.Client;
+import administration.server.beans.Coordinate;
+import administration.server.beans.MatchInfo;
+import administration.server.beans.Node;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,7 +14,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PlayersRepository {
 
-    private List<Client> players;
+    private List<Node> players;
 
     private static PlayersRepository instance;
 
@@ -27,14 +27,14 @@ public class PlayersRepository {
         return instance;
     }
 
-    public synchronized List<Client> getPlayers() {
+    public synchronized List<Node> getPlayers() {
         if (players == null) {
             return new ArrayList<>();
         }
         return new ArrayList<>(players);
     }
 
-    public synchronized void setPlayers(List<Client> players) {
+    public synchronized void setPlayers(List<Node> players) {
         if (players == null) {
             this.players = new ArrayList<>();
         } else {
@@ -43,7 +43,7 @@ public class PlayersRepository {
     }
 
     /* Add the new player to the list */
-    public synchronized MatchInfo addPlayer(Client player) {
+    public synchronized MatchInfo addPlayer(Node player) {
         if(containsPlayer(player.getId())) {
             System.out.println("The player with id " + player.getId() + " already exists.");
             return null;
@@ -56,7 +56,7 @@ public class PlayersRepository {
             return null;
         }
 
-        List<Client> playersCopy = getPlayers();
+        List<Node> playersCopy = getPlayers();
         players.add(player);
         System.out.println("The player with id " + player.getId() + " obtained the position: " + coordinate + ".");
         return new MatchInfo(coordinate, playersCopy);
@@ -64,7 +64,7 @@ public class PlayersRepository {
 
     /* Check if player's ID already exists */
     public synchronized boolean containsPlayer(String playerId) {
-        for (Client p : players)
+        for (Node p : players)
             if (p.getId().equals(playerId))
                 return true;
         return false;

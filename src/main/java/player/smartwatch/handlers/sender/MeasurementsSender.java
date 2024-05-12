@@ -1,7 +1,7 @@
-package player.measurements.handlers.sender;
+package player.smartwatch.handlers.sender;
 
 import com.sun.jersey.api.client.ClientResponse;
-import player.measurements.buffers.implementations.SendBuffer;
+import player.smartwatch.buffers.implementations.SendBuffer;
 import player.domain.PlayerMeasurements;
 import util.remote.MeasurementsRemote;
 

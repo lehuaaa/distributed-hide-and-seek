@@ -1,6 +1,6 @@
-package player.measurements.handlers.producer;
+package player.smartwatch.handlers.producer;
 
-import player.measurements.buffers.Buffer;
+import player.smartwatch.buffers.Buffer;
 import player.domain.Measurement;
 
 import java.util.Random;

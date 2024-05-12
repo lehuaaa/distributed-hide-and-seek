@@ -1,7 +1,7 @@
-package player.measurements.handlers.consumer;
+package player.smartwatch.handlers.consumer;
 
-import player.measurements.buffers.Buffer;
-import player.measurements.buffers.implementations.SendBuffer;
+import player.smartwatch.buffers.Buffer;
+import player.smartwatch.buffers.implementations.SendBuffer;
 import player.domain.Measurement;
 
 import java.util.List;

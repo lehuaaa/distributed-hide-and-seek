@@ -1,6 +1,6 @@
-package player.measurements.handlers.producer;
+package player.smartwatch.handlers.producer;
 
-import player.measurements.buffers.Buffer;
+import player.smartwatch.buffers.Buffer;
 
 public class HRSimulator extends Simulator {
 

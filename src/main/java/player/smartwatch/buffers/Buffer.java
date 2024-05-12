@@ -1,4 +1,4 @@
-package player.measurements.buffers;
+package player.smartwatch.buffers;
 
 import player.domain.Measurement;
 

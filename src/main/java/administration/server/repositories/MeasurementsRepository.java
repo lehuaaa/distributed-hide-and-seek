@@ -1,7 +1,7 @@
 package administration.server.repositories;
 
-import administration.server.domain.Average;
-import administration.server.domain.PlayerMeasurement;
+import administration.server.beans.Average;
+import player.domain.PlayerMeasurement;
 import player.domain.PlayerMeasurements;
 
 import java.util.*;

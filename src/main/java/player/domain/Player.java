@@ -1,19 +1,19 @@
 package player.domain;
 
-import administration.server.domain.Client;
-import administration.server.domain.Coordinate;
+import administration.server.beans.Node;
+import administration.server.beans.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends Client {
+public class Player extends Node {
 
     private final String serverAddress;
     private final Coordinate coordinate;
-    private List<Client> otherPlayers;
+    private List<Node> otherPlayers;
 
-    public Player(Client client, String serverAddress, Coordinate coordinate, List<Client> otherPlayers) {
-        super(client.getId(), client.getAddress(), client.getPort());
+    public Player(Node node, String serverAddress, Coordinate coordinate, List<Node> otherPlayers) {
+        super(node.getId(), node.getAddress(), node.getPort());
         this.serverAddress = serverAddress;
         this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
         setOtherPlayers(otherPlayers);
@@ -27,7 +27,7 @@ public class Player extends Client {
         return coordinate;
     }
 
-    public void setOtherPlayers(List<Client> otherPlayers) {
+    public void setOtherPlayers(List<Node> otherPlayers) {
         if (otherPlayers == null) {
             this.otherPlayers = new ArrayList<>();
         } else {
@@ -35,7 +35,7 @@ public class Player extends Client {
         }
     }
 
-    public List<Client> getOtherPlayers() {
+    public List<Node> getOtherPlayers() {
         return new ArrayList<>(otherPlayers);
     }
 }

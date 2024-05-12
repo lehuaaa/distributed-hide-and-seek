@@ -1,4 +1,4 @@
-package player.measurements.buffers.implementations;
+package player.smartwatch.buffers.implementations;
 
 import java.util.ArrayList;
 import java.util.List;

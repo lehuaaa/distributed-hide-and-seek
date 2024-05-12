@@ -1,6 +1,6 @@
 package administration.server.repositories;
 
-import administration.server.domain.Coordinate;
+import administration.server.beans.Coordinate;
 
 import java.util.Collections;
 import java.util.Stack;
@@ -34,22 +34,22 @@ public class CoordinatesRepository {
     private void initializePerimeterCoordinates() {
         perimeterCoordinates.clear();
 
-        /* Bottom side -1 */
+        /* Bottom side -> from (0, 0) to (8, 0) */
         for (int i = 0; i < 9; i++) {
             perimeterCoordinates.add(new Coordinate(i, 0));
         }
 
-        /* Right side -1 */
+        /* Right side -> From (9, 0) to (9, 8) */
         for (int i = 0; i < 9; i++) {
             perimeterCoordinates.add(new Coordinate(9, i));
         }
 
-        /* Top side -1 */
+        /* Top side -> From (9, 9) to (1, 9) */
         for (int i = 9; i > 0; i--) {
             perimeterCoordinates.add(new Coordinate(i, 9));
         }
 
-        /* Bottom side -1 */
+        /* Left side -> from (0, 9) to (0, 1) */
         for (int i = 9; i > 0; i--) {
             perimeterCoordinates.add(new Coordinate(0, i));
         }

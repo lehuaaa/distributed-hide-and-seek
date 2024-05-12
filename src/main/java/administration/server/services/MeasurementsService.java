@@ -1,6 +1,6 @@
-package administration.server.controllers;
+package administration.server.services;
 
-import administration.server.domain.Average;
+import administration.server.beans.Average;
 import player.domain.PlayerMeasurements;
 import administration.server.repositories.MeasurementsRepository;
 
@@ -8,7 +8,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 @Path("measurements")
-public class MeasurementsController {
+public class MeasurementsService {
 
     /* Add player's measurement */
     @POST

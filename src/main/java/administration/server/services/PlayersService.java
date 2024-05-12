@@ -1,20 +1,20 @@
-package administration.server.controllers;
+package administration.server.services;
 
 import administration.server.repositories.PlayersRepository;
-import administration.server.domain.Client;
-import administration.server.domain.MatchInfo;
+import administration.server.beans.Node;
+import administration.server.beans.MatchInfo;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 @Path("players")
-public class PlayersController {
+public class PlayersService {
 
     /* Add player into the match */
     @POST
     @Consumes({"application/json", "application/xml"})
     @Produces({"application/json", "application/xml"})
-    public Response addPlayer(Client player){
+    public Response addPlayer(Node player){
         MatchInfo matchInfo = PlayersRepository.getInstance().addPlayer(player);
         if(matchInfo != null){
             return Response.ok(matchInfo).build();

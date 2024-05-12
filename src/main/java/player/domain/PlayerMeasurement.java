@@ -1,4 +1,4 @@
-package administration.server.domain;
+package player.domain;
 
 public class PlayerMeasurement {
 

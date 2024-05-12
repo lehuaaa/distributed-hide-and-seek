@@ -1,6 +1,6 @@
 package util.remote;
 
-import administration.server.domain.Client;
+import administration.server.beans.Node;
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -23,7 +23,7 @@ public class PlayersRemote {
         return instance;
     }
 
-    public ClientResponse requestAddPlayer(String serverAddress, Client player) {
+    public ClientResponse requestAddPlayer(String serverAddress, Node player) {
         WebResource webResource = client.resource(serverAddress + "/players");
         String jsonPlayer = gson.toJson(player);
         try {

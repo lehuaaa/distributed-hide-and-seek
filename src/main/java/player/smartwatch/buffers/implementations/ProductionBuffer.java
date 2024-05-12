@@ -1,6 +1,6 @@
-package player.measurements.buffers.implementations;
+package player.smartwatch.buffers.implementations;
 
-import player.measurements.buffers.Buffer;
+import player.smartwatch.buffers.Buffer;
 import player.domain.Measurement;
 
 import java.util.ArrayList;

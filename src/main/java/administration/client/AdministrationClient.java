@@ -1,7 +1,7 @@
 package administration.client;
 
-import administration.server.domain.Average;
-import administration.server.domain.Client;
+import administration.server.beans.Average;
+import administration.server.beans.Node;
 import administration.server.repositories.PlayersRepository;
 import com.sun.jersey.api.client.ClientResponse;
 import org.eclipse.paho.client.mqttv3.*;
@@ -73,7 +73,7 @@ public class AdministrationClient {
                 case "3":
                     response = PlayersRemote.getInstance().requestGetPlayers(administrationServerAddress);
                     if (response != null) {
-                        List<Client> players = response.getEntity(PlayersRepository.class).getPlayers();
+                        List<Node> players = response.getEntity(PlayersRepository.class).getPlayers();
                         if(!players.isEmpty()) {
                             System.out.println("There are " + players.size() + " players in the match:");
                             for (int i = 0; i <  players.size(); i++) {
