@@ -5,11 +5,14 @@ import org.eclipse.paho.client.mqttv3.*;
 public class MqttHandler {
 
     private final String mqttBrokerAddress;
-    private MqttClient mqttClient;
+    private final MqttClient mqttClient;
 
     public MqttHandler(String mqttBrokerAddress) {
         this.mqttBrokerAddress = mqttBrokerAddress;
-        createMqttClient();
+        this.mqttClient = createMqttClient();
+        if (mqttClient != null) {
+            startListening();
+        }
     }
 
     private void startListening() {
@@ -35,17 +38,18 @@ public class MqttHandler {
         });
     }
 
-    private void createMqttClient() {
+    private MqttClient createMqttClient() {
         try {
-            mqttClient = new MqttClient(mqttBrokerAddress, MqttClient.generateClientId());
+            MqttClient mqttClient = new MqttClient(mqttBrokerAddress, MqttClient.generateClientId());
             MqttConnectOptions connectOptions = new MqttConnectOptions();
             connectOptions.setCleanSession(true);
             mqttClient.connect(connectOptions);
             mqttClient.subscribe("game/start");
             mqttClient.subscribe("game/messages");
-            startListening();
+            return mqttClient;
         } catch (MqttException e) {
             System.out.println("Unfortunately the player failed to connect to mqtt broker.");
+            return null;
         }
     }
 }

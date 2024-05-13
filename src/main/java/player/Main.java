@@ -52,6 +52,7 @@ public class Main {
                 System.out.println("The entered id is not valid, please try with another one.");
                 playerId = scanner.nextLine();
             }
+            node.setId(playerId);
             response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, node);
         }
 

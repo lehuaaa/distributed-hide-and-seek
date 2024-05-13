@@ -21,11 +21,11 @@ public class GrpcListener {
     public void start(int port)
     {
         try {
-            Server server = ServerBuilder.forPort(port).addService(new GameServiceImpl()).build();
-            server.start();
+            Server grpcServer = ServerBuilder.forPort(port).addService(new GameServiceImpl()).build();
+            grpcServer.start();
             Player.getInstance().informParticipants();
-            server.awaitTermination();
-        } catch (IOException | InterruptedException e) {
+            //grpcServer.awaitTermination();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
