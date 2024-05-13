@@ -1,0 +1,21 @@
+package com.example.grpc;
+
+message Coordinate {
+  required int32 x = 1;
+  required int32 y = 2;
+}
+
+message PresentationMessage {
+  required string id = 1;
+  required string address = 2;
+  required int32 port = 3;
+  required Coordinate coordinate = 4;
+}
+
+message CoordinateResponse {
+  required Coordinate coordinate = 1;
+}
+
+service GameService {
+  rpc storePLayer(PresentationMessage) returns (CoordinateResponse);
+}

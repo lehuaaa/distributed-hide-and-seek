@@ -2,21 +2,23 @@ package player.domain;
 
 import administration.server.beans.Node;
 import administration.server.beans.Coordinate;
-import administration.server.repositories.PlayersRepository;
+import com.example.grpc.Game;
+import com.example.grpc.GameServiceGrpc;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-public class Player extends Node {
+public class Player extends Participant {
+
+    private String serverAddress;
+
+    private List<Participant> participants;
 
     private static Player instance;
-    private String serverAddress;
-    private Coordinate coordinate;
-    private List<OtherPlayer> otherPlayers;
-
-    public Player() {
-        super();
-    }
 
     public static Player getInstance() {
         if(instance == null) {
@@ -25,35 +27,76 @@ public class Player extends Node {
         return instance;
     }
 
-    public void init(Node node, String serverAddress, Coordinate coordinate, List<Node> otherPlayers) {
+    public void init(Node node, String serverAddress, Coordinate coordinate, List<Node> participants) {
         this.id = node.getId();
         this.address = node.getAddress();
         this.port = node.getPort();
         this.serverAddress = serverAddress;
         this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
-        setOtherPlayerFromNodes(otherPlayers);
+        setParticipants(participants);
     }
 
-    public String getServerAddress() {
-        return serverAddress;
-    }
-
-    public Coordinate getCoordinate() {
-        return coordinate;
-    }
-
-    private void setOtherPlayerFromNodes(List<Node> otherNodes) {
-        if (otherNodes == null) {
-            this.otherPlayers = new ArrayList<>();
+    private void setParticipants(List<Node> participants) {
+        if (participants == null) {
+            this.participants = new ArrayList<>();
         } else {
-            this.otherPlayers = new ArrayList<>();
-            for (Node n : otherNodes) {
-                this.otherPlayers.add(new OtherPlayer(n));
+            this.participants = new ArrayList<>();
+            for (Node n : participants) {
+                this.participants.add(new Participant(n));
             }
         }
     }
 
-    public List<Node> getOtherPlayers() {
-        return new ArrayList<>(otherPlayers);
+    public synchronized void storeNewParticipant(String id, String address, int port, int x, int y) {
+        participants.add(new Participant(id, address, port, x, y));
+    }
+
+    public synchronized List<Node> getParticipants() {
+        return new ArrayList<>(participants);
+    }
+
+    public void contactOtherPLayers() {
+
+        for (int i = 0; i < participants.size(); i++) {
+
+            final int index = i;
+
+            ManagedChannel channel =
+                    ManagedChannelBuilder.forTarget(
+                            participants.get(index).getAddress() + ":" + participants.get(index).getPort()).usePlaintext().build();
+
+            GameServiceGrpc.GameServiceStub stub = GameServiceGrpc.newStub(channel);
+
+            Game.PresentationMessage presentationMessage = Game.PresentationMessage.newBuilder()
+                    .setId(id)
+                    .setAddress(address)
+                    .setPort(port)
+                    .setCoordinate(Game.Coordinate.newBuilder().setX(coordinate.getX()).setY(coordinate.getY()).build())
+                    .build();
+
+            stub.storePLayer(presentationMessage, new StreamObserver<Game.CoordinateResponse>() {
+
+                @Override
+                public void onNext(Game.CoordinateResponse coordinateResponse) {
+                    Game.Coordinate result = coordinateResponse.getCoordinate();
+                    participants.get(index).setCoordinate(new Coordinate(result.getX(), result.getY()));
+                }
+
+                public void onError(Throwable throwable) {
+                    System.out.println("Error: " + throwable.getMessage());
+                }
+
+                public void onCompleted() {
+                    channel.shutdownNow();
+                }
+            });
+
+            /* you need this. otherwise the method will terminate before that answers from the server are received */
+            try {
+                channel.awaitTermination(10, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

@@ -3,12 +3,19 @@ package player.domain;
 import administration.server.beans.Coordinate;
 import administration.server.beans.Node;
 
-public class OtherPlayer extends Node {
+public class Participant extends Node {
 
-    private Coordinate coordinate;
+    protected Coordinate coordinate;
 
-    public OtherPlayer(Node node) {
+    public Participant() { }
+
+    public Participant(Node node) {
         super(node.getId(), node.getAddress(), node.getPort());
+    }
+
+    public Participant(String id, String address, int port, int x, int y) {
+        super(id, address, port);
+        coordinate = new Coordinate(x, y);
     }
 
     public Coordinate getCoordinate() {
