@@ -5,9 +5,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Node {
 
-    private String id;
-    private String address;
-    private int port;
+    protected String id;
+    protected String address;
+    protected int port;
 
     public Node() {}
 

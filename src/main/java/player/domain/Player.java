@@ -2,21 +2,36 @@ package player.domain;
 
 import administration.server.beans.Node;
 import administration.server.beans.Coordinate;
+import administration.server.repositories.PlayersRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends Node {
 
-    private final String serverAddress;
-    private final Coordinate coordinate;
-    private List<Node> otherPlayers;
+    private static Player instance;
+    private String serverAddress;
+    private Coordinate coordinate;
+    private List<OtherPlayer> otherPlayers;
 
-    public Player(Node node, String serverAddress, Coordinate coordinate, List<Node> otherPlayers) {
-        super(node.getId(), node.getAddress(), node.getPort());
+    public Player() {
+        super();
+    }
+
+    public static Player getInstance() {
+        if(instance == null) {
+            instance = new Player();
+        }
+        return instance;
+    }
+
+    public void init(Node node, String serverAddress, Coordinate coordinate, List<Node> otherPlayers) {
+        this.id = node.getId();
+        this.address = node.getAddress();
+        this.port = node.getPort();
         this.serverAddress = serverAddress;
         this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
-        setOtherPlayers(otherPlayers);
+        setOtherPlayerFromNodes(otherPlayers);
     }
 
     public String getServerAddress() {
@@ -27,11 +42,14 @@ public class Player extends Node {
         return coordinate;
     }
 
-    public void setOtherPlayers(List<Node> otherPlayers) {
-        if (otherPlayers == null) {
+    private void setOtherPlayerFromNodes(List<Node> otherNodes) {
+        if (otherNodes == null) {
             this.otherPlayers = new ArrayList<>();
         } else {
-            this.otherPlayers = new ArrayList<>(otherPlayers);
+            this.otherPlayers = new ArrayList<>();
+            for (Node n : otherNodes) {
+                this.otherPlayers.add(new OtherPlayer(n));
+            }
         }
     }
 

@@ -3,6 +3,7 @@ package player;
 import administration.server.beans.Node;
 import administration.server.beans.MatchInfo;
 import com.sun.jersey.api.client.ClientResponse;
+import player.domain.OtherPlayer;
 import player.smartwatch.buffers.Buffer;
 import player.smartwatch.buffers.implementations.ProductionBuffer;
 import player.smartwatch.buffers.implementations.SendBuffer;
@@ -27,6 +28,7 @@ public class PlayerMain {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+
         /* Get player's id*/
         System.out.println("Enter your player Id:");
         String playerId = scanner.nextLine();
@@ -35,10 +37,12 @@ public class PlayerMain {
             playerId = scanner.nextLine();
         }
 
+
         /* Set player's listening port */
         int listeningPort = 8081 + new Random().nextInt(200);
 
-        /* Client registration */
+
+        /* Node registration */
         Node node = new Node(playerId, address, listeningPort);
         ClientResponse response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, node);
 
@@ -54,20 +58,24 @@ public class PlayerMain {
             response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, node);
         }
 
+
         /* Player initialization */
         MatchInfo info = response.getEntity(MatchInfo.class);
-        Player player = new Player(node, serverAddress, info.getCoordinate(), info.getOtherPlayers());
+        Player player = Player.getInstance();
+        player.init(node, serverAddress, info.getCoordinate(), info.getOtherPlayers());
 
-        System.out.println("You have registered successfully!");
-        System.out.println("Your position on the map is: " + player.getCoordinate().toString());
+        System.out.println("You joined the game, your position is " + player.getCoordinate().toString() );
 
-        /* Buffer used to store the HRvalues produced by the simulator */
+
+        /* Buffer used to store the HRvalues produced by the hrSimulator */
         Buffer productionBuffer = new ProductionBuffer(4);
 
-        /* Buffer used to store the measurements produced by the measurementsHandler */
+
+        /* Buffer used to store the measurements produced by the MeasurementsConsumer */
         SendBuffer sendBuffer = new SendBuffer();
 
-        /* Threads that produce, compute and send the list of measurements */
+
+        /* Threads that produce, consume and send the list of measurements */
         HRSimulator hrSimulator = new HRSimulator(productionBuffer);
         MeasurementsConsumer measurementsConsumer = new MeasurementsConsumer(productionBuffer, sendBuffer);
         MeasurementsSender measurementsSender = new MeasurementsSender(playerId, serverAddress, sendBuffer);
@@ -75,6 +83,7 @@ public class PlayerMain {
         hrSimulator.start();
         measurementsConsumer.start();
         measurementsSender.start();
+
 
         /* Initialize MqttClient */
         MqttHandler mqttHandler = new MqttHandler(mqttServerAddress);
