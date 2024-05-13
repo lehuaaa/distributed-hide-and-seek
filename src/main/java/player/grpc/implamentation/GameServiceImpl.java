@@ -12,7 +12,7 @@ public class GameServiceImpl extends GameServiceGrpc.GameServiceImplBase {
     public void storePLayer(Game.PresentationMessage presentationMessage, StreamObserver<Game.CoordinateResponse> responseObserver) {
         Player.getInstance().storeNewParticipant(presentationMessage.getId(), presentationMessage.getAddress(), presentationMessage.getPort(), presentationMessage.getCoordinate().getX(), presentationMessage.getCoordinate().getY());
 
-        System.out.println("A new Player with id " + presentationMessage.getId() + " joined the game at the coordinates " + new Coordinate(presentationMessage.getCoordinate().getX(), presentationMessage.getCoordinate().getY()));
+        System.out.println("A new Player with id " + presentationMessage.getId() + " joined the game in position " + new Coordinate(presentationMessage.getCoordinate().getX(), presentationMessage.getCoordinate().getY()));
         Coordinate coordinate = Player.getInstance().getCoordinate();
 
         Game.CoordinateResponse coordinateResponse = Game.CoordinateResponse.newBuilder()

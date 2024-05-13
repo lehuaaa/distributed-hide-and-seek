@@ -59,7 +59,8 @@ public class Main {
         MatchInfo info = response.getEntity(MatchInfo.class);
         Player player = Player.getInstance();
         player.init(node, serverAddress, info.getCoordinate(), info.getOtherPlayers());
-        System.out.println("You joined the game! your position on the map is " + player.getCoordinate().toString() + ".");
+        System.out.println("You joined the game at position " + info.getCoordinate());
+        System.out.println("There are currently " + info.getOtherPlayers().size() + " other players in the game.");
 
         /* Buffer used to store the HRvalues produced by the hrSimulator */
         Buffer productionBuffer = new ProductionBuffer(4);

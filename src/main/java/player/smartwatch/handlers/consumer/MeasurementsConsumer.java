@@ -19,7 +19,9 @@ public class MeasurementsConsumer extends Thread{
     @Override
     public void run() {
         while (true) {
-              sendBuffer.add(getAverage(productionBuffer.readAllAndClean()));
+            Double average = getAverage(productionBuffer.readAllAndClean());
+            System.out.println("Your current average heart rate is " + average + ".");
+            sendBuffer.add(average);
         }
     }
 

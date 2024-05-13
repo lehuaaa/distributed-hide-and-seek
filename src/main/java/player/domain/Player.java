@@ -55,13 +55,11 @@ public class Player extends Participant {
         return new ArrayList<>(participants);
     }
 
-    public void contactOtherPLayers() {
-
+    public void informParticipants() {
         for (int i = 0; i < participants.size(); i++) {
 
             final int index = i;
-
-            ManagedChannel channel =
+            final ManagedChannel channel =
                     ManagedChannelBuilder.forTarget(
                             participants.get(index).getAddress() + ":" + participants.get(index).getPort()).usePlaintext().build();
 

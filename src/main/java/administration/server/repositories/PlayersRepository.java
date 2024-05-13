@@ -58,7 +58,7 @@ public class PlayersRepository {
 
         List<Node> playersCopy = getPlayers();
         players.add(player);
-        System.out.println("The player with id " + player.getId() + " obtained the position: " + coordinate + ".");
+        System.out.println("The player with id " + player.getId() + " obtained the position: " + coordinate);
         return new MatchInfo(coordinate, playersCopy);
     }
 

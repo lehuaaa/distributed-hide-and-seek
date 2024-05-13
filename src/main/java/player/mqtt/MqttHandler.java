@@ -5,16 +5,11 @@ import org.eclipse.paho.client.mqttv3.*;
 public class MqttHandler {
 
     private final String mqttBrokerAddress;
-    private final MqttClient mqttClient;
+    private MqttClient mqttClient;
 
     public MqttHandler(String mqttBrokerAddress) {
         this.mqttBrokerAddress = mqttBrokerAddress;
-        this.mqttClient = createMqttClient();
-        if (mqttClient != null) {
-            startListening();
-        } else {
-            System.out.println("You can't receive messages from the game manager");
-        }
+        createMqttClient();
     }
 
     private void startListening() {
@@ -40,17 +35,17 @@ public class MqttHandler {
         });
     }
 
-    private MqttClient createMqttClient() {
+    private void createMqttClient() {
         try {
-            MqttClient mqttClient = new MqttClient(mqttBrokerAddress, MqttClient.generateClientId());
+            mqttClient = new MqttClient(mqttBrokerAddress, MqttClient.generateClientId());
             MqttConnectOptions connectOptions = new MqttConnectOptions();
             connectOptions.setCleanSession(true);
             mqttClient.connect(connectOptions);
-            mqttClient.subscribe(new String[]{"game/start", "game/messages"});
-            return mqttClient;
+            mqttClient.subscribe("game/start");
+            mqttClient.subscribe("game/messages");
+            startListening();
         } catch (MqttException e) {
-            System.out.println("Unfortunately the player failed to connect to mqtt broker :(");
-            return null;
+            System.out.println("Unfortunately the player failed to connect to mqtt broker.");
         }
     }
 }

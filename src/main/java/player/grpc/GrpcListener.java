@@ -23,8 +23,8 @@ public class GrpcListener {
         try {
             Server server = ServerBuilder.forPort(port).addService(new GameServiceImpl()).build();
             server.start();
+            Player.getInstance().informParticipants();
             server.awaitTermination();
-            Player.getInstance().contactOtherPLayers();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
