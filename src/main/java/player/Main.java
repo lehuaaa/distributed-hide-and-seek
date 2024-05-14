@@ -4,14 +4,14 @@ import administration.server.beans.Node;
 import administration.server.beans.MatchInfo;
 import com.sun.jersey.api.client.ClientResponse;
 import player.domain.Player;
-import player.grpc.GrpcListener;
+import player.grpc.GrpcServer;
 import player.smartwatch.buffers.Buffer;
 import player.smartwatch.buffers.implementations.ProductionBuffer;
 import player.smartwatch.buffers.implementations.SendBuffer;
 import player.smartwatch.handlers.consumer.MeasurementsConsumer;
 import player.smartwatch.handlers.producer.HRSimulator;
 import player.smartwatch.handlers.sender.MeasurementsSender;
-import player.mqtt.MqttHandler;
+import player.mqtt.MqttMessagesHandler;
 import util.checker.StringChecker;
 import util.remote.PlayersRemote;
 
@@ -61,15 +61,20 @@ public class Main {
         Player player = Player.getInstance();
         player.init(node, serverAddress, info.getCoordinate(), info.getOtherPlayers());
         System.out.println("You joined the game at position " + info.getCoordinate());
-        System.out.println("There are currently " + info.getOtherPlayers().size() + " other players in the game.");
 
-        /* Buffer used to store the HRvalues produced by the hrSimulator */
+        if (info.getOtherPlayers().isEmpty()) {
+            System.out.println("You are the only one in the game.");
+        } else if (info.getOtherPlayers().size() == 1) {
+            System.out.println("There is 1 other player in the game.");
+        } else {
+            System.out.println("There are " + info.getOtherPlayers().size() + " other players in the game.");
+        }
+
+        /* Buffers that store produced measurements and measurements to be sent to the server */
         Buffer productionBuffer = new ProductionBuffer(4);
-
-        /* Buffer used to store the measurements produced by the MeasurementsConsumer */
         SendBuffer sendBuffer = new SendBuffer();
 
-        /* Threads that produce, consume and send the list of measurements */
+        /* Start threads that produce, consume and send the list of measurements */
         HRSimulator hrSimulator = new HRSimulator(productionBuffer);
         MeasurementsConsumer measurementsConsumer = new MeasurementsConsumer(productionBuffer, sendBuffer);
         MeasurementsSender measurementsSender = new MeasurementsSender(playerId, serverAddress, sendBuffer);
@@ -78,9 +83,10 @@ public class Main {
         measurementsSender.start();
 
         /* Present itself to the otherPlayers */
-        GrpcListener.getInstance().start(player.getPort());
+        GrpcServer.getInstance().start(player.getPort());
 
-        /* Initialize MqttClient */
-        MqttHandler mqttHandler = new MqttHandler(mqttServerAddress);
+        /* Start mqttMessagesHandler */
+        MqttMessagesHandler mqttMessagesHandler = new MqttMessagesHandler(mqttServerAddress);
+        mqttMessagesHandler.start();
     }
 }

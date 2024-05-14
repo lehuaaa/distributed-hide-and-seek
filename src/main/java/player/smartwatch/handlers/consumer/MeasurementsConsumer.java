@@ -4,6 +4,7 @@ import player.smartwatch.buffers.Buffer;
 import player.smartwatch.buffers.implementations.SendBuffer;
 import player.domain.Measurement;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class MeasurementsConsumer extends Thread{
@@ -20,7 +21,6 @@ public class MeasurementsConsumer extends Thread{
     public void run() {
         while (true) {
             Double average = getAverage(productionBuffer.readAllAndClean());
-            System.out.println("Your current average heart rate is " + average + ".");
             sendBuffer.add(average);
         }
     }

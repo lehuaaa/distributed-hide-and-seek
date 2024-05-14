@@ -15,6 +15,7 @@ public class AdministrationServer {
             HttpServer administrationServer = HttpServerFactory.create("http://" + HOST + ":" + PORT + "/");
             administrationServer.start();
             System.out.println("Server is running on: http://" + HOST + ":" + PORT);
+            System.out.println("Press any key + ENTER, to stop the server...");
             System.in.read();
             administrationServer.stop(0);
             System.out.println("The server is shutting down.");
