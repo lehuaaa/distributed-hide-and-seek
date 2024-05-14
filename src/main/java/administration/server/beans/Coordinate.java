@@ -31,6 +31,18 @@ public class Coordinate {
         this.y = y;
     }
 
+    public double getDistanceFromBase() {
+        double minDistanceFromBaseTop =  Math.min(
+                    Math.sqrt((Math.pow(x - 4, 2) + Math.pow(y - 4, 2))),
+                    Math.sqrt((Math.pow(x - 4, 2) + Math.pow(y - 5, 2))));
+
+        double minDistanceFromBaseBottom =  Math.min(
+                Math.sqrt((Math.pow(x - 5, 2) + Math.pow(y - 4, 2))),
+                Math.sqrt((Math.pow(x - 5, 2) + Math.pow(y - 5, 2))));
+
+        return Math.min(minDistanceFromBaseTop, minDistanceFromBaseBottom);
+    }
+
     @Override
     public String toString() {
         return "(" + x + ", " + y + ").";
