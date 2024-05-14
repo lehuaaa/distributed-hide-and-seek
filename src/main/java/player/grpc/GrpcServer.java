@@ -2,8 +2,7 @@ package player.grpc;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import player.grpc.handlers.PresentationMessagesHandler;
-import player.grpc.services.GameServiceImplementation;
+import player.grpc.service.GameServiceImplementation;
 
 import java.io.IOException;
 
@@ -23,7 +22,6 @@ public class GrpcServer {
         try {
             Server grpcServer = ServerBuilder.forPort(port).addService(new GameServiceImplementation()).build();
             grpcServer.start();
-            PresentationMessagesHandler.getInstance().start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

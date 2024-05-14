@@ -5,13 +5,14 @@ import administration.server.beans.MatchInfo;
 import com.sun.jersey.api.client.ClientResponse;
 import player.domain.Player;
 import player.grpc.GrpcServer;
+import player.grpc.handlers.IntroductionHandler;
 import player.smartwatch.buffers.Buffer;
 import player.smartwatch.buffers.implementations.ProductionBuffer;
 import player.smartwatch.buffers.implementations.SendBuffer;
 import player.smartwatch.handlers.consumer.MeasurementsConsumer;
 import player.smartwatch.handlers.producer.HRSimulator;
 import player.smartwatch.handlers.sender.MeasurementsSender;
-import player.mqtt.MqttMessagesHandler;
+import player.mqtt.MqttHandler;
 import util.checker.StringChecker;
 import util.remote.PlayersRemote;
 
@@ -37,7 +38,7 @@ public class Main {
         }
 
         /* Set player's listening port */
-        int listeningPort = 8081 + new Random().nextInt(200);
+        int listeningPort = 8081 + new Random().nextInt(1000);
 
         /* Node registration */
         Node node = new Node(playerId, address, listeningPort);
@@ -64,10 +65,12 @@ public class Main {
 
         if (info.getOtherPlayers().isEmpty()) {
             System.out.println("You are the only one in the game.");
-        } else if (info.getOtherPlayers().size() == 1) {
-            System.out.println("There is 1 other player in the game.");
+            player.setNextNode(node);
         } else {
-            System.out.println("There are " + info.getOtherPlayers().size() + " other players in the game.");
+            System.out.println(info.getOtherPlayers().size() == 1
+                            ? "There is 1 other player in the game."
+                            : "There are " + info.getOtherPlayers().size() + " other players in the game.");
+            player.setNextNode(info.getOtherPlayers().get(0));
         }
 
         /* Buffers that store produced measurements and measurements to be sent to the server */
@@ -82,11 +85,12 @@ public class Main {
         measurementsConsumer.start();
         measurementsSender.start();
 
-        /* Present itself to the otherPlayers */
+        /* Start Grpc sever */
         GrpcServer.getInstance().start(player.getPort());
+        IntroductionHandler.getInstance().introduceNode();
 
         /* Start mqttMessagesHandler */
-        MqttMessagesHandler mqttMessagesHandler = new MqttMessagesHandler(mqttServerAddress);
-        mqttMessagesHandler.start();
+        MqttHandler mqttHandler = new MqttHandler(mqttServerAddress);
+        mqttHandler.start();
     }
 }

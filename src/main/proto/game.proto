@@ -5,11 +5,22 @@ message Coordinate {
   required int32 y = 2;
 }
 
-message PresentationMessage {
+message IntroductionMessage {
   required string id = 1;
   required string address = 2;
   required int32 port = 3;
   required Coordinate coordinate = 4;
+  required bool isNextNode = 5;
+}
+
+message ElectionMessage {
+  required string type = 1;
+  required string playerId = 2;
+  required double distanceFromBase = 3;
+}
+
+message AckMessage {
+  required string ack = 1;
 }
 
 message CoordinateResponse {
@@ -17,5 +28,6 @@ message CoordinateResponse {
 }
 
 service GameService {
-  rpc storePLayer(PresentationMessage) returns (CoordinateResponse);
+  rpc introduction(IntroductionMessage) returns (CoordinateResponse);
+  rpc election(stream ElectionMessage) returns (stream AckMessage);
 }

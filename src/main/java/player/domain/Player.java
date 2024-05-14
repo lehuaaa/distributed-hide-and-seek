@@ -8,11 +8,20 @@ import java.util.List;
 
 public class Player extends Participant {
 
+    private static Player instance;
+
     private String serverAddress;
 
     private List<Participant> participants;
 
-    private static Player instance;
+    private Node nextNode;
+
+    public boolean hasParticipatedToElection;
+
+    public boolean isSeeker;
+
+    public boolean isInGame;
+
 
     public static Player getInstance() {
         if(instance == null) {
@@ -34,8 +43,16 @@ public class Player extends Participant {
         return serverAddress;
     }
 
+    public synchronized Node getNextNode() {
+        return nextNode;
+    }
+
     public synchronized List<Participant> getParticipants() {
         return new ArrayList<>(participants);
+    }
+
+    public synchronized void setNextNode(Node nextNode) {
+        this.nextNode = new Node(nextNode.getId(), nextNode.getAddress(), nextNode.getPort());
     }
 
     private void setParticipants(List<Node> participants) {

@@ -13,20 +13,18 @@ import player.domain.Player;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class PresentationMessagesHandler {
+public class IntroductionHandler {
 
-    private static PresentationMessagesHandler instance;
+    private static IntroductionHandler instance;
 
-    private PresentationMessagesHandler() {}
-
-    public static PresentationMessagesHandler getInstance() {
+    public static IntroductionHandler getInstance() {
         if (instance == null) {
-            instance = new PresentationMessagesHandler();
+            instance = new IntroductionHandler();
         }
         return instance;
     }
 
-    public void start() {
+    public void introduceNode() {
 
         Player player = Player.getInstance();
         List<Participant> participants = player.getParticipants();
@@ -40,14 +38,15 @@ public class PresentationMessagesHandler {
 
             GameServiceGrpc.GameServiceStub stub = GameServiceGrpc.newStub(channel);
 
-            Game.PresentationMessage presentationMessage = Game.PresentationMessage.newBuilder()
+            Game.IntroductionMessage introductionMessage = Game.IntroductionMessage.newBuilder()
                     .setId(player.getId())
                     .setAddress(player.getAddress())
                     .setPort(player.getPort())
                     .setCoordinate(Game.Coordinate.newBuilder().setX(player.getCoordinate().getX()).setY(player.getCoordinate().getY()).build())
+                    .setIsNextNode(i == participants.size() - 1)
                     .build();
 
-            stub.storePLayer(presentationMessage, new StreamObserver<Game.CoordinateResponse>() {
+            stub.introduction(introductionMessage, new StreamObserver<Game.CoordinateResponse>() {
 
                 @Override
                 public void onNext(Game.CoordinateResponse coordinateResponse) {
@@ -55,21 +54,20 @@ public class PresentationMessagesHandler {
                     player.setParticipantCoordinate(index, new Coordinate(result.getX(), result.getY()));
                 }
 
+                @Override
                 public void onError(Throwable throwable) {
                     System.out.println("Error: " + throwable.getMessage());
                 }
 
+                @Override
                 public void onCompleted() {
                     channel.shutdownNow();
                 }
+
             });
 
             /* await response */
-            try {
-                channel.awaitTermination(10, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            try { channel.awaitTermination(10, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
         }
     }
 }
