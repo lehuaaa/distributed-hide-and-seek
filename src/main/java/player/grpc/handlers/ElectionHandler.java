@@ -1,21 +1,17 @@
 package player.grpc.handlers;
 
-import com.example.grpc.Game;
-import com.example.grpc.GameServiceGrpc;
+import com.example.grpc.Election;
+import com.example.grpc.ElectionServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import player.domain.Player;
 
+import java.util.concurrent.TimeUnit;
+
 public class ElectionHandler {
 
     private static ElectionHandler instance;
-
-    private StreamObserver<Game.ElectionMessage> messagesStream;
-
-    private ElectionHandler() {
-        initializeStream();
-    }
 
     public static ElectionHandler getInstance() {
         if (instance == null) {
@@ -24,14 +20,21 @@ public class ElectionHandler {
         return instance;
     }
 
-    private void initializeStream() {
-        ManagedChannel channel = ManagedChannelBuilder.forTarget(Player.getInstance().getNextNode().getAddress() + ":" + Player.getInstance().getNextNode().getPort()).usePlaintext().build();
-        GameServiceGrpc.GameServiceStub stub = GameServiceGrpc.newStub(channel);
+    public void forwardMessage(String type, String playerId, Double distanceFromBase) {
 
-        this.messagesStream = stub.election(new StreamObserver<Game.AckMessage>() {
+        ManagedChannel channel = ManagedChannelBuilder.forTarget(Player.getInstance().getNextNode().getAddress() + ":" + Player.getInstance().getNextNode().getPort()).usePlaintext().build();
+        ElectionServiceGrpc.ElectionServiceStub stub = ElectionServiceGrpc.newStub(channel);
+
+        Election.ElectionMessage electionMessage = Election.ElectionMessage.newBuilder()
+                                                                           .setType(type)
+                                                                           .setPlayerId(playerId)
+                                                                           .setDistanceFromBase(distanceFromBase)
+                                                                           .build();
+
+        stub.election(electionMessage, new StreamObserver<Election.ElectionAck>() {
 
             @Override
-            public void onNext(Game.AckMessage ackMessage) {
+            public void onNext(Election.ElectionAck electionAck) {
                 /* Implement code in case the receiver node crash */
             }
 
@@ -41,19 +44,14 @@ public class ElectionHandler {
             }
 
             @Override
-            public void onCompleted() {}
+            public void onCompleted() {
+                channel.shutdownNow();
+            }
 
         });
+
+        /* await response */
+        try { channel.awaitTermination(10, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
     }
 
-    public void sendMessage(String type, String playerId, Double distanceFromBase) {
-        messagesStream.onNext(Game.ElectionMessage.newBuilder()
-                .setType(type)
-                .setPlayerId(playerId)
-                .setDistanceFromBase(distanceFromBase)
-                .build());
-
-        if (type.equals("ELECTED"))
-            messagesStream.onCompleted();
-    }
 }

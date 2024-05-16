@@ -29,7 +29,7 @@ public class MqttHandler {
                         if (!Player.getInstance().isInGame) {
                             Player.getInstance().isInGame = true;
                             System.out.println("The election phase has begun!");
-                            ElectionHandler.getInstance().sendMessage("ELECTION", Player.getInstance().getId(), Player.getInstance().getCoordinate().getDistanceFromBase());
+                            ElectionHandler.getInstance().forwardMessage("ELECTION", Player.getInstance().getId(), Player.getInstance().getCoordinate().getDistanceFromBase());
                         }
                     } else {
                         System.out.println("Game manager: " + message.toString());

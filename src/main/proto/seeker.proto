@@ -1,0 +1,10 @@
+syntax = "proto3";
+package com.example.grpc;
+
+message AckSeeker {
+  string text = 1;
+}
+
+service SeekerService {
+  rpc catchHider(AckSeeker) returns (AckSeeker);
+}

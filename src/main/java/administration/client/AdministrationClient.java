@@ -34,7 +34,7 @@ public class AdministrationClient {
             System.out.println();
             System.out.println("Select an option:");
             System.out.println("1 - Start the watchOut match");
-            System.out.println("2 - Send a message to all the player in the match");
+            System.out.println("2 - Send a message.proto to all the player in the match");
             System.out.println("3 - Show all the player currently in the game");
             System.out.println("4 - Get the average of the last N heart rate values by a given player");
             System.out.println("5 - Get the average of the heart rate values that occurred between timestamp t1 and timestamp t2");
@@ -58,10 +58,10 @@ public class AdministrationClient {
                     break;
 
 
-                /* Send a message to all the player in the match */
+                /* Send a message.proto to all the player in the match */
                 case "2":
                     if (mqttClient != null) {
-                        System.out.println("Enter a message:");
+                        System.out.println("Enter a message.proto:");
                         sendMqttMessage("game/messages", scanner.nextLine(), 1, false, "Message successfully sent!");
                     } else {
                         System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Please restart the administration console.");

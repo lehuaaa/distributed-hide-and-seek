@@ -5,7 +5,7 @@ import administration.server.beans.MatchInfo;
 import com.sun.jersey.api.client.ClientResponse;
 import player.domain.Player;
 import player.grpc.GrpcServer;
-import player.grpc.handlers.IntroductionHandler;
+import player.grpc.handlers.InformationHandler;
 import player.smartwatch.buffers.Buffer;
 import player.smartwatch.buffers.implementations.ProductionBuffer;
 import player.smartwatch.buffers.implementations.SendBuffer;
@@ -87,7 +87,7 @@ public class Main {
 
         /* Start Grpc sever */
         GrpcServer.getInstance().start(player.getPort());
-        IntroductionHandler.getInstance().introduceNode();
+        InformationHandler.getInstance().presentPlayerToOthers();
 
         /* Start mqttMessagesHandler */
         MqttHandler mqttHandler = new MqttHandler(mqttServerAddress);

@@ -1,0 +1,16 @@
+syntax = "proto3";
+package com.example.grpc;
+
+message ElectionMessage {
+  string type = 1;
+  string playerId = 2;
+  double distanceFromBase = 3;
+}
+
+message ElectionAck {
+  string text = 1;
+}
+
+service ElectionService {
+  rpc election(ElectionMessage) returns (ElectionAck);
+}

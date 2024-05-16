@@ -22,6 +22,8 @@ public class Player extends Participant {
 
     public boolean isInGame;
 
+    private String seekerId;
+
 
     public static Player getInstance() {
         if(instance == null) {
@@ -51,8 +53,16 @@ public class Player extends Participant {
         return new ArrayList<>(participants);
     }
 
+    public String getSeekerId() {
+        return seekerId;
+    }
+
     public synchronized void setNextNode(Node nextNode) {
         this.nextNode = new Node(nextNode.getId(), nextNode.getAddress(), nextNode.getPort());
+    }
+
+    public void setSeekerId(String seekerId) {
+        this.seekerId = seekerId;
     }
 
     private void setParticipants(List<Node> participants) {
@@ -66,11 +76,24 @@ public class Player extends Participant {
         }
     }
 
+    public synchronized int getParticipantsCount() {
+        return participants.size();
+    }
+
     public synchronized void storeNewParticipant(String id, String address, int port, int x, int y) {
         participants.add(new Participant(id, address, port, x, y));
     }
 
     public synchronized void setParticipantCoordinate(int index, Coordinate coordinate) {
         participants.get(index).setCoordinate(coordinate);
+    }
+
+    public synchronized Node getParticipantCommunicationInfo(String participantId) {
+        for (Participant p : participants) {
+            if (p.getId().equals(participantId)) {
+                return p;
+            }
+        }
+        return null;
     }
 }
