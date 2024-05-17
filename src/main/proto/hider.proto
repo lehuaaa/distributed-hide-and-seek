@@ -1,16 +1,14 @@
 syntax = "proto3";
 package com.example.grpc;
 
+import "information.proto";
+
 message BaseRequest {
   string playerId = 1;
   int64 timestamp = 2;
 }
 
-message AckHider {
-  string text = 1;
-}
-
 service HiderService {
-  rpc requestBaseAccess(BaseRequest) returns (AckHider);
-  rpc sendBackAck(AckHider) returns (AckHider);
+  rpc requestBaseAccess(BaseRequest) returns (Ack);
+  rpc sendBackAck(Ack) returns (Ack);
 }

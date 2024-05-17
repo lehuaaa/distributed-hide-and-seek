@@ -6,7 +6,6 @@ message PlayerInfo {
   string address = 2;
   int32 port = 3;
   Coordinate coordinate = 4;
-  bool isNextNode = 5;
 }
 
 message Coordinate {
@@ -25,6 +24,6 @@ message PlayerEvent {
 
 /* Service that handle presentation, rescue and elimination of players */
 service InformationService {
-    rpc playerPresentation(PlayerInfo) returns (Coordinate);
+    rpc playerPresentation(PlayerInfo) returns (Ack);
     rpc playerRescueOrElimination(PlayerEvent) returns (Ack);
 }

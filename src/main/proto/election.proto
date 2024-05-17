@@ -1,16 +1,18 @@
 syntax = "proto3";
 package com.example.grpc;
 
+import  "information.proto";
+
 message ElectionMessage {
-  string type = 1;
-  string playerId = 2;
-  double distanceFromBase = 3;
+  string playerId = 1;
+  Coordinate playerCoordinate = 2;
 }
 
-message ElectionAck {
-  string text = 1;
+message ElectedMessage {
+  string playerId = 1;
 }
 
 service ElectionService {
-  rpc election(ElectionMessage) returns (ElectionAck);
+  rpc election(ElectionMessage) returns (Ack);
+  rpc elected(ElectedMessage) returns (Ack);
 }
