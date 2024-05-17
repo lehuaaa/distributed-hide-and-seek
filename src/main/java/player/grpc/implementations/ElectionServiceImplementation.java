@@ -1,64 +1,48 @@
 package player.grpc.implementations;
 
+import administration.server.beans.Coordinate;
 import com.example.grpc.Election;
 import com.example.grpc.ElectionServiceGrpc;
+import com.example.grpc.Information;
 import io.grpc.stub.StreamObserver;
 import player.domain.Player;
-import player.grpc.handlers.ElectionHandler;
+import player.domain.enums.Role;
+import player.domain.enums.State;
 import player.grpc.handlers.HiderHandler;
-import player.grpc.handlers.SeekerHandler;
 
 public class ElectionServiceImplementation extends ElectionServiceGrpc.ElectionServiceImplBase {
 
     @Override
-    public void election(Election.ElectionMessage electionMessage, StreamObserver<Election.ElectionAck> responseObserver) {
+    public void election(Election.ElectionMessage electionMessage, StreamObserver<Information.Ack> responseObserver) {
 
-        String playerId = Player.getInstance().getId();
         String messagePlayerId = electionMessage.getPlayerId();
+        Coordinate messagePlayerCoordinate = new Coordinate(electionMessage.getPlayerCoordinate().getX(),
+                                                            electionMessage.getPlayerCoordinate().getY());
+
+        Player.getInstance().setParticipantCoordinate(messagePlayerId, messagePlayerCoordinate);
+
         double playerDistanceFromBase = Player.getInstance().getCoordinate().getDistanceFromBase();
-        double messageDistanceFromBase = electionMessage.getDistanceFromBase();
+        double messageDistanceFromBase = messagePlayerCoordinate.getDistanceFromBase();
+        Information.Ack response;
 
-        /* ELECTION message.proto case */
-        if (electionMessage.getType().equals("ELECTION")) {
-
-            /* Player receives ELECTION with his own ID */
-            if (Player.getInstance().getId().equals(messagePlayerId)) {
-
-                /* Player send ELECTED message.proto */
-                if (!Player.getInstance().isSeeker) {
-                    Player.getInstance().isSeeker = true;
-                    ElectionHandler.getInstance().forwardMessage("ELECTED", playerId, playerDistanceFromBase);
-                }
-
-                /* Player replaces message.proto parameters with his own ID and his distance from the base */
-            } else if ((playerDistanceFromBase < messageDistanceFromBase || (playerDistanceFromBase == messageDistanceFromBase && playerId.compareTo(messagePlayerId) > 0)) && !Player.getInstance().hasParticipatedToElection) {
-                ElectionHandler.getInstance().forwardMessage("ELECTION", playerId, playerDistanceFromBase);
-                Player.getInstance().hasParticipatedToElection = true;
-
-                /* Player forwards message.proto without modifying the parameters */
-            } else if (messageDistanceFromBase < playerDistanceFromBase || (playerDistanceFromBase == messageDistanceFromBase && messagePlayerId.compareTo(playerId) > 0)) {
-                ElectionHandler.getInstance().forwardMessage("ELECTION", messagePlayerId, messageDistanceFromBase);
-                Player.getInstance().hasParticipatedToElection = true;
-            }
-
-            /* ELECTED message.proto case */
+        if (messageDistanceFromBase > playerDistanceFromBase ||
+                (messageDistanceFromBase == playerDistanceFromBase && Player.getInstance().getId().compareTo(messagePlayerId) > 0)) {
+            response = Information.Ack.newBuilder().setText("NO").build();
         } else {
-
-            /* Player receives his ELECTED message.proto */
-            if (Player.getInstance().getId().equals(messagePlayerId)) {
-                System.out.println("You are the seeker");
-                SeekerHandler.getInstance().startHunting();
-
-            } else {
-                Player.getInstance().hasParticipatedToElection = false;
-                System.out.println("The seeker is the player " + messagePlayerId);
-                Player.getInstance().setSeekerId(messagePlayerId);
-                ElectionHandler.getInstance().forwardMessage("ELECTED", messagePlayerId, messageDistanceFromBase);
-                HiderHandler.getInstance().requestAccessBase();
-            }
+            response = Information.Ack.newBuilder().setText("YES").build();
         }
 
-        responseObserver.onNext(Election.ElectionAck.newBuilder().setText("OK").build());
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void elected(Election.ElectedMessage electedMessage, StreamObserver<Information.Ack> responseObserver) {
+        System.out.println("The seeker is the player " + electedMessage.getPlayerId());
+        Player.getInstance().setState(State.IN_GAME);
+        Player.getInstance().setRole(Role.HIDER);
+        HiderHandler.getInstance().requestBaseAccess();
+        responseObserver.onNext(Information.Ack.newBuilder().setText("OK").build());
         responseObserver.onCompleted();
     }
 }

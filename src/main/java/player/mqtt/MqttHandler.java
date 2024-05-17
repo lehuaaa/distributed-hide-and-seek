@@ -2,6 +2,7 @@ package player.mqtt;
 
 import org.eclipse.paho.client.mqttv3.*;
 import player.domain.Player;
+import player.domain.enums.State;
 import player.grpc.handlers.ElectionHandler;
 
 public class MqttHandler {
@@ -26,11 +27,9 @@ public class MqttHandler {
                 @Override
                 public void messageArrived(String topic, MqttMessage message) {
                     if (topic.equals("game/start")) {
-                        if (!Player.getInstance().isInGame) {
-                            Player.getInstance().isInGame = true;
-                            System.out.println("The election phase has begun!");
-                            ElectionHandler.getInstance().forwardMessage("ELECTION", Player.getInstance().getId(), Player.getInstance().getCoordinate().getDistanceFromBase());
-                        }
+                        System.out.println("The election phase has begun!");
+                        Player.getInstance().setState(State.ELECTION);
+                        ElectionHandler.getInstance().startElection();
                     } else {
                         System.out.println("Game manager: " + message.toString());
                     }

@@ -1,6 +1,6 @@
 package player.grpc.handlers;
 
-import com.example.grpc.Seeker;
+import com.example.grpc.Information;
 import com.example.grpc.SeekerServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -48,7 +48,6 @@ public class SeekerHandler {
         }
     }
 
-
     private Participant getNearestHider() {
         double minDistance = Double.MAX_VALUE;
         Participant hider = new Participant();
@@ -61,13 +60,16 @@ public class SeekerHandler {
             }
         }
 
-        /* The seeker is moving to the nearest hider */
-        System.out.println("Your Waiting " + Math.round(minDistance) * 1000L + " to reach player " + hider.getId() );
+
+        System.out.println("Your Waiting " + Math.round(minDistance) + " to reach player " + hider.getId() );
+
+        /* The seeker is moving to the nearest hider
         try {
             Thread.sleep(Math.round(minDistance) * 1000L);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        */
 
         Player.getInstance().setCoordinate(hider.getCoordinate());
         return removeHider(hider.getId());
@@ -78,18 +80,18 @@ public class SeekerHandler {
         ManagedChannel channel = ManagedChannelBuilder.forTarget(hider.getAddress() + ":" + hider.getPort()).usePlaintext().build();
         SeekerServiceGrpc.SeekerServiceStub stub = SeekerServiceGrpc.newStub(channel);
 
-        Seeker.AckSeeker ackSeeker = Seeker.AckSeeker.newBuilder()
+        Information.Ack ackSeeker = Information.Ack.newBuilder()
                 .setText("CATCH")
                 .build();
 
-        stub.catchHider(ackSeeker, new StreamObserver<Seeker.AckSeeker>() {
+        stub.catchHider(ackSeeker, new StreamObserver<Information.Ack>() {
 
             @Override
-            public void onNext(Seeker.AckSeeker ackSeeker) {
+            public void onNext(Information.Ack ack) {
                 if (ackSeeker.getText().equals("CATCH")) {
                     System.out.println("You catch the player : " + hider.getId());
                 } else {
-                    System.out.println("PLayer " + hider.getId() + " was safe ");
+                    System.out.println("Player " + hider.getId() + " was safe ");
                 }
             }
 

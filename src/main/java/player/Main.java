@@ -65,12 +65,10 @@ public class Main {
 
         if (info.getOtherPlayers().isEmpty()) {
             System.out.println("You are the only one in the game.");
-            player.setNextNode(node);
         } else {
             System.out.println(info.getOtherPlayers().size() == 1
                             ? "There is 1 other player in the game."
                             : "There are " + info.getOtherPlayers().size() + " other players in the game.");
-            player.setNextNode(info.getOtherPlayers().get(0));
         }
 
         /* Buffers that store produced measurements and measurements to be sent to the server */
