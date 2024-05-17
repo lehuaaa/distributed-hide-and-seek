@@ -51,7 +51,7 @@ public class AdministrationClient {
                 /* Start the watchOut match */
                 case "1":
                     if (mqttClient != null) {
-                        sendMqttMessage("game/start", "start", 2, true, "Match is starting, the players are now identifying the seeker!");
+                        sendMqttMessage("game/start", "start", 2, false, "Match is starting, the players are now identifying the seeker!");
                     } else {
                         System.out.println("You can't use this option because the connection to the Mqtt Broker failed. Please restart the administration console.");
                     }
