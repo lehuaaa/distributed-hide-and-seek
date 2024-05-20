@@ -5,7 +5,7 @@ import administration.server.beans.Node;
 
 public class Participant extends Node {
 
-    protected Coordinate coordinate;
+    private Coordinate coordinate;
 
     public Participant() { }
 
@@ -18,11 +18,11 @@ public class Participant extends Node {
         coordinate = new Coordinate(x, y);
     }
 
-    public Coordinate getCoordinate() {
+    public synchronized Coordinate getCoordinate() {
         return new Coordinate(coordinate.getX(), coordinate.getY());
     }
 
-    public void setCoordinate(Coordinate coordinate) {
+    public synchronized void setCoordinate(Coordinate coordinate) {
         this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
     }
 }

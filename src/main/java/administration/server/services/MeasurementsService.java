@@ -32,7 +32,7 @@ public class MeasurementsService {
     }
 
     /* Get the average of the measurements occurred between timestamp t1 and timestamp t2 */
-    @Path("interval-average/{t1}/{t2}")
+    @Path("interval-average/{t1}-{t2}")
     @GET
     @Produces({"application/json", "application/xml"})
     public Response getAverageOfTheMeasurementsBetweenT1AndT2(@PathParam("t1") long t1, @PathParam("t2") long t2){

@@ -1,0 +1,28 @@
+syntax = "proto3";
+package com.example.grpc;
+
+message PlayerInfo {
+  string id = 1;
+  string address = 2;
+  int32 port = 3;
+  Coordinate coordinate = 4;
+}
+
+message Coordinate {
+  int32 x = 1;
+  int32 y = 2;
+}
+
+message SavingEvent {
+  string playerId = 1;
+  double time = 2;
+}
+
+message Ack {
+  string text = 1;
+}
+
+service InformationService {
+    rpc playerPresentation(PlayerInfo) returns (Ack);
+    rpc playerSaving(SavingEvent) returns (Ack);
+}

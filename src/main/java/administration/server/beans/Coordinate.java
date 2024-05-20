@@ -32,15 +32,17 @@ public class Coordinate {
     }
 
     public double getDistanceFromBase() {
-        double minDistanceFromBaseTop =  Math.min(
-                    Math.sqrt((Math.pow(x - 4, 2) + Math.pow(y - 4, 2))),
-                    Math.sqrt((Math.pow(x - 4, 2) + Math.pow(y - 5, 2))));
+        double minimumDistanceFromBaseTop = Math.min(getDistanceFromSecondPoint(new Coordinate(4, 4)),
+                                                     getDistanceFromSecondPoint(new Coordinate(4, 5)));
 
-        double minDistanceFromBaseBottom =  Math.min(
-                Math.sqrt((Math.pow(x - 5, 2) + Math.pow(y - 4, 2))),
-                Math.sqrt((Math.pow(x - 5, 2) + Math.pow(y - 5, 2))));
+        double minimumDistanceFromBaseBottom = Math.min(getDistanceFromSecondPoint(new Coordinate(5, 4)),
+                                                        getDistanceFromSecondPoint(new Coordinate(5, 5)));
 
-        return Math.min(minDistanceFromBaseTop, minDistanceFromBaseBottom);
+        return Math.min(minimumDistanceFromBaseTop, minimumDistanceFromBaseBottom);
+    }
+
+    public double getDistanceFromSecondPoint(Coordinate coordinate) {
+        return Math.sqrt((Math.pow(x - coordinate.x, 2) + Math.pow(y - coordinate.y, 2)));
     }
 
     @Override

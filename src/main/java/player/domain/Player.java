@@ -2,28 +2,27 @@ package player.domain;
 
 import administration.server.beans.Node;
 import administration.server.beans.Coordinate;
+import player.domain.enums.Role;
+import player.domain.enums.GameState;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Player extends Participant {
 
-    private static Player instance;
+    private final Map<String, Participant> participants = new HashMap<>();
 
     private String serverAddress;
 
-    private List<Participant> participants;
+    private GameState gameState = GameState.INIT;
 
-    private Node nextNode;
+    private Role role = Role.HIDER;
 
-    public boolean hasParticipatedToElection;
+    private static Player instance;
 
-    public boolean isSeeker;
-
-    public boolean isInGame;
-
-
-    public static Player getInstance() {
+    public synchronized static Player getInstance() {
         if(instance == null) {
             instance = new Player();
         }
@@ -35,42 +34,46 @@ public class Player extends Participant {
         this.address = node.getAddress();
         this.port = node.getPort();
         this.serverAddress = serverAddress;
-        this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
+        this.role = Role.HIDER;
+        setCoordinate(coordinate);
         setParticipants(participants);
     }
 
-    public String getServerAddress() {
-        return serverAddress;
-    }
+    public GameState getState() { return gameState; }
 
-    public synchronized Node getNextNode() {
-        return nextNode;
-    }
+    public Role getRole() { return role; }
+
+    public String getServerAddress() { return serverAddress; }
 
     public synchronized List<Participant> getParticipants() {
-        return new ArrayList<>(participants);
+        return new ArrayList<>(participants.values());
     }
 
-    public synchronized void setNextNode(Node nextNode) {
-        this.nextNode = new Node(nextNode.getId(), nextNode.getAddress(), nextNode.getPort());
+    public synchronized int getParticipantsCount() {
+        return participants.size();
     }
 
-    private void setParticipants(List<Node> participants) {
-        if (participants == null) {
-            this.participants = new ArrayList<>();
-        } else {
-            this.participants = new ArrayList<>();
+    public synchronized void setState(GameState gameState) { this.gameState = gameState; }
+
+    public synchronized void setRole(Role role) { this.role = role; }
+
+    private synchronized void setParticipants(List<Node> participants) {
+        if (participants != null) {
             for (Node n : participants) {
-                this.participants.add(new Participant(n));
+                this.participants.put(n.getId(), new Participant(n));
             }
         }
     }
 
-    public synchronized void storeNewParticipant(String id, String address, int port, int x, int y) {
-        participants.add(new Participant(id, address, port, x, y));
+    public synchronized void storeNewParticipant(Participant participant) {
+        participants.put(participant.getId(), participant);
     }
 
-    public synchronized void setParticipantCoordinate(int index, Coordinate coordinate) {
-        participants.get(index).setCoordinate(coordinate);
+    public synchronized void setParticipantCoordinate(String participantId, Coordinate coordinate) {
+        participants.get(participantId).setCoordinate(coordinate);
+    }
+
+    public synchronized Node getParticipant(String participantId) {
+        return participants.get(participantId);
     }
 }
