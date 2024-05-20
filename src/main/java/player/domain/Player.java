@@ -3,7 +3,7 @@ package player.domain;
 import administration.server.beans.Node;
 import administration.server.beans.Coordinate;
 import player.domain.enums.Role;
-import player.domain.enums.State;
+import player.domain.enums.GameState;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,13 +16,13 @@ public class Player extends Participant {
 
     private String serverAddress;
 
-    private State state;
+    private GameState gameState = GameState.INIT;
 
-    private Role role;
+    private Role role = Role.HIDER;
 
     private static Player instance;
 
-    public static Player getInstance() {
+    public synchronized static Player getInstance() {
         if(instance == null) {
             instance = new Player();
         }
@@ -34,13 +34,16 @@ public class Player extends Participant {
         this.address = node.getAddress();
         this.port = node.getPort();
         this.serverAddress = serverAddress;
-        this.coordinate = coordinate;
+        this.role = Role.HIDER;
+        setCoordinate(coordinate);
         setParticipants(participants);
     }
 
-    public State getState() { return state; }
+    public GameState getState() { return gameState; }
 
     public Role getRole() { return role; }
+
+    public String getServerAddress() { return serverAddress; }
 
     public synchronized List<Participant> getParticipants() {
         return new ArrayList<>(participants.values());
@@ -50,9 +53,9 @@ public class Player extends Participant {
         return participants.size();
     }
 
-    public void setState(State state) { this.state = state; }
+    public synchronized void setState(GameState gameState) { this.gameState = gameState; }
 
-    public void setRole(Role role) { this.role = role; }
+    public synchronized void setRole(Role role) { this.role = role; }
 
     private synchronized void setParticipants(List<Node> participants) {
         if (participants != null) {

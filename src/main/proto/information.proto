@@ -13,17 +13,16 @@ message Coordinate {
   int32 y = 2;
 }
 
+message SavingEvent {
+  string playerId = 1;
+  double time = 2;
+}
+
 message Ack {
   string text = 1;
 }
 
-message PlayerEvent {
-  string playerId = 1;
-  string event = 2;
-}
-
-/* Service that handle presentation, rescue and elimination of players */
 service InformationService {
     rpc playerPresentation(PlayerInfo) returns (Ack);
-    rpc playerRescueOrElimination(PlayerEvent) returns (Ack);
+    rpc playerSaving(SavingEvent) returns (Ack);
 }

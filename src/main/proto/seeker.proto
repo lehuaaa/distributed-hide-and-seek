@@ -1,7 +1,0 @@
-syntax = "proto3";
-package com.example.grpc;
-import "information.proto";
-
-service SeekerService {
-  rpc catchHider(Ack) returns (Ack);
-}
