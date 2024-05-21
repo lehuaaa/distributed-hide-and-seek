@@ -5,9 +5,9 @@ import administration.server.beans.Node;
 import administration.server.repositories.PlayersRepository;
 import com.sun.jersey.api.client.ClientResponse;
 import org.eclipse.paho.client.mqttv3.*;
-import util.factories.MqttFactory;
-import util.remotes.MeasurementsRemote;
-import util.remotes.PlayersRemote;
+import utils.factories.MqttFactory;
+import utils.remotes.MeasurementsRemote;
+import utils.remotes.PlayersRemote;
 
 import javax.ws.rs.core.Response;
 import java.util.InputMismatchException;

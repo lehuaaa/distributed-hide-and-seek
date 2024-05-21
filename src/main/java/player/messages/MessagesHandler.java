@@ -1,10 +1,10 @@
 package player.messages;
 
 import org.eclipse.paho.client.mqttv3.*;
-import player.domain.Player;
-import player.domain.enums.GameState;
+import player.game.domain.singletons.Player;
+import player.game.domain.enums.GameState;
 import player.game.handlers.ElectionHandler;
-import util.factories.MqttFactory;
+import utils.factories.MqttFactory;
 
 public class MessagesHandler extends Thread {
 

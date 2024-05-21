@@ -1,8 +1,8 @@
-package player.measurements.handlers.consumer;
+package player.measurements.handlers;
 
 import player.measurements.buffers.Buffer;
 import player.measurements.buffers.implementations.SendBuffer;
-import player.domain.Measurement;
+import player.measurements.domain.Measurement;
 
 import java.util.List;
 

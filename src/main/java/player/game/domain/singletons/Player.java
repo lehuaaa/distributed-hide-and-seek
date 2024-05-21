@@ -1,9 +1,9 @@
-package player.domain;
+package player.game.domain.singletons;
 
 import administration.server.beans.Node;
 import administration.server.beans.Coordinate;
-import player.domain.enums.Role;
-import player.domain.enums.GameState;
+import player.game.domain.enums.Role;
+import player.game.domain.enums.GameState;
 
 import java.util.ArrayList;
 import java.util.HashMap;

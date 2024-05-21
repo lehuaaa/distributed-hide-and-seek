@@ -5,8 +5,8 @@ import com.example.grpc.InformationServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import player.domain.Participant;
-import player.domain.Player;
+import player.game.domain.singletons.Participant;
+import player.game.domain.singletons.Player;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

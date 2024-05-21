@@ -1,4 +1,4 @@
-package player.domain.enums;
+package player.game.domain.enums;
 
 public enum Role {
     SEEKER,

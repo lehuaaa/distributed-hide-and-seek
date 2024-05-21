@@ -1,7 +1,7 @@
-package player.measurements.handlers.producer;
+package player.measurements.handlers;
 
 import player.measurements.buffers.Buffer;
-import player.domain.Measurement;
+import player.measurements.domain.Measurement;
 
 import java.util.Random;
 

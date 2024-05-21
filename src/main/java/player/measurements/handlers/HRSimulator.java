@@ -1,4 +1,4 @@
-package player.measurements.handlers.producer;
+package player.measurements.handlers;
 
 import player.measurements.buffers.Buffer;
 

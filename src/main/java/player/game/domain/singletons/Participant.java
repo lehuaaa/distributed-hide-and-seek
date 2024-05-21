@@ -1,4 +1,4 @@
-package player.domain;
+package player.game.domain.singletons;
 
 import administration.server.beans.Coordinate;
 import administration.server.beans.Node;
