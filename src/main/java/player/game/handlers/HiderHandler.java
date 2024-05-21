@@ -33,7 +33,6 @@ public class HiderHandler extends Thread {
     private HiderHandler() {
         playerIds = new LinkedList<>();
         confirmation = new HashSet<>();
-        generateTimestampBaseRequest();
     }
 
     public synchronized static HiderHandler getInstance() {
@@ -67,6 +66,8 @@ public class HiderHandler extends Thread {
     }
 
     public void requestBaseAccess() {
+        generateTimestampBaseRequest();
+        System.out.println("Timestamp base request: " + timestampBaseRequest);
         for (Participant p: Player.getInstance().getParticipants())
             sendBaseRequest(p);
     }
@@ -83,7 +84,7 @@ public class HiderHandler extends Thread {
                 if (ackConfirmation.getText().equals("YES") ) {
                     addConfirmationCount(participant.getId());
                     timePassed = Math.max(timePassed, ackConfirmation.getTimePassed());
-                    /* System.out.println("Confirmation access from " + participant.getId() + ", confirmation count: " + confirmationCount + " / " + Player.getInstance().getParticipantsCount()); */
+                    System.out.println("Confirmation access from " + participant.getId() + ", confirmation count: " + getConfirmationCount() + " / " + Player.getInstance().getParticipantsCount());
                 }
 
                 if (getConfirmationCount() == Player.getInstance().getParticipantsCount()) {
@@ -104,13 +105,12 @@ public class HiderHandler extends Thread {
     }
 
     public void moveToBase() {
+
         double timeWaitedToGetBaseAccess = timePassed;
-        System.out.println("You obtain the access to the base after " + timeWaitedToGetBaseAccess + " seconds");
         timePassed += Player.getInstance().getCoordinate().getDistanceFromBase() + 10;
+        System.out.println("You obtain the access to the base after " + timeWaitedToGetBaseAccess + " seconds. You will be finished after " + timePassed + " seconds");
 
         Player.getInstance().setState(GameState.FINISHED);
-
-        System.out.println("You can be considered safe after " + timePassed + " seconds");
 
         InformationHandler.getInstance().informPlayersOfSaving(timeWaitedToGetBaseAccess);
         sendBackConfirmationsToStoredHiders();
@@ -118,10 +118,11 @@ public class HiderHandler extends Thread {
 
     public void sendBackConfirmationsToStoredHiders() {
         while (!playerIds.isEmpty()) {
-            sendBackConfirmation(Player.getInstance().getParticipant(playerIds.poll()));
 
             /* Slow down confirmation message by 10 seconds
             try { Thread.sleep(10000); } catch (InterruptedException e) { throw new RuntimeException(e); } */
+
+            sendBackConfirmation(Player.getInstance().getParticipant(playerIds.poll()));
         }
     }
 
