@@ -4,14 +4,15 @@ import administration.server.beans.Coordinate;
 import com.example.grpc.Information;
 import com.example.grpc.InformationServiceGrpc;
 import io.grpc.stub.StreamObserver;
-import player.game.domain.singletons.Participant;
+import administration.server.beans.Participant;
+import player.game.domain.singletons.Hider;
 import player.game.domain.singletons.Player;
 import player.game.domain.enums.Role;
 import player.game.domain.enums.GameState;
+import player.game.domain.singletons.Seeker;
 import player.game.handlers.ElectionHandler;
-import player.game.handlers.HiderHandler;
+import player.game.handlers.BaseAccessHandler;
 import player.game.handlers.InformationHandler;
-import player.game.handlers.SeekerHandler;
 
 public class InformationServiceImplementation extends InformationServiceGrpc.InformationServiceImplBase {
 
@@ -35,9 +36,9 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
         if (Player.getInstance().getState() == GameState.IN_GAME) {
             if (Player.getInstance().getRole() == Role.SEEKER) {
                 ElectionHandler.getInstance().sendElectedMessage(participant);
-                SeekerHandler.getInstance().storeNewHider(participant);
+                Seeker.getInstance().storeNewHider(participant);
             } else {
-                HiderHandler.getInstance().sendBaseRequest(participant);
+                BaseAccessHandler.getInstance().sendBaseRequest(participant, Hider.getInstance().getTimestampBaseRequest());
             }
         }
 
@@ -55,11 +56,11 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
 
         if (Player.getInstance().getRole() == Role.HIDER){
 
-            HiderHandler.getInstance().increaseFinishedHidersCount();
-            if (HiderHandler.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && (Player.getInstance().getState() == GameState.FINISHED)) {
+            Hider.getInstance().increaseFinishedHiders();
+            if (Hider.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && (Player.getInstance().getState() == GameState.FINISHED)) {
                 Player.getInstance().setState(GameState.GAME_END);
                 System.out.println();
-                System.out.println("2. Game end!");
+                System.out.println(" *** THE END! *** ");
             }
             responseObserver.onNext(Information.Ack.newBuilder().setText("OK").build());
 
@@ -67,8 +68,8 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
 
             System.out.println("The player " + savingEvent.getPlayerId() + " obtains the access to base after " + savingEvent.getTime() + " seconds");
 
-            SeekerHandler.getInstance().incrementFinishedHidersCount();
-            double taggingTime = SeekerHandler.getInstance().checkTaggingTime(savingEvent.getPlayerId());
+            Seeker.getInstance().incrementFinishedHidersCount();
+            double taggingTime = Seeker.getInstance().checkTaggingTime(savingEvent.getPlayerId());
             System.out.print("You tag the player " + savingEvent.getPlayerId() + " in " + taggingTime + " seconds, so ");
 
             if (taggingTime < savingEvent.getTime()) {
@@ -79,10 +80,10 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
                 responseObserver.onNext(Information.Ack.newBuilder().setText("YES").build());
             }
 
-            if (SeekerHandler.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount()) {
+            if (Seeker.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount()) {
                 Player.getInstance().setState(GameState.GAME_END);
                 System.out.println();
-                System.out.println("2. Game end!");
+                System.out.println(" *** THE END! *** ");
             }
         }
 

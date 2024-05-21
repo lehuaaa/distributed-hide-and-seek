@@ -1,7 +1,4 @@
-package player.game.domain.singletons;
-
-import administration.server.beans.Coordinate;
-import administration.server.beans.Node;
+package administration.server.beans;
 
 public class Participant extends Node {
 

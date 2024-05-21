@@ -2,6 +2,7 @@ package player.game.domain.singletons;
 
 import administration.server.beans.Node;
 import administration.server.beans.Coordinate;
+import administration.server.beans.Participant;
 import player.game.domain.enums.Role;
 import player.game.domain.enums.GameState;
 
