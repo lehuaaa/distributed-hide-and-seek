@@ -1,9 +1,9 @@
-package player.measurements.handlers.sender;
+package player.measurements.handlers;
 
 import com.sun.jersey.api.client.ClientResponse;
 import player.measurements.buffers.implementations.SendBuffer;
-import player.domain.PlayerMeasurements;
-import util.remotes.MeasurementsRemote;
+import player.measurements.domain.PlayerMeasurements;
+import utils.remotes.MeasurementsRemote;
 
 import java.util.List;
 

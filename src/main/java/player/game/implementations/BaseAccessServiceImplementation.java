@@ -4,9 +4,9 @@ import com.example.grpc.Base;
 import com.example.grpc.BaseAccessServiceGrpc;
 import com.example.grpc.Information;
 import io.grpc.stub.StreamObserver;
-import player.domain.Player;
-import player.domain.enums.Role;
-import player.domain.enums.GameState;
+import player.game.domain.singletons.Player;
+import player.game.domain.enums.Role;
+import player.game.domain.enums.GameState;
 import player.game.handlers.HiderHandler;
 
 public class BaseAccessServiceImplementation extends BaseAccessServiceGrpc.BaseAccessServiceImplBase {

@@ -1,4 +1,4 @@
-package player.domain;
+package player.measurements.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +7,7 @@ public class PlayerMeasurements {
 
     private String playerId;
     private List<Double> hrValues;
-    private long timestamp;
-
-    public PlayerMeasurements() {}
+    private final long timestamp;
 
     public PlayerMeasurements(String playerId, List<Double> hrValues, long timestamp) {
         this.playerId = playerId;
@@ -39,9 +37,5 @@ public class PlayerMeasurements {
         } else {
             this.hrValues = new ArrayList<>(hrValues);
         }
-    }
-
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
     }
 }

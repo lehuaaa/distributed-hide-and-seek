@@ -1,7 +1,7 @@
 package player.game.handlers;
 
-import player.domain.Participant;
-import player.domain.Player;
+import player.game.domain.singletons.Participant;
+import player.game.domain.singletons.Player;
 
 import java.util.HashMap;
 import java.util.Map;

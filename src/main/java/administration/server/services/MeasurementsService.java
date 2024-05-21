@@ -1,7 +1,7 @@
 package administration.server.services;
 
 import administration.server.beans.Average;
-import player.domain.PlayerMeasurements;
+import player.measurements.domain.PlayerMeasurements;
 import administration.server.repositories.MeasurementsRepository;
 
 import javax.ws.rs.*;

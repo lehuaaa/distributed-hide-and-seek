@@ -1,7 +1,7 @@
 package player.measurements.buffers.implementations;
 
 import player.measurements.buffers.Buffer;
-import player.domain.Measurement;
+import player.measurements.domain.Measurement;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

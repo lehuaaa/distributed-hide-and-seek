@@ -1,12 +1,10 @@
-package player.domain;
+package player.measurements.domain;
 
 public class PlayerMeasurement {
 
-    private String playerId;
-    private double hrValue;
-    private long timestamp;
-
-    public PlayerMeasurement() {}
+    private final String playerId;
+    private final double hrValue;
+    private final long timestamp;
 
     public PlayerMeasurement(String playerId, double hrValue, long timestamp) {
         this.playerId = playerId;

@@ -6,9 +6,9 @@ import com.example.grpc.Information;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import player.domain.Participant;
-import player.domain.Player;
-import player.domain.enums.GameState;
+import player.game.domain.singletons.Participant;
+import player.game.domain.singletons.Player;
+import player.game.domain.enums.GameState;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -16,7 +16,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class HiderHandler extends Thread{
+public class HiderHandler extends Thread {
 
     private long timestampBaseRequest = Long.MAX_VALUE;
 

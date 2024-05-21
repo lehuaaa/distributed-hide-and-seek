@@ -5,9 +5,9 @@ import com.example.grpc.Election;
 import com.example.grpc.ElectionServiceGrpc;
 import com.example.grpc.Information;
 import io.grpc.stub.StreamObserver;
-import player.domain.Player;
-import player.domain.enums.Role;
-import player.domain.enums.GameState;
+import player.game.domain.singletons.Player;
+import player.game.domain.enums.Role;
+import player.game.domain.enums.GameState;
 import player.game.handlers.HiderHandler;
 
 public class ElectionServiceImplementation extends ElectionServiceGrpc.ElectionServiceImplBase {

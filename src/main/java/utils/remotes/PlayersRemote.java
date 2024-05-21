@@ -1,4 +1,4 @@
-package util.remotes;
+package utils.remotes;
 
 import administration.server.beans.Node;
 import com.google.gson.Gson;

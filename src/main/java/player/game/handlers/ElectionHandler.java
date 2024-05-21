@@ -6,10 +6,10 @@ import com.example.grpc.Information;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import player.domain.Participant;
-import player.domain.Player;
-import player.domain.enums.GameState;
-import player.domain.enums.Role;
+import player.game.domain.singletons.Participant;
+import player.game.domain.singletons.Player;
+import player.game.domain.enums.GameState;
+import player.game.domain.enums.Role;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -64,7 +64,7 @@ public class ElectionHandler extends Thread {
             public void onNext(Information.Ack ack) {
                 if (ack.getText().equals("YES")) {
                     positiveVote.add(participant.getId());
-                    /* System.out.println("Positive vote from " + participant.getId() + ", positive vote count: " + positiveVoteReceived + " / " + Player.getInstance().getParticipantsCount()); */
+                    /* System.out.println("Positive vote from " + participant.getId() + ", positive vote count: " + positiveVote.size() + " / " + Player.getInstance().getParticipantsCount()); */
                 }
 
                 if (positiveVote.size() == Player.getInstance().getParticipantsCount()) {

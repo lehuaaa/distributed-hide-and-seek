@@ -1,7 +1,7 @@
-package util.remotes;
+package utils.remotes;
 
 import com.sun.jersey.api.client.ClientHandlerException;
-import player.domain.PlayerMeasurements;
+import player.measurements.domain.PlayerMeasurements;
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
