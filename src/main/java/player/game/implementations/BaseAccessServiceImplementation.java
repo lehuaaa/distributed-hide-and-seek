@@ -13,11 +13,9 @@ public class BaseAccessServiceImplementation extends BaseAccessServiceGrpc.BaseA
 
     @Override
     public void requestBaseAccess(Base.BaseRequest baseRequest, StreamObserver<Base.AckConfirmation> responseObserver) {
-        if (Player.getInstance().getRole() == Role.SEEKER ||
-                Player.getInstance().getState() == GameState.TAGGED ||
-                Player.getInstance().getState() == GameState.SAFE ||
-                Player.getInstance().getState() == GameState.ELECTION ||
-                baseRequest.getTimestamp() < HiderHandler.getInstance().getTimestampBaseRequest())
+
+        if ((Player.getInstance().getState() != GameState.IN_GAME && Player.getInstance().getState() != GameState.GAME_END) ||
+                Player.getInstance().getRole() == Role.SEEKER || baseRequest.getTimestamp() < HiderHandler.getInstance().getTimestampBaseRequest())
         {
             responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("YES").setTimePassed(HiderHandler.getInstance().getTimePassed()).build());
         } else {
@@ -28,15 +26,15 @@ public class BaseAccessServiceImplementation extends BaseAccessServiceGrpc.BaseA
     }
 
     @Override
-    public void sendBackConfirmation(Base.AckConfirmation confirmation, StreamObserver<Information.Ack> responseObserver) {
+    public void sendBackConfirmation(Base.Confirmation confirmation, StreamObserver<Information.Ack> responseObserver) {
 
         responseObserver.onNext(Information.Ack.newBuilder().setText("OK").build());
         responseObserver.onCompleted();
 
-        HiderHandler.getInstance().increaseConfirmationCount();
+        HiderHandler.getInstance().addConfirmationCount(confirmation.getPlayerId());
+        HiderHandler.getInstance().setTimePassed(confirmation.getTimePassed());
 
-        if (HiderHandler.getInstance().getConfirmationCount() == Player.getInstance().getParticipantsCount() && Player.getInstance().getState() != GameState.TAGGED) {
-            HiderHandler.getInstance().setTimePassed(confirmation.getTimePassed());
+        if (HiderHandler.getInstance().getConfirmationCount() == Player.getInstance().getParticipantsCount()) {
             HiderHandler.getInstance().moveToBase();
         }
     }

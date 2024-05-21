@@ -17,7 +17,7 @@ public class MqttFactory {
             mqttClient.connect(connectOptions);
 
             if (!topics.isEmpty()) {
-                mqttClient.subscribe(topics);
+                mqttClient.subscribe(topics, 2);
             }
 
             return mqttClient;

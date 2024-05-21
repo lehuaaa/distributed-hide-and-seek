@@ -65,12 +65,15 @@ public class Main {
         MatchInfo info = response.getEntity(MatchInfo.class);
         Player player = Player.getInstance();
 
-        /* Insert a new node with the minimum distance from the base
+
+        /* Insert a new node with the minimum distance from the base and the highest ID
         if (playerId.equals("9")) {
             player.init(node, serverAddress, new Coordinate(4, 9), info.getOtherPlayers());
             System.out.println("You joined the game at position " + new Coordinate(4, 9));
         } else {
-            INTEGRATE THE 2 LINES OF CODE BELOW INSIDE THIS ELSE + } */
+            INTEGRATE THE 2 LINES OF CODE BELOW INSIDE THIS ELSE
+        } */
+
 
         player.init(node, serverAddress, info.getCoordinate(), info.getOtherPlayers());
         System.out.println("You joined the game at position " + info.getCoordinate());

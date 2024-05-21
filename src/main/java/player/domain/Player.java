@@ -73,7 +73,7 @@ public class Player extends Participant {
         participants.get(participantId).setCoordinate(coordinate);
     }
 
-    public synchronized Node getParticipant(String participantId) {
+    public synchronized Participant getParticipant(String participantId) {
         return participants.get(participantId);
     }
 }

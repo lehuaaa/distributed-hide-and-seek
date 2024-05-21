@@ -27,10 +27,11 @@ public class MessagesHandler extends Thread {
             public void messageArrived(String topic, MqttMessage message) {
                 if (topic.equals("game/start")) {
                     if (Player.getInstance().getState() == GameState.INIT) {
+                        Player.getInstance().setState(GameState.ELECTION);
+
                         System.out.println();
                         System.out.println("0. Election phase!");
 
-                        Player.getInstance().setState(GameState.ELECTION);
                         ElectionHandler.getInstance().start();
                     }
                 } else {

@@ -64,18 +64,18 @@ public class InformationHandler extends Thread {
     }
 
 
-    public void informPlayersOfSaving(double timeWaited) {
+    public void informPlayersOfSaving(double timeWaitedToGetBaseAccess) {
         List<Participant> participants = Player.getInstance().getParticipants();
         for (Participant participant : participants) {
-            sendPlayerSaving(participant, timeWaited);
+            sendPlayerSaving(participant, timeWaitedToGetBaseAccess);
         }
     }
 
-    private void sendPlayerSaving(Participant participant, Double timeWaited) {
+    public void sendPlayerSaving(Participant participant, Double timeWaitedToGetBaseAccess) {
 
         ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         InformationServiceGrpc.InformationServiceStub stub = InformationServiceGrpc.newStub(channel);
-        Information.SavingEvent savingEvent = Information.SavingEvent.newBuilder().setPlayerId(Player.getInstance().getId()).setTime(timeWaited).build();
+        Information.SavingEvent savingEvent = Information.SavingEvent.newBuilder().setPlayerId(Player.getInstance().getId()).setTime(timeWaitedToGetBaseAccess).build();
 
         stub.playerSaving(savingEvent, new StreamObserver<Information.Ack>() {
 

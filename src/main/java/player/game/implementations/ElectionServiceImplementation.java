@@ -24,10 +24,10 @@ public class ElectionServiceImplementation extends ElectionServiceGrpc.ElectionS
         double playerDistanceFromBase = Player.getInstance().getCoordinate().getDistanceFromBase();
         double messageDistanceFromBase = messagePlayerCoordinate.getDistanceFromBase();
 
-        if (Player.getInstance().getRole() == Role.SEEKER ||
-                (Player.getInstance().getState() != GameState.INIT && Player.getInstance().getState() != GameState.ELECTION) ||
-                messageDistanceFromBase > playerDistanceFromBase ||
-                (messageDistanceFromBase == playerDistanceFromBase && Player.getInstance().getId().compareTo(messagePlayerId) > 0)) {
+        if ((Player.getInstance().getState() != GameState.INIT && Player.getInstance().getState() != GameState.ELECTION) ||
+                Player.getInstance().getRole() == Role.SEEKER || messageDistanceFromBase > playerDistanceFromBase ||
+                (messageDistanceFromBase == playerDistanceFromBase && Player.getInstance().getId().compareTo(messagePlayerId) > 0))
+        {
             responseObserver.onNext(Information.Ack.newBuilder().setText("NO").build());
         } else {
             responseObserver.onNext(Information.Ack.newBuilder().setText("YES").build());
@@ -38,12 +38,14 @@ public class ElectionServiceImplementation extends ElectionServiceGrpc.ElectionS
 
     @Override
     public void elected(Election.ElectedMessage electedMessage, StreamObserver<Information.Ack> responseObserver) {
+
+        Player.getInstance().setState(GameState.IN_GAME);
+        Player.getInstance().setRole(Role.HIDER);
+
         System.out.println("The seeker is the player " + electedMessage.getPlayerId());
         System.out.println();
         System.out.println("1. Game phase!");
 
-        Player.getInstance().setState(GameState.IN_GAME);
-        Player.getInstance().setRole(Role.HIDER);
         HiderHandler.getInstance().start();
 
         responseObserver.onNext(Information.Ack.newBuilder().setText("OK").build());
