@@ -11,14 +11,19 @@ import player.domain.Player;
 import player.domain.enums.GameState;
 import player.domain.enums.Role;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class ElectionHandler extends Thread {
 
     private static ElectionHandler instance;
 
-    private int positiveVoteReceived = 0;
+    private final Set<String> positiveVote;
+
+    private ElectionHandler() {
+        positiveVote = new HashSet<>();
+    }
 
     public static ElectionHandler getInstance() {
         if (instance == null) {
@@ -33,8 +38,7 @@ public class ElectionHandler extends Thread {
     }
 
     public void startElection() {
-        List<Participant> participants = Player.getInstance().getParticipants();
-        for (Participant participant : participants) {
+        for (Participant participant : Player.getInstance().getParticipants()) {
             sendElectionMessage(participant);
 
             /* Slow down election by 10 seconds
@@ -59,11 +63,11 @@ public class ElectionHandler extends Thread {
             @Override
             public void onNext(Information.Ack ack) {
                 if (ack.getText().equals("YES")) {
-                    positiveVoteReceived++;
+                    positiveVote.add(participant.getId());
                     /* System.out.println("Positive vote from " + participant.getId() + ", positive vote count: " + positiveVoteReceived + " / " + Player.getInstance().getParticipantsCount()); */
                 }
 
-                if (positiveVoteReceived == Player.getInstance().getParticipantsCount()) {
+                if (positiveVote.size() == Player.getInstance().getParticipantsCount()) {
                     System.out.println("You are the seeker!");
                     Player.getInstance().setState(GameState.IN_GAME);
                     Player.getInstance().setRole(Role.SEEKER);
@@ -87,8 +91,7 @@ public class ElectionHandler extends Thread {
         System.out.println();
         System.out.println("1. Game phase!");
 
-        List<Participant> participants = Player.getInstance().getParticipants();
-        for (Participant participant : participants) {
+        for (Participant participant : Player.getInstance().getParticipants()) {
             sendElectedMessage(participant);
 
             /* Slow down elected messages by 10 seconds

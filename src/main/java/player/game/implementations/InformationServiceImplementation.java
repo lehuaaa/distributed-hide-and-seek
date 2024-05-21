@@ -10,6 +10,7 @@ import player.domain.enums.Role;
 import player.domain.enums.GameState;
 import player.game.handlers.ElectionHandler;
 import player.game.handlers.HiderHandler;
+import player.game.handlers.InformationHandler;
 import player.game.handlers.SeekerHandler;
 
 public class InformationServiceImplementation extends InformationServiceGrpc.InformationServiceImplBase {
@@ -40,6 +41,11 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
             }
         }
 
+        if (Player.getInstance().getState() == GameState.FINISHED) {
+            /* The new player is not interested in the time you saved yourself, so you simply return 0 */
+            InformationHandler.getInstance().sendPlayerSaving(participant, 0.0);
+        }
+
         responseObserver.onNext(Information.Ack.newBuilder().setText("OK").build());
         responseObserver.onCompleted();
     }
@@ -50,8 +56,8 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
         if (Player.getInstance().getRole() == Role.HIDER){
 
             HiderHandler.getInstance().increaseFinishedHidersCount();
-            if (HiderHandler.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && (Player.getInstance().getState() == GameState.SAFE || Player.getInstance().getState() == GameState.TAGGED)) {
-                Player.getInstance().setState(GameState.END);
+            if (HiderHandler.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && (Player.getInstance().getState() == GameState.FINISHED)) {
+                Player.getInstance().setState(GameState.GAME_END);
                 System.out.println();
                 System.out.println("2. Game end!");
             }
@@ -74,7 +80,7 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
             }
 
             if (SeekerHandler.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount()) {
-                Player.getInstance().setState(GameState.END);
+                Player.getInstance().setState(GameState.GAME_END);
                 System.out.println();
                 System.out.println("2. Game end!");
             }

@@ -13,7 +13,12 @@ message AckConfirmation {
   double timePassed = 2;
 }
 
+message Confirmation {
+  string playerId = 1;
+  double timePassed = 2;
+}
+
 service BaseAccessService {
   rpc requestBaseAccess(BaseRequest) returns (AckConfirmation);
-  rpc sendBackConfirmation(AckConfirmation) returns (Ack);
+  rpc sendBackConfirmation(Confirmation) returns (Ack);
 }

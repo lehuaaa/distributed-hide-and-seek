@@ -4,7 +4,6 @@ public enum GameState {
     INIT,
     ELECTION,
     IN_GAME,
-    SAFE,
-    TAGGED,
-    END
+    FINISHED,
+    GAME_END
 }
