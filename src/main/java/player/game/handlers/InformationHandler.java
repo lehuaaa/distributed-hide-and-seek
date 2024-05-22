@@ -5,7 +5,8 @@ import com.example.grpc.InformationServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import player.game.domain.singletons.Participant;
+import administration.server.beans.Participant;
+import player.game.domain.singletons.Hider;
 import player.game.domain.singletons.Player;
 
 import java.util.List;
@@ -87,9 +88,9 @@ public class InformationHandler extends Thread {
                     System.out.println("Unfortunately you have been tagged by the seeker!");
                 }
 
-                if (HiderHandler.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && !ack.getText().equals("OK")) {
+                if (Hider.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && !ack.getText().equals("OK")) {
                     System.out.println();
-                    System.out.println("2. Game end!");
+                    System.out.println(" *** THE END! *** ");
                 }
             }
 

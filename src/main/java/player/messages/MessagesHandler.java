@@ -30,7 +30,7 @@ public class MessagesHandler extends Thread {
                         Player.getInstance().setState(GameState.ELECTION);
 
                         System.out.println();
-                        System.out.println("0. Election phase!");
+                        System.out.println(" *** ELECTION PHASE! *** ");
 
                         ElectionHandler.getInstance().start();
                     }

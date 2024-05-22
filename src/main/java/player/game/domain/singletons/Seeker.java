@@ -1,13 +1,12 @@
-package player.game.handlers;
+package player.game.domain.singletons;
 
-import player.game.domain.singletons.Participant;
-import player.game.domain.singletons.Player;
+import administration.server.beans.Participant;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class SeekerHandler {
+public class Seeker {
 
     private final Map<String, Participant> hiders;
 
@@ -17,16 +16,16 @@ public class SeekerHandler {
 
     private double timePassed;
 
-    private static SeekerHandler instance;
+    private static Seeker instance;
 
-    private SeekerHandler() {
+    private Seeker() {
         hiders = Player.getInstance().getParticipants().stream().collect(Collectors.toMap(Participant::getId, participant -> participant));
         taggingTimeHiders = new HashMap<>();
     }
 
-    public synchronized static SeekerHandler getInstance() {
+    public synchronized static Seeker getInstance() {
         if (instance == null) {
-            instance = new SeekerHandler();
+            instance = new Seeker();
         }
         return instance;
     }
@@ -39,11 +38,11 @@ public class SeekerHandler {
         finishedHidersCount++;
     }
 
-    public void storeNewHider(Participant hider) {
+    public synchronized void storeNewHider(Participant hider) {
         hiders.put(hider.getId(), hider);
     }
 
-    public double checkTaggingTime(String hiderId) {
+    public synchronized double checkTaggingTime(String hiderId) {
         if (!taggingTimeHiders.containsKey(hiderId)) {
             tagHiderById(hiderId);
         }
@@ -69,7 +68,8 @@ public class SeekerHandler {
             }
         }
 
-        timePassed += minDistance;
+        /* Player move 2 meters per second */
+        timePassed += minDistance / 2;
         taggingTimeHiders.put(hider.getId(), timePassed);
         Player.getInstance().setCoordinate(hider.getCoordinate());
         hiders.remove(hider.getId());

@@ -8,7 +8,7 @@ import io.grpc.stub.StreamObserver;
 import player.game.domain.singletons.Player;
 import player.game.domain.enums.Role;
 import player.game.domain.enums.GameState;
-import player.game.handlers.HiderHandler;
+import player.game.handlers.BaseAccessHandler;
 
 public class ElectionServiceImplementation extends ElectionServiceGrpc.ElectionServiceImplBase {
 
@@ -39,14 +39,17 @@ public class ElectionServiceImplementation extends ElectionServiceGrpc.ElectionS
     @Override
     public void elected(Election.ElectedMessage electedMessage, StreamObserver<Information.Ack> responseObserver) {
 
-        Player.getInstance().setState(GameState.IN_GAME);
-        Player.getInstance().setRole(Role.HIDER);
+        if (Player.getInstance().getState() == GameState.INIT || Player.getInstance().getState() == GameState.ELECTION) {
 
-        System.out.println("The seeker is the player " + electedMessage.getPlayerId());
-        System.out.println();
-        System.out.println("1. Game phase!");
+            Player.getInstance().setState(GameState.IN_GAME);
+            Player.getInstance().setRole(Role.HIDER);
 
-        HiderHandler.getInstance().start();
+            System.out.println("The seeker is the player " + electedMessage.getPlayerId());
+            System.out.println();
+            System.out.println(" *** GAME PHASE! *** ");
+
+            BaseAccessHandler.getInstance().start();
+        }
 
         responseObserver.onNext(Information.Ack.newBuilder().setText("OK").build());
         responseObserver.onCompleted();

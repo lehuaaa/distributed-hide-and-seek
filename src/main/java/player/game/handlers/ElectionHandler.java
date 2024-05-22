@@ -1,29 +1,21 @@
 package player.game.handlers;
 
-import com.example.grpc.Election;
 import com.example.grpc.ElectionServiceGrpc;
 import com.example.grpc.Information;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
-import player.game.domain.singletons.Participant;
+import administration.server.beans.Participant;
+import player.game.domain.singletons.Election;
 import player.game.domain.singletons.Player;
 import player.game.domain.enums.GameState;
 import player.game.domain.enums.Role;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class ElectionHandler extends Thread {
 
     private static ElectionHandler instance;
-
-    private final Set<String> positiveVote;
-
-    private ElectionHandler() {
-        positiveVote = new HashSet<>();
-    }
 
     public static ElectionHandler getInstance() {
         if (instance == null) {
@@ -34,7 +26,9 @@ public class ElectionHandler extends Thread {
 
     @Override
     public void run() {
-        startElection();
+        if (Player.getInstance().getState() == GameState.ELECTION) {
+            startElection();
+        }
     }
 
     public void startElection() {
@@ -52,7 +46,7 @@ public class ElectionHandler extends Thread {
         ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         ElectionServiceGrpc.ElectionServiceStub stub = ElectionServiceGrpc.newStub(channel);
 
-        Election.ElectionMessage electionMessage = Election.ElectionMessage.newBuilder()
+        com.example.grpc.Election.ElectionMessage electionMessage = com.example.grpc.Election.ElectionMessage.newBuilder()
                                                                            .setPlayerId(Player.getInstance().getId())
                                                                            .setPlayerCoordinate(Information.Coordinate.newBuilder()
                                                                                    .setX(Player.getInstance().getCoordinate().getX())
@@ -64,11 +58,11 @@ public class ElectionHandler extends Thread {
             @Override
             public void onNext(Information.Ack ack) {
                 if (ack.getText().equals("YES")) {
-                    positiveVote.add(participant.getId());
-                    System.out.println("Positive vote from " + participant.getId() + ", positive vote count: " + positiveVote.size() + " / " + Player.getInstance().getParticipantsCount());
+                    Election.getInstance().addNewPositiveVote(participant.getId());
+                    System.out.println("Positive vote from " + participant.getId() + ", positive vote count: " + Election.getInstance().getPositiveVoteCount() + " / " + Player.getInstance().getParticipantsCount());
                 }
 
-                if (positiveVote.size() == Player.getInstance().getParticipantsCount()) {
+                if (Election.getInstance().getPositiveVoteCount() == Player.getInstance().getParticipantsCount()) {
                     System.out.println("You are the seeker!");
                     Player.getInstance().setRole(Role.SEEKER);
                     Player.getInstance().setState(GameState.IN_GAME);
@@ -90,7 +84,7 @@ public class ElectionHandler extends Thread {
 
     public void startElected() {
         System.out.println();
-        System.out.println("1. Game phase!");
+        System.out.println(" *** GAME PHASE! *** ");
 
         for (Participant participant : Player.getInstance().getParticipants()) {
 
@@ -106,7 +100,7 @@ public class ElectionHandler extends Thread {
         ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         ElectionServiceGrpc.ElectionServiceStub stub = ElectionServiceGrpc.newStub(channel);
 
-        Election.ElectedMessage electedMessage = Election.ElectedMessage.newBuilder()
+        com.example.grpc.Election.ElectedMessage electedMessage = com.example.grpc.Election.ElectedMessage.newBuilder()
                                                                         .setPlayerId(Player.getInstance().getId())
                                                                         .build();
 
