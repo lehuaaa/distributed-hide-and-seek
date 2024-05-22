@@ -14,6 +14,8 @@ import player.game.handlers.ElectionHandler;
 import player.game.handlers.BaseAccessHandler;
 import player.game.handlers.InformationHandler;
 
+import java.text.DecimalFormat;
+
 public class InformationServiceImplementation extends InformationServiceGrpc.InformationServiceImplBase {
 
     @Override
@@ -54,7 +56,7 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
     @Override
     public void playerSaving(Information.SavingEvent savingEvent, StreamObserver<Information.Ack> responseObserver) {
 
-        if (Player.getInstance().getRole() == Role.HIDER){
+        if (Player.getInstance().getRole() == Role.HIDER) {
 
             Hider.getInstance().increaseFinishedHiders();
             if (Hider.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && (Player.getInstance().getState() == GameState.FINISHED)) {
@@ -66,11 +68,11 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
 
         } else {
 
-            System.out.println("The player " + savingEvent.getPlayerId() + " obtains the access to base after " + savingEvent.getTime() + " seconds");
+            System.out.println("The player " + savingEvent.getPlayerId() + " obtains the access to base after " + new DecimalFormat("0.00").format(savingEvent.getTime()) + " seconds");
 
             Seeker.getInstance().incrementFinishedHidersCount();
             double taggingTime = Seeker.getInstance().checkTaggingTime(savingEvent.getPlayerId());
-            System.out.print("You tag the player " + savingEvent.getPlayerId() + " in " + taggingTime + " seconds, so ");
+            System.out.print("You tag the player " + savingEvent.getPlayerId() + " in " + new DecimalFormat("0.00").format(taggingTime) + " seconds, so ");
 
             if (taggingTime < savingEvent.getTime()) {
                 System.out.println("he can be considered tagged");

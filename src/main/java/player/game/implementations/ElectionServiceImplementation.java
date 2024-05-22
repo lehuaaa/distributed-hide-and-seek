@@ -39,14 +39,17 @@ public class ElectionServiceImplementation extends ElectionServiceGrpc.ElectionS
     @Override
     public void elected(Election.ElectedMessage electedMessage, StreamObserver<Information.Ack> responseObserver) {
 
-        Player.getInstance().setState(GameState.IN_GAME);
-        Player.getInstance().setRole(Role.HIDER);
+        if (Player.getInstance().getState() == GameState.INIT || Player.getInstance().getState() == GameState.ELECTION) {
 
-        System.out.println("The seeker is the player " + electedMessage.getPlayerId());
-        System.out.println();
-        System.out.println(" *** GAME PHASE! *** ");
+            Player.getInstance().setState(GameState.IN_GAME);
+            Player.getInstance().setRole(Role.HIDER);
 
-        BaseAccessHandler.getInstance().start();
+            System.out.println("The seeker is the player " + electedMessage.getPlayerId());
+            System.out.println();
+            System.out.println(" *** GAME PHASE! *** ");
+
+            BaseAccessHandler.getInstance().start();
+        }
 
         responseObserver.onNext(Information.Ack.newBuilder().setText("OK").build());
         responseObserver.onCompleted();

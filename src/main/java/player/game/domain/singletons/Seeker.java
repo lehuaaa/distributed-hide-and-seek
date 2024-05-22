@@ -68,7 +68,8 @@ public class Seeker {
             }
         }
 
-        timePassed += minDistance;
+        /* Player move 2 meters per second */
+        timePassed += minDistance / 2;
         taggingTimeHiders.put(hider.getId(), timePassed);
         Player.getInstance().setCoordinate(hider.getCoordinate());
         hiders.remove(hider.getId());

@@ -31,8 +31,13 @@ public class BaseAccessHandler extends Thread {
     public void requestBaseAccess() {
         long timestampBaseRequest = Hider.getInstance().generateBaseRequest();
         System.out.println("Timestamp base request: " + timestampBaseRequest);
-        for (Participant p: Player.getInstance().getParticipants())
+        for (Participant p: Player.getInstance().getParticipants()) {
+
+            /* Slow down request base access by 10 seconds
+            try { Thread.sleep(10000); } catch (InterruptedException e) { throw new RuntimeException(e); } */
+
             sendBaseRequest(p, timestampBaseRequest);
+        }
     }
 
     public void sendBaseRequest(Participant participant, long timestampBaseRequest) {

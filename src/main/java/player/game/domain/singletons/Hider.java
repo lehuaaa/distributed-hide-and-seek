@@ -4,6 +4,7 @@ import player.game.domain.enums.GameState;
 import player.game.handlers.BaseAccessHandler;
 import player.game.handlers.InformationHandler;
 
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -65,10 +66,12 @@ public class Hider {
     public void moveToTheBase() {
 
         double timeWaitedToGetBaseAccess = timePassedToReachBase;
-        increaseTimePassed(Player.getInstance().getCoordinate().getDistanceFromBase() + 10);
 
-        System.out.println("You obtain the access to the base after " + timeWaitedToGetBaseAccess +
-                " seconds. You will be finished after " + Hider.getInstance().getTimePassedToReachBase() + " seconds");
+        /* Player move 2 meters per second */
+        increaseTimePassed((Player.getInstance().getCoordinate().getDistanceFromBase() / 2) + 10);
+
+        System.out.println("You obtain the access to the base after " + new DecimalFormat("0.00").format(timeWaitedToGetBaseAccess) +
+                " seconds. You will be finished after " + new DecimalFormat("0.00").format(Hider.getInstance().getTimePassedToReachBase()) + " seconds");
 
         Player.getInstance().setState(GameState.FINISHED);
 

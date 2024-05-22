@@ -26,7 +26,9 @@ public class ElectionHandler extends Thread {
 
     @Override
     public void run() {
-        startElection();
+        if (Player.getInstance().getState() == GameState.ELECTION) {
+            startElection();
+        }
     }
 
     public void startElection() {
