@@ -26,8 +26,7 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
         Participant participant = new Participant(playerInfo.getId(),
                                                   playerInfo.getAddress(),
                                                   playerInfo.getPort(),
-                                                  playerInfo.getCoordinate().getX(),
-                                                  playerInfo.getCoordinate().getY());
+                                                  new Coordinate(playerInfo.getCoordinate().getX(), playerInfo.getCoordinate().getY()));
 
         Player.getInstance().storeNewParticipant(participant);
 
@@ -72,14 +71,15 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
 
             Seeker.getInstance().incrementFinishedHidersCount();
             double taggingTime = Seeker.getInstance().checkTaggingTime(savingEvent.getPlayerId());
+
             System.out.print("You tag the player " + savingEvent.getPlayerId() + " in " + new DecimalFormat("0.00").format(taggingTime) + " seconds, so ");
 
-            if (taggingTime < savingEvent.getTime()) {
-                System.out.println("he can be considered tagged");
-                responseObserver.onNext(Information.Ack.newBuilder().setText("NO").build());
-            } else {
+            if (taggingTime == -1 || taggingTime > savingEvent.getTime()) {
                 System.out.println("he can be considered safe");
                 responseObserver.onNext(Information.Ack.newBuilder().setText("YES").build());
+            } else {
+                System.out.println("he can be considered tagged");
+                responseObserver.onNext(Information.Ack.newBuilder().setText("NO").build());
             }
 
             if (Seeker.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount()) {

@@ -93,6 +93,8 @@ public class ElectionHandler extends Thread {
 
             sendElectedMessage(participant);
         }
+
+        SeekerHandler.getInstance().start();
     }
 
     public void sendElectedMessage(Participant participant) {

@@ -24,10 +24,7 @@ public class MeasurementsSender extends Thread {
         while (true) {
             List<Double> averages = sendBuffer.readAllAndClean();
             if (!averages.isEmpty()) {
-                ClientResponse response =
-                        sendMeasurements(new PlayerMeasurements(playerId, averages, System.currentTimeMillis()));
-                if (response == null)
-                    sendBuffer.addAll(averages);
+                sendMeasurements(new PlayerMeasurements(playerId, averages, System.currentTimeMillis()));
             }
             try {
                 Thread.sleep(10000);

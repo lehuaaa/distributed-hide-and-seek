@@ -6,20 +6,16 @@ public class Participant extends Node {
 
     public Participant() { }
 
-    public Participant(Node node) {
-        super(node.getId(), node.getAddress(), node.getPort());
-    }
-
-    public Participant(String id, String address, int port, int x, int y) {
+    public Participant(String id, String address, int port, Coordinate coordinate) {
         super(id, address, port);
-        coordinate = new Coordinate(x, y);
+        this.coordinate = coordinate;
     }
 
-    public synchronized Coordinate getCoordinate() {
+    public Coordinate getCoordinate() {
         return new Coordinate(coordinate.getX(), coordinate.getY());
     }
 
-    public synchronized void setCoordinate(Coordinate coordinate) {
+    public void setCoordinate(Coordinate coordinate) {
         this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
     }
 }

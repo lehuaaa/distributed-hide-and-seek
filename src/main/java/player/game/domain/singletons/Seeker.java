@@ -1,5 +1,6 @@
 package player.game.domain.singletons;
 
+import administration.server.beans.Coordinate;
 import administration.server.beans.Participant;
 
 import java.util.HashMap;
@@ -44,35 +45,35 @@ public class Seeker {
 
     public synchronized double checkTaggingTime(String hiderId) {
         if (!taggingTimeHiders.containsKey(hiderId)) {
-            tagHiderById(hiderId);
+            return -1;
         }
         return taggingTimeHiders.get(hiderId);
     }
 
-    private void tagHiderById(String hiderId) {
-        String nearestHiderId = getNearestHider();
-        while (!hiderId.equals(nearestHiderId)) {
-            nearestHiderId = getNearestHider();
-        }
+    public synchronized boolean isHidersEmpty() {
+        return hiders.isEmpty();
     }
 
-    private String getNearestHider() {
-        Participant hider = new Participant();
+    public synchronized double getNearestHiderDistance() {
+
         double minDistance = Double.MAX_VALUE;
+        String hiderId = "";
+        Coordinate hiderCoordinate = new Coordinate();
 
         for (Participant p : hiders.values()) {
             double distance = Player.getInstance().getCoordinate().getDistanceFromSecondPoint(p.getCoordinate());
             if (distance < minDistance) {
                 minDistance = distance;
-                hider = p;
+                hiderId = p.getId();
+                hiderCoordinate = p.getCoordinate();
             }
         }
 
-        /* Player move 2 meters per second */
-        timePassed += minDistance / 2;
-        taggingTimeHiders.put(hider.getId(), timePassed);
-        Player.getInstance().setCoordinate(hider.getCoordinate());
-        hiders.remove(hider.getId());
-        return hider.getId();
+        minDistance /= 2;
+        timePassed += minDistance;
+        taggingTimeHiders.put(hiderId, timePassed);
+        Player.getInstance().setCoordinate(hiderCoordinate);
+        hiders.remove(hiderId);
+        return minDistance;
     }
 }

@@ -61,7 +61,7 @@ public class Player extends Participant {
     private synchronized void setParticipants(List<Node> participants) {
         if (participants != null) {
             for (Node n : participants) {
-                this.participants.put(n.getId(), new Participant(n));
+                this.participants.put(n.getId(), new Participant(n.getId(), n.getAddress(), n.getPort(), new Coordinate()));
             }
         }
     }

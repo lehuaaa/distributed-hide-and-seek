@@ -61,20 +61,24 @@ public class Hider {
 
     public void setTimePassed(double timePassed) { this.timePassedToReachBase = Math.max(this.timePassedToReachBase, timePassed); }
 
-    public void increaseTimePassed(double timePassed) { timePassedToReachBase += timePassed; }
-
     public void moveToTheBase() {
 
         double timeWaitedToGetBaseAccess = timePassedToReachBase;
 
-        /* Player move 2 meters per second */
-        increaseTimePassed((Player.getInstance().getCoordinate().getDistanceFromBase() / 2) + 10);
+        Double timeToReachBase = (Player.getInstance().getCoordinate().getDistanceFromBase() / 2) + 10;
+        timePassedToReachBase += timeToReachBase;
 
-        System.out.println("You obtain the access to the base after " + new DecimalFormat("0.00").format(timeWaitedToGetBaseAccess) +
-                " seconds. You will be finished after " + new DecimalFormat("0.00").format(Hider.getInstance().getTimePassedToReachBase()) + " seconds");
+        System.out.println("You obtain the access to the base after " + new DecimalFormat("0.00").format(timeWaitedToGetBaseAccess) + " seconds");
+
+        try {
+            timeToReachBase *= 1000;
+            System.out.println("You need to wait " + timeToReachBase.intValue() +" milliseconds to reach the base");
+            Thread.sleep(timeToReachBase.intValue());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         Player.getInstance().setState(GameState.FINISHED);
-
         InformationHandler.getInstance().informPlayersOfSaving(timeWaitedToGetBaseAccess);
         BaseAccessHandler.getInstance().sendBackConfirmationsToStoredHiders();
     }
