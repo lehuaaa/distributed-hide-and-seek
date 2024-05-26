@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
-public class Hider {
+public class Hider extends Thread {
 
     private long timestampBaseRequest = Long.MAX_VALUE;
 
@@ -20,13 +20,14 @@ public class Hider {
 
     private double timePassedToReachBase;
 
-    private int finishedHidersCount;
+    private final Set<String> finishedHidersCount;
 
     private static Hider instance;
 
     private Hider() {
         waitingHiders = new LinkedList<>();
         confirmations = new HashSet<>();
+        finishedHidersCount = new HashSet<>();
     }
 
     public synchronized static Hider getInstance() {
@@ -36,10 +37,7 @@ public class Hider {
         return instance;
     }
 
-    public long generateBaseRequest() {
-        timestampBaseRequest = System.currentTimeMillis();
-        return timestampBaseRequest;
-    }
+    public void generateBaseRequest() { timestampBaseRequest = System.currentTimeMillis(); }
 
     public long getTimestampBaseRequest() { return timestampBaseRequest; }
 
@@ -53,33 +51,36 @@ public class Hider {
 
     public synchronized void addConfirmation(String hiderId) { confirmations.add(hiderId); }
 
-    public int getFinishedHidersCount() { return finishedHidersCount; }
+    public synchronized int getFinishedHidersCount() { return finishedHidersCount.size(); }
 
-    public void increaseFinishedHiders() { finishedHidersCount++; }
+    public synchronized void addFinishedHiders(String playerId) { finishedHidersCount.add(playerId); }
 
     public double getTimePassedToReachBase() { return timePassedToReachBase; }
 
     public void setTimePassed(double timePassed) { this.timePassedToReachBase = Math.max(this.timePassedToReachBase, timePassed); }
 
-    public void moveToTheBase() {
+    @Override
+    public void run() {
+        reachBaseAndWait10Seconds();
+    }
+
+    private void reachBaseAndWait10Seconds() {
 
         double timeWaitedToGetBaseAccess = timePassedToReachBase;
 
         Double timeToReachBase = (Player.getInstance().getCoordinate().getDistanceFromBase() / 2) + 10;
         timePassedToReachBase += timeToReachBase;
-
         System.out.println("You obtain the access to the base after " + new DecimalFormat("0.00").format(timeWaitedToGetBaseAccess) + " seconds");
 
         try {
             timeToReachBase *= 1000;
-            System.out.println("You need to wait " + timeToReachBase.intValue() +" milliseconds to reach the base");
             Thread.sleep(timeToReachBase.intValue());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
         Player.getInstance().setState(GameState.FINISHED);
-        InformationHandler.getInstance().informPlayersOfSaving(timeWaitedToGetBaseAccess);
+        InformationHandler.getInstance().informOtherPlayersObtainedAccess(timeWaitedToGetBaseAccess);
         BaseAccessHandler.getInstance().sendBackConfirmationsToStoredHiders();
     }
 

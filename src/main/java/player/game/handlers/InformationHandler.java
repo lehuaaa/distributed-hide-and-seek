@@ -6,6 +6,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import administration.server.beans.Participant;
+import player.game.domain.enums.GameState;
+import player.game.domain.enums.Role;
 import player.game.domain.singletons.Hider;
 import player.game.domain.singletons.Player;
 
@@ -25,10 +27,6 @@ public class InformationHandler extends Thread {
 
     @Override
     public void run() {
-        presentPlayerToOthers();
-    }
-
-    public void presentPlayerToOthers() {
         List<Participant> participants = Player.getInstance().getParticipants();
         for (Participant participant : participants) {
             sendPlayerInfo(participant);
@@ -36,8 +34,7 @@ public class InformationHandler extends Thread {
     }
 
     private void sendPlayerInfo(Participant participant) {
-
-        ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
+        final ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         InformationServiceGrpc.InformationServiceStub stub = InformationServiceGrpc.newStub(channel);
 
         Information.PlayerInfo playerInfo = Information.PlayerInfo.newBuilder()
@@ -47,13 +44,29 @@ public class InformationHandler extends Thread {
                 .setCoordinate(Information.Coordinate.newBuilder().setX(Player.getInstance().getCoordinate().getX()).setY(Player.getInstance().getCoordinate().getY()).build())
                 .build();
 
-        stub.playerPresentation(playerInfo, new StreamObserver<Information.Ack>() {
+        stub.playerPresentation(playerInfo, new StreamObserver<Information.AckPlayerInfo>() {
 
             @Override
-            public void onNext(Information.Ack ack) { /* Successful registration  */ }
+            public void onNext(Information.AckPlayerInfo ackPlayerInfo) {
+                if (ackPlayerInfo.getRole().equals(Role.SEEKER.name())) {
+                    if (ackPlayerInfo.getState().equals(GameState.GAME_END.name())) {
+                        Player.getInstance().setState(GameState.GAME_END);
+                        System.out.println();
+                        System.out.println("The game is over!");
+                    } else {
+                        Player.getInstance().setState(GameState.IN_GAME);
+                        System.out.println("The seeker is the player " + participant.getId());
+                        BaseAccessHandler.getInstance().start();
+                    }
+                }
+
+                if (ackPlayerInfo.getState().equals(GameState.FINISHED.name())) {
+                    Hider.getInstance().addFinishedHiders(participant.getId());
+                }
+            }
 
             @Override
-            public void onError(Throwable throwable) { System.out.println("Error: " + throwable.getMessage()); }
+            public void onError(Throwable throwable) { System.out.println("Error sendPlayerInfo: " + throwable.getMessage()); }
 
             @Override
             public void onCompleted() { channel.shutdownNow(); }
@@ -61,24 +74,23 @@ public class InformationHandler extends Thread {
         });
 
         /* await response */
-        try { channel.awaitTermination(10, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
+        try { channel.awaitTermination(30, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
     }
 
 
-    public void informPlayersOfSaving(double timeWaitedToGetBaseAccess) {
+    public void informOtherPlayersObtainedAccess(double timeWaitedToGetBaseAccess) {
         List<Participant> participants = Player.getInstance().getParticipants();
         for (Participant participant : participants) {
-            sendPlayerSaving(participant, timeWaitedToGetBaseAccess);
+            sendObtainedAccessInfo(participant, timeWaitedToGetBaseAccess);
         }
     }
 
-    public void sendPlayerSaving(Participant participant, Double timeWaitedToGetBaseAccess) {
-
-        ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
+    public void sendObtainedAccessInfo(Participant participant, Double timeWaitedToGetBaseAccess) {
+        final ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         InformationServiceGrpc.InformationServiceStub stub = InformationServiceGrpc.newStub(channel);
         Information.SavingEvent savingEvent = Information.SavingEvent.newBuilder().setPlayerId(Player.getInstance().getId()).setTime(timeWaitedToGetBaseAccess).build();
 
-        stub.playerSaving(savingEvent, new StreamObserver<Information.Ack>() {
+        stub.playerObtainAccess(savingEvent, new StreamObserver<Information.Ack>() {
 
             @Override
             public void onNext(Information.Ack ack) {
@@ -95,7 +107,7 @@ public class InformationHandler extends Thread {
             }
 
             @Override
-            public void onError(Throwable throwable) { System.out.println("Error: " + throwable.getMessage()); }
+            public void onError(Throwable throwable) { System.out.println("Error sendPlayerSaving: " + throwable.getMessage()); }
 
             @Override
             public void onCompleted() { channel.shutdownNow(); }
@@ -103,6 +115,6 @@ public class InformationHandler extends Thread {
         });
 
         /* await response */
-        try { channel.awaitTermination(10, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
+        try { channel.awaitTermination(30, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
     }
 }

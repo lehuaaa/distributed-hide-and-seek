@@ -17,13 +17,7 @@ public class SeekerHandler extends Thread {
     public void run() {
         while (!Seeker.getInstance().isHidersEmpty()) {
             Double timeToReachHider = Seeker.getInstance().getNearestHiderDistance() * 1000;
-
-            try {
-                System.out.println("I'm waiting " + timeToReachHider.intValue() +" milliseconds");
-                Thread.sleep(timeToReachHider.intValue());
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            try { Thread.sleep(timeToReachHider.intValue()); } catch (InterruptedException e) { throw new RuntimeException(e); }
         }
     }
 }

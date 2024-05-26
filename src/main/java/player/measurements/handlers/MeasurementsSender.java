@@ -23,14 +23,12 @@ public class MeasurementsSender extends Thread {
     public void run() {
         while (true) {
             List<Double> averages = sendBuffer.readAllAndClean();
+
             if (!averages.isEmpty()) {
                 sendMeasurements(new PlayerMeasurements(playerId, averages, System.currentTimeMillis()));
             }
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+
+            try { Thread.sleep(10000); } catch (InterruptedException e) { throw new RuntimeException(e); }
         }
     }
 

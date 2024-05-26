@@ -17,7 +17,7 @@ public class PlayersRemote {
         gson = new Gson();
     }
 
-    public static PlayersRemote getInstance() {
+    public synchronized static PlayersRemote getInstance() {
         if (instance == null)
             instance = new PlayersRemote();
         return instance;

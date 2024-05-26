@@ -18,7 +18,7 @@ public class MeasurementsRemote {
         gson = new Gson();
     }
 
-    public static MeasurementsRemote getInstance() {
+    public synchronized static MeasurementsRemote getInstance() {
         if (instance == null)
             instance = new MeasurementsRemote();
         return instance;

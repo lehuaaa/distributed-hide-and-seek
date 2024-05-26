@@ -42,8 +42,7 @@ public class ElectionHandler extends Thread {
     }
 
     public void sendElectionMessage(Participant participant) {
-
-        ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
+        final ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         ElectionServiceGrpc.ElectionServiceStub stub = ElectionServiceGrpc.newStub(channel);
 
         com.example.grpc.Election.ElectionMessage electionMessage = com.example.grpc.Election.ElectionMessage.newBuilder()
@@ -63,15 +62,15 @@ public class ElectionHandler extends Thread {
                 }
 
                 if (Election.getInstance().getPositiveVoteCount() == Player.getInstance().getParticipantsCount()) {
-                    System.out.println("You are the seeker!");
-                    Player.getInstance().setRole(Role.SEEKER);
                     Player.getInstance().setState(GameState.IN_GAME);
+                    Player.getInstance().setRole(Role.SEEKER);
+                    System.out.println("You are the seeker!");
                     startElected();
                 }
             }
 
             @Override
-            public void onError(Throwable throwable) { System.out.println("Error: " + throwable.getMessage()); }
+            public void onError(Throwable throwable) { System.out.println("Error sendElectionMessage: " + throwable.getMessage()); }
 
             @Override
             public void onCompleted() { channel.shutdownNow(); }
@@ -98,8 +97,7 @@ public class ElectionHandler extends Thread {
     }
 
     public void sendElectedMessage(Participant participant) {
-
-        ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
+        final ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         ElectionServiceGrpc.ElectionServiceStub stub = ElectionServiceGrpc.newStub(channel);
 
         com.example.grpc.Election.ElectedMessage electedMessage = com.example.grpc.Election.ElectedMessage.newBuilder()
@@ -112,7 +110,7 @@ public class ElectionHandler extends Thread {
             public void onNext(Information.Ack ack) { }
 
             @Override
-            public void onError(Throwable throwable) { System.out.println("Error: " + throwable.getMessage()); }
+            public void onError(Throwable throwable) { System.out.println("Error sendElectedMessage: " + throwable.getMessage()); }
 
             @Override
             public void onCompleted() { channel.shutdownNow(); }

@@ -7,7 +7,9 @@ public class PlayerMeasurements {
 
     private String playerId;
     private List<Double> hrValues;
-    private final long timestamp;
+    private long timestamp;
+
+    public PlayerMeasurements() {}
 
     public PlayerMeasurements(String playerId, List<Double> hrValues, long timestamp) {
         this.playerId = playerId;

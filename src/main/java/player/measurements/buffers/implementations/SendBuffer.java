@@ -23,8 +23,4 @@ public class SendBuffer {
         queue.clear();
         return measurements;
     }
-
-    public synchronized void addAll(List<Double> averages) {
-        queue.addAll(averages);
-    }
 }

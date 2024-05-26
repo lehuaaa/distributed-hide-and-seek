@@ -14,15 +14,19 @@ public class BaseAccessServiceImplementation extends BaseAccessServiceGrpc.BaseA
     @Override
     public void requestBaseAccess(Base.BaseRequest baseRequest, StreamObserver<Base.AckConfirmation> responseObserver) {
 
-        if (Player.getInstance().getRole() == Role.SEEKER ||
-                (Player.getInstance().getState() != GameState.IN_GAME && Player.getInstance().getState() != GameState.GAME_END) ||
-                 baseRequest.getTimestamp() < Hider.getInstance().getTimestampBaseRequest())
-        {
+        if (Player.getInstance().getRole() == Role.SEEKER) {
             responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("YES").setTimePassed(Hider.getInstance().getTimePassedToReachBase()).build());
         } else {
-            Hider.getInstance().storeWaitingHider(baseRequest.getPlayerId());
-            responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("NO").setTimePassed(Hider.getInstance().getTimePassedToReachBase()).build());
+            if (Player.getInstance().getState() == GameState.REACHING_BASE ||
+                    (Player.getInstance().getState() == GameState.IN_GAME && Hider.getInstance().getTimestampBaseRequest() < baseRequest.getTimestamp()))
+            {
+                Hider.getInstance().storeWaitingHider(baseRequest.getPlayerId());
+                responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("NO").setTimePassed(Hider.getInstance().getTimePassedToReachBase()).build());
+            } else {
+                responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("YES").setTimePassed(Hider.getInstance().getTimePassedToReachBase()).build());
+            }
         }
+
         responseObserver.onCompleted();
     }
 
@@ -40,7 +44,8 @@ public class BaseAccessServiceImplementation extends BaseAccessServiceGrpc.BaseA
         Hider.getInstance().setTimePassed(confirmation.getTimePassed());
 
         if (Hider.getInstance().getConfirmationsCount() == Player.getInstance().getParticipantsCount()) {
-            Hider.getInstance().moveToTheBase();
+            Player.getInstance().setState(GameState.REACHING_BASE);
+            Hider.getInstance().start();
         }
     }
 }

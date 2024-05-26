@@ -12,7 +12,6 @@ public class AdministrationServer {
 
     public static void main(String[] args) {
         try {
-
             HttpServer administrationServer = HttpServerFactory.create("http://" + HOST + ":" + PORT + "/");
             administrationServer.start();
             System.out.println("Server is running on: http://" + HOST + ":" + PORT);

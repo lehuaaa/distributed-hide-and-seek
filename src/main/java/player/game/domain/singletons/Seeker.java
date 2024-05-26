@@ -3,6 +3,7 @@ package player.game.domain.singletons;
 import administration.server.beans.Coordinate;
 import administration.server.beans.Participant;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,5 +76,14 @@ public class Seeker {
         Player.getInstance().setCoordinate(hiderCoordinate);
         hiders.remove(hiderId);
         return minDistance;
+    }
+
+    public void ShowTaggingSummary() {
+        System.out.println();
+        System.out.println("Tagging summary:");
+
+        for (String hiderId : taggingTimeHiders.keySet()) {
+            System.out.println("Player " + hiderId + ": " + new DecimalFormat("0.00").format(taggingTimeHiders.get(hiderId)) + " seconds");
+        }
     }
 }

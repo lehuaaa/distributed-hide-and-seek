@@ -18,11 +18,16 @@ message SavingEvent {
   double time = 2;
 }
 
+message AckPlayerInfo {
+  string state = 1;
+  string role = 2;
+}
+
 message Ack {
   string text = 1;
 }
 
 service InformationService {
-    rpc playerPresentation(PlayerInfo) returns (Ack);
-    rpc playerSaving(SavingEvent) returns (Ack);
+    rpc playerPresentation(PlayerInfo) returns (AckPlayerInfo);
+    rpc playerObtainAccess(SavingEvent) returns (Ack);
 }

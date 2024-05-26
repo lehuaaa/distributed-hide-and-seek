@@ -19,7 +19,7 @@ import java.text.DecimalFormat;
 public class InformationServiceImplementation extends InformationServiceGrpc.InformationServiceImplBase {
 
     @Override
-    public void playerPresentation(Information.PlayerInfo playerInfo, StreamObserver<Information.Ack> responseObserver) {
+    public void playerPresentation(Information.PlayerInfo playerInfo, StreamObserver<Information.AckPlayerInfo> responseObserver) {
 
         System.out.println("Player " + playerInfo.getId() + " joined the game in position " + new Coordinate(playerInfo.getCoordinate().getX(), playerInfo.getCoordinate().getY()));
 
@@ -36,30 +36,29 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
 
         if (Player.getInstance().getState() == GameState.IN_GAME) {
             if (Player.getInstance().getRole() == Role.SEEKER) {
-                ElectionHandler.getInstance().sendElectedMessage(participant);
                 Seeker.getInstance().storeNewHider(participant);
             } else {
-                BaseAccessHandler.getInstance().sendBaseRequest(participant, Hider.getInstance().getTimestampBaseRequest());
+                BaseAccessHandler.getInstance().sendBaseRequest(participant);
             }
         }
 
-        if (Player.getInstance().getState() == GameState.FINISHED) {
-            /* The new player is not interested in the time you saved yourself, so you simply return 0 */
-            InformationHandler.getInstance().sendPlayerSaving(participant, 0.0);
-        }
+        responseObserver.onNext(Information.AckPlayerInfo.newBuilder()
+                .setState(Player.getInstance().getState().name())
+                .setRole(Player.getInstance().getRole().name())
+                .build());
 
-        responseObserver.onNext(Information.Ack.newBuilder().setText("OK").build());
         responseObserver.onCompleted();
     }
 
     @Override
-    public void playerSaving(Information.SavingEvent savingEvent, StreamObserver<Information.Ack> responseObserver) {
+    public void playerObtainAccess(Information.SavingEvent savingEvent, StreamObserver<Information.Ack> responseObserver) {
 
         if (Player.getInstance().getRole() == Role.HIDER) {
+            Hider.getInstance().addFinishedHiders(savingEvent.getPlayerId());
 
-            Hider.getInstance().increaseFinishedHiders();
-            if (Hider.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && (Player.getInstance().getState() == GameState.FINISHED)) {
+            if (Hider.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && Player.getInstance().getState() == GameState.FINISHED) {
                 Player.getInstance().setState(GameState.GAME_END);
+
                 System.out.println();
                 System.out.println(" *** THE END! *** ");
             }
@@ -67,25 +66,24 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
 
         } else {
 
-            System.out.println("The player " + savingEvent.getPlayerId() + " obtains the access to base after " + new DecimalFormat("0.00").format(savingEvent.getTime()) + " seconds");
-
             Seeker.getInstance().incrementFinishedHidersCount();
             double taggingTime = Seeker.getInstance().checkTaggingTime(savingEvent.getPlayerId());
 
-            System.out.print("You tag the player " + savingEvent.getPlayerId() + " in " + new DecimalFormat("0.00").format(taggingTime) + " seconds, so ");
-
             if (taggingTime == -1 || taggingTime > savingEvent.getTime()) {
-                System.out.println("he can be considered safe");
+                System.out.println("You did not tag the player " + savingEvent.getPlayerId() + " in time, so he is safe!");
                 responseObserver.onNext(Information.Ack.newBuilder().setText("YES").build());
             } else {
-                System.out.println("he can be considered tagged");
+                System.out.println("You tag the player " + savingEvent.getPlayerId() + " in time!");
                 responseObserver.onNext(Information.Ack.newBuilder().setText("NO").build());
             }
 
             if (Seeker.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount()) {
                 Player.getInstance().setState(GameState.GAME_END);
+
                 System.out.println();
                 System.out.println(" *** THE END! *** ");
+
+                Seeker.getInstance().ShowTaggingSummary();
             }
         }
 

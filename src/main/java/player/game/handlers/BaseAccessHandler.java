@@ -7,6 +7,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import administration.server.beans.Participant;
+import player.game.domain.enums.GameState;
 import player.game.domain.singletons.Hider;
 import player.game.domain.singletons.Player;
 
@@ -25,25 +26,23 @@ public class BaseAccessHandler extends Thread {
 
     @Override
     public void run() {
+        System.out.println();
+        System.out.println(" *** GAME PHASE! *** ");
         requestBaseAccess();
     }
 
     public void requestBaseAccess() {
-        long timestampBaseRequest = Hider.getInstance().generateBaseRequest();
-        System.out.println("Timestamp base request: " + timestampBaseRequest);
+        Hider.getInstance().generateBaseRequest();
+        System.out.println("Timestamp base request: " + Hider.getInstance().getTimestampBaseRequest());
         for (Participant p: Player.getInstance().getParticipants()) {
-
-            /* Slow down request base access by 10 seconds
-            try { Thread.sleep(10000); } catch (InterruptedException e) { throw new RuntimeException(e); } */
-
-            sendBaseRequest(p, timestampBaseRequest);
+            sendBaseRequest(p);
         }
     }
 
-    public void sendBaseRequest(Participant participant, long timestampBaseRequest) {
-        ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
+    public void sendBaseRequest(Participant participant) {
+        final ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         BaseAccessServiceGrpc.BaseAccessServiceStub stub = BaseAccessServiceGrpc.newStub(channel);
-        Base.BaseRequest baseRequest = Base.BaseRequest.newBuilder().setPlayerId(Player.getInstance().getId()).setTimestamp(timestampBaseRequest).build();
+        Base.BaseRequest baseRequest = Base.BaseRequest.newBuilder().setPlayerId(Player.getInstance().getId()).setTimestamp(Hider.getInstance().getTimestampBaseRequest()).build();
 
         stub.requestBaseAccess(baseRequest, new StreamObserver<Base.AckConfirmation>() {
 
@@ -56,12 +55,13 @@ public class BaseAccessHandler extends Thread {
                 }
 
                 if (Hider.getInstance().getConfirmationsCount() == Player.getInstance().getParticipantsCount()) {
-                    Hider.getInstance().moveToTheBase();
+                    Player.getInstance().setState(GameState.REACHING_BASE);
+                    Hider.getInstance().start();
                 }
             }
 
             @Override
-            public void onError(Throwable throwable) { System.out.println("Error: " + throwable.getMessage()); }
+            public void onError(Throwable throwable) { System.out.println("Error sendBaseRequest: " + throwable.getMessage()); }
 
             @Override
             public void onCompleted() { channel.shutdownNow(); }
@@ -69,21 +69,17 @@ public class BaseAccessHandler extends Thread {
         });
 
         /* await response */
-        try { channel.awaitTermination(10, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
+        try { channel.awaitTermination(30, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
     }
 
     public void sendBackConfirmationsToStoredHiders() {
         while (!Hider.getInstance().waitingHidersIsEmpty()) {
-
-            /* Slow down confirmation message by 10 seconds
-            try { Thread.sleep(10000); } catch (InterruptedException e) { throw new RuntimeException(e); } */
-
             sendBackConfirmation(Player.getInstance().getParticipant(Hider.getInstance().getFirstWaitingHider()));
         }
     }
 
     private void sendBackConfirmation(Participant hider) {
-        ManagedChannel channel = ManagedChannelBuilder.forTarget(hider.getAddress() + ":" + hider.getPort()).usePlaintext().build();
+        final ManagedChannel channel = ManagedChannelBuilder.forTarget(hider.getAddress() + ":" + hider.getPort()).usePlaintext().build();
         BaseAccessServiceGrpc.BaseAccessServiceStub stub = BaseAccessServiceGrpc.newStub(channel);
 
         Base.Confirmation confirmation = Base.Confirmation.newBuilder().setTimePassed(Hider.getInstance().getTimePassedToReachBase())
@@ -92,11 +88,11 @@ public class BaseAccessHandler extends Thread {
         stub.sendBackConfirmation(confirmation, new StreamObserver<Information.Ack>() {
 
             @Override
-            public void onNext(Information.Ack ack) { /* Am I interested in the response */ }
+            public void onNext(Information.Ack ack) { }
 
             @Override
             public void onError(Throwable throwable) {
-                System.out.println("Error: " + throwable.getMessage());
+                System.out.println("Error sendBackConfirmation: " + throwable.getMessage());
             }
 
             @Override
@@ -107,6 +103,6 @@ public class BaseAccessHandler extends Thread {
         });
 
         /* await response */
-        try { channel.awaitTermination(10, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
+        try { channel.awaitTermination(30, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
     }
 }

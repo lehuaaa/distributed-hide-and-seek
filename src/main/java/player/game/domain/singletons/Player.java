@@ -77,4 +77,8 @@ public class Player extends Participant {
     public synchronized Participant getParticipant(String participantId) {
         return participants.get(participantId);
     }
+
+    public synchronized boolean doesParticipantExist(String participantId) {
+        return participants.containsKey(participantId);
+    }
 }
