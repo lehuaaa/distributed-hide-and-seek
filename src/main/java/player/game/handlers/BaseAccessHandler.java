@@ -28,12 +28,10 @@ public class BaseAccessHandler extends Thread {
     public void run() {
         System.out.println();
         System.out.println(" *** GAME PHASE! *** ");
-        requestBaseAccess();
-    }
 
-    public void requestBaseAccess() {
-        Hider.getInstance().generateBaseRequest();
-        System.out.println("Timestamp base request: " + Hider.getInstance().getTimestampBaseRequest());
+        Hider.getInstance().generateTimestampBaseAccessRequest();
+        System.out.println("Timestamp base access request: " + Hider.getInstance().getTimestampBaseAccessRequest());
+
         for (Participant p: Player.getInstance().getParticipants()) {
             sendBaseRequest(p);
         }
@@ -42,7 +40,7 @@ public class BaseAccessHandler extends Thread {
     public void sendBaseRequest(Participant participant) {
         final ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         BaseAccessServiceGrpc.BaseAccessServiceStub stub = BaseAccessServiceGrpc.newStub(channel);
-        Base.BaseRequest baseRequest = Base.BaseRequest.newBuilder().setPlayerId(Player.getInstance().getId()).setTimestamp(Hider.getInstance().getTimestampBaseRequest()).build();
+        Base.BaseRequest baseRequest = Base.BaseRequest.newBuilder().setPlayerId(Player.getInstance().getId()).setTimestamp(Hider.getInstance().getTimestampBaseAccessRequest()).build();
 
         stub.requestBaseAccess(baseRequest, new StreamObserver<Base.AckConfirmation>() {
 
@@ -50,7 +48,7 @@ public class BaseAccessHandler extends Thread {
             public void onNext(Base.AckConfirmation ackConfirmation) {
                 if (ackConfirmation.getText().equals("YES") ) {
                     Hider.getInstance().addConfirmation(participant.getId());
-                    Hider.getInstance().setTimePassed(ackConfirmation.getTimePassed());
+                    Hider.getInstance().setTimeWaitedToObtainBaseAccess(ackConfirmation.getTimePassed());
                     System.out.println("Confirmation access from " + participant.getId() + ", confirmation count: " + Hider.getInstance().getConfirmationsCount() + " / " + Player.getInstance().getParticipantsCount());
                 }
 
@@ -72,17 +70,17 @@ public class BaseAccessHandler extends Thread {
         try { channel.awaitTermination(30, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
     }
 
-    public void sendBackConfirmationsToStoredHiders() {
+    public void returnConfirmations() {
         while (!Hider.getInstance().waitingHidersIsEmpty()) {
-            sendBackConfirmation(Player.getInstance().getParticipant(Hider.getInstance().getFirstWaitingHider()));
+            sendConfirmation(Player.getInstance().getParticipant(Hider.getInstance().getFirstWaitingHider()));
         }
     }
 
-    private void sendBackConfirmation(Participant hider) {
+    private void sendConfirmation(Participant hider) {
         final ManagedChannel channel = ManagedChannelBuilder.forTarget(hider.getAddress() + ":" + hider.getPort()).usePlaintext().build();
         BaseAccessServiceGrpc.BaseAccessServiceStub stub = BaseAccessServiceGrpc.newStub(channel);
 
-        Base.Confirmation confirmation = Base.Confirmation.newBuilder().setTimePassed(Hider.getInstance().getTimePassedToReachBase())
+        Base.Confirmation confirmation = Base.Confirmation.newBuilder().setTimePassed(Hider.getInstance().getTimePassedAfterReachingBase())
                                                                        .setPlayerId(Player.getInstance().getId()).build();
 
         stub.sendBackConfirmation(confirmation, new StreamObserver<Information.Ack>() {

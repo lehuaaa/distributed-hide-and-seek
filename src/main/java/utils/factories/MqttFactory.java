@@ -8,7 +8,7 @@ public class MqttFactory {
 
     private static final String mqttBrokerAddress = "tcp://localhost:1883";
 
-    public static MqttClient generateMqttClient(String topics) {
+    public static MqttClient generateClient(String topics) {
 
         try {
             MqttClient mqttClient = new MqttClient(mqttBrokerAddress, MqttClient.generateClientId());

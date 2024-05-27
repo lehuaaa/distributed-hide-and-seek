@@ -25,7 +25,7 @@ public class AdministrationClient {
 
         System.out.println("Welcome to the game manager console!");
 
-        mqttClient = MqttFactory.generateMqttClient("");
+        mqttClient = MqttFactory.generateClient("");
         Scanner scanner = new Scanner(System.in);
         ClientResponse response;
         String choice;
@@ -165,8 +165,7 @@ public class AdministrationClient {
             }
         } while (!choice.equals("6"));
 
-        if (mqttClient != null)
-            closeMqttConnection();
+        closeMqttConnection();
     }
 
     private static void sendMqttMessage(String topic, String message, int qos, boolean isRetained, String messageToShow) {

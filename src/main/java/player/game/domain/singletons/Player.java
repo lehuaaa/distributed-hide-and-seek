@@ -15,11 +15,11 @@ public class Player extends Participant {
 
     private final Map<String, Participant> participants = new HashMap<>();
 
-    private String serverAddress;
-
     private GameState gameState = GameState.INIT;
 
     private Role role = Role.HIDER;
+
+    private String serverAddress;
 
     private static Player instance;
 
@@ -66,7 +66,7 @@ public class Player extends Participant {
         }
     }
 
-    public synchronized void storeNewParticipant(Participant participant) {
+    public synchronized void addNewParticipant(Participant participant) {
         participants.put(participant.getId(), participant);
     }
 

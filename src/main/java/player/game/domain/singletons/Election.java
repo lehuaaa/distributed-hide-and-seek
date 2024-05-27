@@ -7,10 +7,10 @@ public class Election {
 
     private static Election instance;
 
-    private final Set<String> positiveVote;
+    private final Set<String> votes;
 
     private Election() {
-        positiveVote = new HashSet<>();
+        votes = new HashSet<>();
     }
 
     public synchronized static Election getInstance() {
@@ -20,11 +20,11 @@ public class Election {
         return instance;
     }
 
-    public synchronized int getPositiveVoteCount() {
-        return positiveVote.size();
+    public synchronized int getVotesCount() {
+        return votes.size();
     }
 
-    public synchronized void addNewPositiveVote(String playerId) {
-        positiveVote.add(playerId);
+    public synchronized void addVote(String playerId) {
+        votes.add(playerId);
     }
 }

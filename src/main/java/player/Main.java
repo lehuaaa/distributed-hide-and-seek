@@ -1,7 +1,7 @@
 package player;
 
 import administration.server.beans.Node;
-import administration.server.beans.MatchInfo;
+import administration.server.beans.GameInfo;
 import com.sun.jersey.api.client.ClientResponse;
 import player.game.domain.singletons.Player;
 import player.game.GrpcServer;
@@ -61,7 +61,7 @@ public class Main {
 
 
         /* Player initialization */
-        MatchInfo info = response.getEntity(MatchInfo.class);
+        GameInfo info = response.getEntity(GameInfo.class);
         Player player = Player.getInstance();
 
         /* Insert a new node with the minimum distance from the base and the highest ID

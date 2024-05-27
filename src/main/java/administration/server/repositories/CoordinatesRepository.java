@@ -24,7 +24,7 @@ public class CoordinatesRepository {
     }
 
     /* Get free perimeter coordinate */
-    public Coordinate getPerimeterPosition() {
+    public Coordinate getRandomPerimeterCoordinate() {
         if (perimeterCoordinates.isEmpty())
             return null;
         return perimeterCoordinates.pop();

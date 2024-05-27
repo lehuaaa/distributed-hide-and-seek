@@ -15,15 +15,15 @@ public class BaseAccessServiceImplementation extends BaseAccessServiceGrpc.BaseA
     public void requestBaseAccess(Base.BaseRequest baseRequest, StreamObserver<Base.AckConfirmation> responseObserver) {
 
         if (Player.getInstance().getRole() == Role.SEEKER) {
-            responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("YES").setTimePassed(Hider.getInstance().getTimePassedToReachBase()).build());
+            responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("YES").setTimePassed(Hider.getInstance().getTimePassedAfterReachingBase()).build());
         } else {
             if (Player.getInstance().getState() == GameState.REACHING_BASE ||
-                    (Player.getInstance().getState() == GameState.IN_GAME && Hider.getInstance().getTimestampBaseRequest() < baseRequest.getTimestamp()))
+                    (Player.getInstance().getState() == GameState.IN_GAME && Hider.getInstance().getTimestampBaseAccessRequest() < baseRequest.getTimestamp()))
             {
-                Hider.getInstance().storeWaitingHider(baseRequest.getPlayerId());
-                responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("NO").setTimePassed(Hider.getInstance().getTimePassedToReachBase()).build());
+                Hider.getInstance().addWaitingHider(baseRequest.getPlayerId());
+                responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("NO").setTimePassed(Hider.getInstance().getTimePassedAfterReachingBase()).build());
             } else {
-                responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("YES").setTimePassed(Hider.getInstance().getTimePassedToReachBase()).build());
+                responseObserver.onNext(Base.AckConfirmation.newBuilder().setText("YES").setTimePassed(Hider.getInstance().getTimePassedAfterReachingBase()).build());
             }
         }
 
@@ -41,7 +41,7 @@ public class BaseAccessServiceImplementation extends BaseAccessServiceGrpc.BaseA
         System.out.println("Confirmation BACK from " + confirmation.getPlayerId() + ", confirmation count: "
                 + Hider.getInstance().getConfirmationsCount() + " / " + Player.getInstance().getParticipantsCount());
 
-        Hider.getInstance().setTimePassed(confirmation.getTimePassed());
+        Hider.getInstance().setTimeWaitedToObtainBaseAccess(confirmation.getTimePassed());
 
         if (Hider.getInstance().getConfirmationsCount() == Player.getInstance().getParticipantsCount()) {
             Player.getInstance().setState(GameState.REACHING_BASE);

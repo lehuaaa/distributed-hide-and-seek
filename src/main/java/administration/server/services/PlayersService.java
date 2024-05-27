@@ -2,7 +2,7 @@ package administration.server.services;
 
 import administration.server.repositories.PlayersRepository;
 import administration.server.beans.Node;
-import administration.server.beans.MatchInfo;
+import administration.server.beans.GameInfo;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -15,9 +15,9 @@ public class PlayersService {
     @Consumes({"application/json", "application/xml"})
     @Produces({"application/json", "application/xml"})
     public Response addPlayer(Node player){
-        MatchInfo matchInfo = PlayersRepository.getInstance().addPlayer(player);
-        if(matchInfo != null){
-            return Response.ok(matchInfo).build();
+        GameInfo gameInfo = PlayersRepository.getInstance().addPlayer(player);
+        if(gameInfo != null){
+            return Response.ok(gameInfo).build();
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }

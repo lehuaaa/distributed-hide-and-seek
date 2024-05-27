@@ -37,14 +37,14 @@ public class InformationHandler extends Thread {
         final ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         InformationServiceGrpc.InformationServiceStub stub = InformationServiceGrpc.newStub(channel);
 
-        Information.PlayerInfo playerInfo = Information.PlayerInfo.newBuilder()
+        Information.PlayerGameInfo playerGameInfo = Information.PlayerGameInfo.newBuilder()
                 .setId(Player.getInstance().getId())
                 .setAddress(Player.getInstance().getAddress())
                 .setPort(Player.getInstance().getPort())
                 .setCoordinate(Information.Coordinate.newBuilder().setX(Player.getInstance().getCoordinate().getX()).setY(Player.getInstance().getCoordinate().getY()).build())
                 .build();
 
-        stub.playerPresentation(playerInfo, new StreamObserver<Information.AckPlayerInfo>() {
+        stub.playerPresentation(playerGameInfo, new StreamObserver<Information.AckPlayerInfo>() {
 
             @Override
             public void onNext(Information.AckPlayerInfo ackPlayerInfo) {
@@ -77,20 +77,19 @@ public class InformationHandler extends Thread {
         try { channel.awaitTermination(30, TimeUnit.SECONDS); } catch (InterruptedException e) { throw new RuntimeException(e); }
     }
 
-
-    public void informOtherPlayersObtainedAccess(double timeWaitedToGetBaseAccess) {
+    public void informPlayersOfTheObtainedAccess() {
         List<Participant> participants = Player.getInstance().getParticipants();
         for (Participant participant : participants) {
-            sendObtainedAccessInfo(participant, timeWaitedToGetBaseAccess);
+            sendObtainedAccessInfo(participant);
         }
     }
 
-    public void sendObtainedAccessInfo(Participant participant, Double timeWaitedToGetBaseAccess) {
+    private void sendObtainedAccessInfo(Participant participant) {
         final ManagedChannel channel = ManagedChannelBuilder.forTarget(participant.getAddress() + ":" + participant.getPort()).usePlaintext().build();
         InformationServiceGrpc.InformationServiceStub stub = InformationServiceGrpc.newStub(channel);
-        Information.SavingEvent savingEvent = Information.SavingEvent.newBuilder().setPlayerId(Player.getInstance().getId()).setTime(timeWaitedToGetBaseAccess).build();
+        Information.ObtainedAccessInfo obtainedAccessInfo = Information.ObtainedAccessInfo.newBuilder().setPlayerId(Player.getInstance().getId()).setTimeWaited(Hider.getInstance().getTimeWaitedToObtainBaseAccess()).build();
 
-        stub.playerObtainAccess(savingEvent, new StreamObserver<Information.Ack>() {
+        stub.playerObtainAccess(obtainedAccessInfo, new StreamObserver<Information.Ack>() {
 
             @Override
             public void onNext(Information.Ack ack) {

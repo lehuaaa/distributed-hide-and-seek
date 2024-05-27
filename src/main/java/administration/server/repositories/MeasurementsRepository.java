@@ -67,7 +67,7 @@ public class MeasurementsRepository {
             return new Average(0);
 
         double result = sum / count;
-        System.out.println("The average of the last " + n + " measurements of player with id " + playerId + " has a result of: " + result);
+        System.out.println("The average of the last " + n + " measurements of player " + playerId + " has a result of: " + result);
         return new Average(result);
     }
 

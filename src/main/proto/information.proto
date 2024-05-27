@@ -1,7 +1,7 @@
 syntax = "proto3";
 package com.example.grpc;
 
-message PlayerInfo {
+message PlayerGameInfo {
   string id = 1;
   string address = 2;
   int32 port = 3;
@@ -13,9 +13,9 @@ message Coordinate {
   int32 y = 2;
 }
 
-message SavingEvent {
+message ObtainedAccessInfo {
   string playerId = 1;
-  double time = 2;
+  double timeWaited = 2;
 }
 
 message AckPlayerInfo {
@@ -28,6 +28,6 @@ message Ack {
 }
 
 service InformationService {
-    rpc playerPresentation(PlayerInfo) returns (AckPlayerInfo);
-    rpc playerObtainAccess(SavingEvent) returns (Ack);
+    rpc playerPresentation(PlayerGameInfo) returns (AckPlayerInfo);
+    rpc playerObtainAccess(ObtainedAccessInfo) returns (Ack);
 }

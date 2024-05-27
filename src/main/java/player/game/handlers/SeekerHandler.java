@@ -16,8 +16,11 @@ public class SeekerHandler extends Thread {
     @Override
     public void run() {
         while (!Seeker.getInstance().isHidersEmpty()) {
-            Double timeToReachHider = Seeker.getInstance().getNearestHiderDistance() * 1000;
-            try { Thread.sleep(timeToReachHider.intValue()); } catch (InterruptedException e) { throw new RuntimeException(e); }
+            try {
+                Thread.sleep((int) (Seeker.getInstance().getDistanceNearestHider() * 1000));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

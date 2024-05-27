@@ -24,7 +24,7 @@ public class MeasurementsService {
     @Path("player-average/{playerId}/{n}")
     @GET
     @Produces({"application/json", "application/xml"})
-    public Response getPlayerAverageOfTheLastNMeasurements(@PathParam("playerId") String playerId, @PathParam("n") int n){
+    public Response getAverageOfThePlayerLastNMeasurements(@PathParam("playerId") String playerId, @PathParam("n") int n){
         Average average = MeasurementsRepository.getInstance().getPlayerAverage(playerId, n);
         if(average.getResult() == -1)
             return Response.status(Response.Status.NOT_FOUND).build();

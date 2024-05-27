@@ -12,22 +12,24 @@ import java.util.Set;
 
 public class Hider extends Thread {
 
-    private long timestampBaseRequest = Long.MAX_VALUE;
+    private long timestampBaseAccessRequest = Long.MAX_VALUE;
 
     private final Queue<String> waitingHiders;
 
     private final Set<String> confirmations;
 
-    private double timePassedToReachBase;
+    private final Set<String> finishedHiders;
 
-    private final Set<String> finishedHidersCount;
+    private double timeWaitedToObtainBaseAccess;
+
+    private double timePassedAfterReachingBase;
 
     private static Hider instance;
 
     private Hider() {
         waitingHiders = new LinkedList<>();
         confirmations = new HashSet<>();
-        finishedHidersCount = new HashSet<>();
+        finishedHiders = new HashSet<>();
     }
 
     public synchronized static Hider getInstance() {
@@ -37,51 +39,48 @@ public class Hider extends Thread {
         return instance;
     }
 
-    public void generateBaseRequest() { timestampBaseRequest = System.currentTimeMillis(); }
+    public void generateTimestampBaseAccessRequest() { timestampBaseAccessRequest = System.currentTimeMillis(); }
 
-    public long getTimestampBaseRequest() { return timestampBaseRequest; }
+    public long getTimestampBaseAccessRequest() { return timestampBaseAccessRequest; }
 
     public synchronized boolean waitingHidersIsEmpty() { return waitingHiders.isEmpty(); }
 
     public synchronized String getFirstWaitingHider() { return waitingHiders.poll(); }
 
-    public synchronized void storeWaitingHider(String message) { waitingHiders.add(message); }
+    public synchronized void addWaitingHider(String message) { waitingHiders.add(message); }
 
     public synchronized int getConfirmationsCount() { return confirmations.size(); }
 
     public synchronized void addConfirmation(String hiderId) { confirmations.add(hiderId); }
 
-    public synchronized int getFinishedHidersCount() { return finishedHidersCount.size(); }
+    public synchronized int getFinishedHidersCount() { return finishedHiders.size(); }
 
-    public synchronized void addFinishedHiders(String playerId) { finishedHidersCount.add(playerId); }
+    public synchronized void addFinishedHiders(String playerId) { finishedHiders.add(playerId); }
 
-    public double getTimePassedToReachBase() { return timePassedToReachBase; }
+    public double getTimeWaitedToObtainBaseAccess() { return timeWaitedToObtainBaseAccess; }
 
-    public void setTimePassed(double timePassed) { this.timePassedToReachBase = Math.max(this.timePassedToReachBase, timePassed); }
+    public synchronized void setTimeWaitedToObtainBaseAccess(double timePassed) { this.timeWaitedToObtainBaseAccess = Math.max(this.timeWaitedToObtainBaseAccess, timePassed); }
+
+    public double getTimePassedAfterReachingBase() { return timePassedAfterReachingBase; }
 
     @Override
-    public void run() {
-        reachBaseAndWait10Seconds();
-    }
+    public void run() { reachBaseAndWait10Seconds(); }
 
     private void reachBaseAndWait10Seconds() {
 
-        double timeWaitedToGetBaseAccess = timePassedToReachBase;
-
-        Double timeToReachBase = (Player.getInstance().getCoordinate().getDistanceFromBase() / 2) + 10;
-        timePassedToReachBase += timeToReachBase;
-        System.out.println("You obtain the access to the base after " + new DecimalFormat("0.00").format(timeWaitedToGetBaseAccess) + " seconds");
+        double timeToReachBase = (Player.getInstance().getCoordinate().getDistanceFromBase() / 2) + 10;
+        timePassedAfterReachingBase = timeWaitedToObtainBaseAccess + timeToReachBase;
+        System.out.println("You obtain the access to the base after " + new DecimalFormat("0.00").format(timeWaitedToObtainBaseAccess) + " seconds");
 
         try {
             timeToReachBase *= 1000;
-            Thread.sleep(timeToReachBase.intValue());
+            Thread.sleep((int)timeToReachBase);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
         Player.getInstance().setState(GameState.FINISHED);
-        InformationHandler.getInstance().informOtherPlayersObtainedAccess(timeWaitedToGetBaseAccess);
-        BaseAccessHandler.getInstance().sendBackConfirmationsToStoredHiders();
+        InformationHandler.getInstance().informPlayersOfTheObtainedAccess();
+        BaseAccessHandler.getInstance().returnConfirmations();
     }
-
 }

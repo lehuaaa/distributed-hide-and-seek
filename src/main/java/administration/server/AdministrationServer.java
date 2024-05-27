@@ -20,7 +20,8 @@ public class AdministrationServer {
             administrationServer.stop(0);
             System.out.println("The server is shutting down.");
             System.exit(0);
-
-        } catch (IOException e) { throw new RuntimeException(e); }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

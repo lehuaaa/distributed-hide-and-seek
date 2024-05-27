@@ -11,7 +11,7 @@ public class MessagesHandler extends Thread {
     private final MqttClient mqttClient;
 
     public MessagesHandler() {
-        this.mqttClient = MqttFactory.generateMqttClient("game/#");
+        this.mqttClient = MqttFactory.generateClient("game/#");
     }
 
     @Override
@@ -28,10 +28,6 @@ public class MessagesHandler extends Thread {
                 if (topic.equals("game/start")) {
                     if (Player.getInstance().getState() == GameState.INIT) {
                         Player.getInstance().setState(GameState.ELECTION);
-
-                        System.out.println();
-                        System.out.println(" *** ELECTION PHASE! *** ");
-
                         ElectionHandler.getInstance().start();
                     }
                 } else {

@@ -27,6 +27,9 @@ public class ElectionHandler extends Thread {
     @Override
     public void run() {
         if (Player.getInstance().getState() == GameState.ELECTION) {
+            System.out.println();
+            System.out.println(" *** ELECTION PHASE! *** ");
+
             startElection();
         }
     }
@@ -57,11 +60,11 @@ public class ElectionHandler extends Thread {
             @Override
             public void onNext(Information.Ack ack) {
                 if (ack.getText().equals("YES")) {
-                    Election.getInstance().addNewPositiveVote(participant.getId());
-                    System.out.println("Positive vote from " + participant.getId() + ", positive vote count: " + Election.getInstance().getPositiveVoteCount() + " / " + Player.getInstance().getParticipantsCount());
+                    Election.getInstance().addVote(participant.getId());
+                    System.out.println("Positive vote from " + participant.getId() + ", positive vote count: " + Election.getInstance().getVotesCount() + " / " + Player.getInstance().getParticipantsCount());
                 }
 
-                if (Election.getInstance().getPositiveVoteCount() == Player.getInstance().getParticipantsCount()) {
+                if (Election.getInstance().getVotesCount() == Player.getInstance().getParticipantsCount()) {
                     Player.getInstance().setState(GameState.IN_GAME);
                     Player.getInstance().setRole(Role.SEEKER);
                     System.out.println("You are the seeker!");
@@ -86,10 +89,6 @@ public class ElectionHandler extends Thread {
         System.out.println(" *** GAME PHASE! *** ");
 
         for (Participant participant : Player.getInstance().getParticipants()) {
-
-            /* Slow down elected messages by 10 seconds
-            try { Thread.sleep(10000); } catch (InterruptedException e) { throw new RuntimeException(e); } */
-
             sendElectedMessage(participant);
         }
 

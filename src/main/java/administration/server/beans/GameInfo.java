@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement
-public class MatchInfo {
+public class GameInfo {
 
     private Coordinate coordinate;
     private List<Node> otherPlayers;
 
-    public MatchInfo() {}
+    public GameInfo() {}
 
-    public MatchInfo(Coordinate coordinate, List<Node> otherPlayers) {
+    public GameInfo(Coordinate coordinate, List<Node> otherPlayers) {
         this.coordinate = new Coordinate(coordinate.getX(), coordinate.getY());
         setOtherPlayers(otherPlayers);
     }
