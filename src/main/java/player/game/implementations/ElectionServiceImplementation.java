@@ -18,22 +18,18 @@ public class ElectionServiceImplementation extends ElectionServiceGrpc.ElectionS
         Coordinate messagePlayerCoordinate = new Coordinate(electionMessage.getPlayerCoordinate().getX(),
                 electionMessage.getPlayerCoordinate().getY());
 
-        if (Player.getInstance().doesParticipantExist(messagePlayerId)) {
+        double playerDistanceFromBase = Player.getInstance().getCoordinate().getDistanceFromBase();
+        double messageDistanceFromBase = messagePlayerCoordinate.getDistanceFromBase();
+
+        if (Player.getInstance().containsParticipant(messagePlayerId))
             Player.getInstance().setParticipantCoordinate(messagePlayerId, messagePlayerCoordinate);
 
-            double playerDistanceFromBase = Player.getInstance().getCoordinate().getDistanceFromBase();
-            double messageDistanceFromBase = messagePlayerCoordinate.getDistanceFromBase();
-
-            if ((Player.getInstance().getState() != GameState.INIT && Player.getInstance().getState() != GameState.ELECTION) ||
-                    (messageDistanceFromBase == playerDistanceFromBase && Player.getInstance().getId().compareTo(messagePlayerId) > 0) ||
-                    messageDistanceFromBase > playerDistanceFromBase)
-            {
-                responseObserver.onNext(Information.Ack.newBuilder().setText("NO").build());
-            } else {
-                responseObserver.onNext(Information.Ack.newBuilder().setText("YES").build());
-            }
-        } else {
+        if ((Player.getInstance().getState() != GameState.INIT && Player.getInstance().getState() != GameState.ELECTION) ||
+                (messageDistanceFromBase == playerDistanceFromBase && Player.getInstance().getId().compareTo(messagePlayerId) > 0) ||
+                messageDistanceFromBase > playerDistanceFromBase) {
             responseObserver.onNext(Information.Ack.newBuilder().setText("NO").build());
+        } else {
+            responseObserver.onNext(Information.Ack.newBuilder().setText("YES").build());
         }
 
         responseObserver.onCompleted();
