@@ -22,5 +22,6 @@ public class SeekerHandler extends Thread {
                 throw new RuntimeException(e);
             }
         }
+        Seeker.getInstance().setSeekingState(false);
     }
 }
