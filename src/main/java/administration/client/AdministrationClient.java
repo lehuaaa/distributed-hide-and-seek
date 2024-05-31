@@ -10,6 +10,7 @@ import utils.remotes.MeasurementsRemote;
 import utils.remotes.PlayersRemote;
 
 import javax.ws.rs.core.Response;
+import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -105,7 +106,7 @@ public class AdministrationClient {
                     response = MeasurementsRemote.getInstance().requestGetPlayerAverage(administrationServerAddress, playerId, n);
                     if (response != null) {
                         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-                            System.out.println("The average of the last " + n + " measurements of the player with id " + playerId + " is " + response.getEntity(Average.class).getResult());
+                            System.out.println("The average of the last " + n + " measurements of player " + playerId + " is " + new DecimalFormat("0.00").format(response.getEntity(Average.class).getResult()));
                         } else {
                             System.out.println("The player with Id " + playerId + " was not found.");
                         }
@@ -147,7 +148,7 @@ public class AdministrationClient {
 
                     response = MeasurementsRemote.getInstance().requestGetIntervalAverage(administrationServerAddress, t1, t2);
                     if (response != null) {
-                        System.out.println("The average of the measurements that occurred between " + t1 + " and " + t2 + " is " + response.getEntity(Average.class).getResult());
+                        System.out.println("The average of the measurements that occurred between " + t1 + " and " + t2 + " is " + new DecimalFormat("0.00").format(response.getEntity(Average.class).getResult()));
                     }
                     break;
 

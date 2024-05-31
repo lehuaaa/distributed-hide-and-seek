@@ -1,5 +1,7 @@
 package player.game.handlers;
 
+import player.game.domain.enums.GameState;
+import player.game.domain.singletons.Player;
 import player.game.domain.singletons.Seeker;
 
 public class SeekerHandler extends Thread {
@@ -15,13 +17,12 @@ public class SeekerHandler extends Thread {
 
     @Override
     public void run() {
-        while (!Seeker.getInstance().isHidersEmpty()) {
+        while (Player.getInstance().getState() != GameState.GAME_END) {
             try {
                 Thread.sleep((int) (Seeker.getInstance().getDistanceNearestHider() * 1000));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        Seeker.getInstance().setSeekingState(false);
     }
 }

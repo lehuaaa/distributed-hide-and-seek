@@ -4,6 +4,7 @@ import administration.server.beans.Average;
 import player.measurements.domain.PlayerMeasurement;
 import player.measurements.domain.PlayerMeasurements;
 
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class MeasurementsRepository {
@@ -30,7 +31,7 @@ public class MeasurementsRepository {
     /* Add player's measurements inside the list */
     public synchronized boolean addMeasurement(PlayerMeasurements playerMeasurements) {
         if (!PlayersRepository.getInstance().containsPlayer(playerMeasurements.getPlayerId())){
-            System.out.println("Player with id " + playerMeasurements.getPlayerId() + " does not exist.");
+            System.out.println("Player " + playerMeasurements.getPlayerId() + " does not exist.");
             return false;
         }
 
@@ -46,7 +47,7 @@ public class MeasurementsRepository {
     /* Get the average of the last N measurements of a specific player */
     public Average getPlayerAverage(String playerId, int n) {
         if (!PlayersRepository.getInstance().containsPlayer(playerId)){
-            System.out.println("The player with id " + playerId + " does not exist.");
+            System.out.println("Player " + playerId + " does not exist.");
             return new Average(-1);
         }
 
@@ -67,7 +68,7 @@ public class MeasurementsRepository {
             return new Average(0);
 
         double result = sum / count;
-        System.out.println("The average of the last " + n + " measurements of player " + playerId + " has a result of: " + result);
+        System.out.println("The average of the last " + n + " measurements of player " + playerId + " has a result of: " + new DecimalFormat("0.00").format(result));
         return new Average(result);
     }
 
@@ -81,7 +82,7 @@ public class MeasurementsRepository {
                         .average()
                         .orElse(0);
 
-        System.out.println("The average of the measurements with timestamp between " + t1 + " and " + t2 + " has a result of: " + result);
+        System.out.println("The average of the measurements with timestamp between " + t1 + " and " + t2 + " has a result of: " + new DecimalFormat("0.00").format(result));
         return new Average(result);
     }
 }

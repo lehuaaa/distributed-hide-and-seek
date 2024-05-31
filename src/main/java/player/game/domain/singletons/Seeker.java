@@ -1,3 +1,4 @@
+
 package player.game.domain.singletons;
 
 import administration.server.beans.Coordinate;
@@ -15,8 +16,6 @@ public class Seeker {
     private final Map<String, Double> hidersTaggingTime;
 
     private int finishedHiders = 0;
-
-    private boolean isSeeking = true;
 
     private double timePassed;
 
@@ -42,14 +41,10 @@ public class Seeker {
         finishedHiders++;
     }
 
-    public boolean isSeeking() { return isSeeking; }
-
-    public synchronized void setSeekingState(boolean state) { isSeeking = state; }
-
-    public synchronized boolean isHidersEmpty() { return hiders.isEmpty(); }
-
     public synchronized void storeNewHider(Participant hider) {
         hiders.put(hider.getId(), hider);
+        if (hiders.size() == 1)
+            notify();
     }
 
     public synchronized double getHiderTaggingTime(String hiderId) {
@@ -59,6 +54,10 @@ public class Seeker {
     }
 
     public synchronized double getDistanceNearestHider() {
+
+        while (hiders.isEmpty()) {
+            try { wait(); } catch (InterruptedException e) { throw new RuntimeException(e); }
+        }
 
         double minDistance = Double.MAX_VALUE;
         Coordinate hiderCoordinate = new Coordinate();

@@ -18,7 +18,7 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
     @Override
     public void playerPresentation(Information.PlayerGameInfo playerGameInfo, StreamObserver<Information.AckPlayerInfo> responseObserver) {
 
-        System.out.println("Player " + playerGameInfo.getId() + " joined the game in position " + new Coordinate(playerGameInfo.getCoordinate().getX(), playerGameInfo.getCoordinate().getY()));
+        System.out.println("Player " + playerGameInfo.getId() + " joined in position " + new Coordinate(playerGameInfo.getCoordinate().getX(), playerGameInfo.getCoordinate().getY()));
 
         Participant participant = new Participant(playerGameInfo.getId(),
                 playerGameInfo.getAddress(),
@@ -34,8 +34,6 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
         if (Player.getInstance().getState() == GameState.IN_GAME) {
             if (Player.getInstance().getRole() == Role.SEEKER) {
                 Seeker.getInstance().storeNewHider(participant);
-                if (!Seeker.getInstance().isSeeking())
-                     Seeker.getInstance().getDistanceNearestHider();
             } else {
                 BaseAccessHandler.getInstance().sendBaseRequest(participant);
             }
@@ -69,10 +67,8 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
             double taggingTime = Seeker.getInstance().getHiderTaggingTime(obtainedAccessInfo.getPlayerId());
 
             if (taggingTime == -1 || taggingTime > obtainedAccessInfo.getTimeWaited()) {
-                /* System.out.println("You did not tag the player " + obtainedAccessInfo.getPlayerId() + " in time, so he is safe!"); */
                 responseObserver.onNext(Information.Ack.newBuilder().setText("YES").build());
             } else {
-                /* System.out.println("You tag the player " + obtainedAccessInfo.getPlayerId() + " in time!"); */
                 responseObserver.onNext(Information.Ack.newBuilder().setText("NO").build());
             }
 

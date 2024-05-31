@@ -73,7 +73,7 @@ public class Main {
         } */
 
         player.init(node, serverAddress, info.getCoordinate(), info.getOtherPlayers());
-        System.out.println("You joined the game at position " + info.getCoordinate());
+        System.out.println("You joined the game in position " + info.getCoordinate());
 
         if (info.getOtherPlayers().isEmpty()) {
             System.out.println("You are the only one in the game.");

@@ -1,5 +1,7 @@
 package player.measurements.domain;
 
+import java.text.DecimalFormat;
+
 public class PlayerMeasurement {
 
     private final String playerId;
@@ -24,6 +26,6 @@ public class PlayerMeasurement {
 
     @Override
     public String toString() {
-        return "measurement of player with id " + playerId + " with an heart rate value of " + hrValue + " and a timestamp of " + timestamp;
+        return "measurement of player " + playerId + " with an heart rate value of " + new DecimalFormat("0.00").format(hrValue) + " and a timestamp of " + timestamp;
     }
 }
