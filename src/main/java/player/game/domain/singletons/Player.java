@@ -30,7 +30,7 @@ public class Player extends Participant {
         return instance;
     }
 
-    public void init(Node node, String serverAddress, Coordinate coordinate, List<Node> participants) {
+    public synchronized void init(Node node, String serverAddress, Coordinate coordinate, List<Node> participants) {
         this.id = node.getId();
         this.address = node.getAddress();
         this.port = node.getPort();
@@ -58,7 +58,7 @@ public class Player extends Participant {
 
     public synchronized void setRole(Role role) { this.role = role; }
 
-    private synchronized void setParticipants(List<Node> participants) {
+    private void setParticipants(List<Node> participants) {
         if (participants != null) {
             for (Node n : participants) {
                 this.participants.put(n.getId(), new Participant(n.getId(), n.getAddress(), n.getPort(), new Coordinate()));
