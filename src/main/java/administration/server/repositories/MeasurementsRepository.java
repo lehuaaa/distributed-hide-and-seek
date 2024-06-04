@@ -24,12 +24,8 @@ public class MeasurementsRepository {
         return instance;
     }
 
-    public synchronized List<PlayerMeasurement> getMeasurements() {
-        return new ArrayList<>(measurements);
-    }
-
     /* Add player's measurements inside the list */
-    public synchronized boolean addMeasurement(PlayerMeasurements playerMeasurements) {
+    public boolean addMeasurement(PlayerMeasurements playerMeasurements) {
         if (!PlayersRepository.getInstance().containsPlayer(playerMeasurements.getPlayerId())){
             System.out.println("Player " + playerMeasurements.getPlayerId() + " does not exist.");
             return false;
@@ -37,7 +33,11 @@ public class MeasurementsRepository {
 
         for (Double hrValue : playerMeasurements.getHrValues()) {
             PlayerMeasurement measurement = new PlayerMeasurement(playerMeasurements.getPlayerId(), hrValue, playerMeasurements.getTimestamp());
-            measurements.add(measurement);
+
+            synchronized (this) {
+                measurements.add(measurement);
+            }
+
             System.out.println("The " + measurement + " has been added successfully.");
         }
 
@@ -51,23 +51,21 @@ public class MeasurementsRepository {
             return new Average(-1);
         }
 
-        List<PlayerMeasurement> measurementsCopy = getMeasurements();
+        double sum = 0; int count = 0;
 
-        double sum = 0;
-        int count = 0;
+        synchronized (this) {
+            for (int i = measurements.size() - 1; i > -1; i--) {
+                if (n == 0) break;
 
-        for (int i = measurementsCopy.size() - 1; i > -1; i--) {
-            if (n == 0) break;
-
-            if (measurementsCopy.get(i).getPlayerId().equals(playerId)){
-                sum += measurementsCopy.get(i).getHrValue();
-                count++;
-                n--;
+                if (measurements.get(i).getPlayerId().equals(playerId)){
+                    sum += measurements.get(i).getHrValue();
+                    count++;
+                    n--;
+                }
             }
         }
 
-        if (count == 0)
-            return new Average(0);
+        if (count == 0) return new Average(0);
 
         double result = sum / count;
         System.out.println("The average of the last " + n + " measurements of player " + playerId + " has a result of: " + new DecimalFormat("0.00").format(result));
@@ -76,13 +74,15 @@ public class MeasurementsRepository {
 
     /* Get the average of the measurements occurred between timestamp t1 and timestamp t2 */
     public Average getIntervalAverage(long t1, long t2) {
-        List<PlayerMeasurement> measurementsCopy = getMeasurements();
+        double result = 0;
 
-        double result = measurementsCopy.stream()
-                        .filter(m -> m.getTimestamp() >= t1 && m.getTimestamp() <= t2)
-                        .mapToDouble(PlayerMeasurement::getHrValue)
-                        .average()
-                        .orElse(0);
+        synchronized (this) {
+            result = measurements.stream()
+                    .filter(m -> m.getTimestamp() >= t1 && m.getTimestamp() <= t2)
+                    .mapToDouble(PlayerMeasurement::getHrValue)
+                    .average()
+                    .orElse(0);
+        }
 
         System.out.println("The average of the measurements with timestamp between " + t1 + " and " + t2 + " has a result of: " + new DecimalFormat("0.00").format(result));
         return new Average(result);

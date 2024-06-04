@@ -38,7 +38,7 @@ public class BaseAccessServiceImplementation extends BaseAccessServiceGrpc.BaseA
 
         Hider.getInstance().addConfirmation(confirmation.getPlayerId());
 
-        System.out.println("Confirmation from player " + confirmation.getPlayerId() + ". Total count: "
+        System.out.println("Confirmation from player " + confirmation.getPlayerId() + ". Count: "
                 + Hider.getInstance().getConfirmationsCount() + " / " + Player.getInstance().getParticipantsCount());
 
         Hider.getInstance().setTimeWaitedToObtainBaseAccess(confirmation.getTimePassed());

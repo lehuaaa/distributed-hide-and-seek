@@ -49,7 +49,7 @@ public class BaseAccessHandler extends Thread {
                 if (ackConfirmation.getText().equals("YES") ) {
                     Hider.getInstance().addConfirmation(participant.getId());
                     Hider.getInstance().setTimeWaitedToObtainBaseAccess(ackConfirmation.getTimePassed());
-                    System.out.println("Confirmation from player " + participant.getId() + ". Total count: " + Hider.getInstance().getConfirmationsCount() + " / " + Player.getInstance().getParticipantsCount());
+                    System.out.println("Confirmation from player " + participant.getId() + ". Count: " + Hider.getInstance().getConfirmationsCount() + " / " + Player.getInstance().getParticipantsCount());
                 }
 
                 if (Hider.getInstance().getConfirmationsCount() == Player.getInstance().getParticipantsCount()) {

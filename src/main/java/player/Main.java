@@ -17,6 +17,9 @@ import player.messages.MessagesHandler;
 import utils.remotes.PlayersRemote;
 
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.net.BindException;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -39,11 +42,23 @@ public class Main {
         }
 
 
-        /* Set player's listening port */
-        int listeningPort = 8081 + new Random().nextInt(1000);
+        /* Get player's listening port */
+        System.out.println("Enter listening port number:");
+        int listeningPort = 0;
+        while (listeningPort < 1 || listeningPort > 65535) {
+            try {
+                listeningPort = scanner.nextInt();
+                if (listeningPort < 1 || listeningPort > 65535) {
+                    System.out.println("The number must be grater than 0 and less equal than 65535, please try with another one.");
+                }
+            } catch (InputMismatchException e ) {
+                System.out.println("The entered number is not valid, please try with another one.");
+            }
+            scanner.nextLine();
+        }
 
 
-        /* Node registration */
+        /* Registration to the REST server */
         Node node = new Node(playerId, address, listeningPort);
         ClientResponse response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, node);
 
@@ -69,12 +84,13 @@ public class Main {
         if (playerId.equals("9")) {
             player.init(node, serverAddress, new Coordinate(4, 9), info.getOtherPlayers());
             System.out.println("You joined the game at position " + new Coordinate(4, 9));
-        } else {
-            INTEGRATE THE 2 LINES OF CODE BELOW INSIDE THIS ELSE
-        } */
+        } else { */
 
         player.init(node, serverAddress, info.getCoordinate(), info.getOtherPlayers());
         System.out.println("You joined the game in position " + info.getCoordinate());
+
+        /* } */
+
 
         if (info.getOtherPlayers().isEmpty()) {
             System.out.println("You are the only one in the game.");

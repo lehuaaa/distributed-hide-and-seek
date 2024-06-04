@@ -60,7 +60,7 @@ public class ElectionHandler extends Thread {
             public void onNext(Information.Ack ack) {
                 if (ack.getText().equals("YES")) {
                     Election.getInstance().addVote(participant.getId());
-                    System.out.println("Vote from player " + participant.getId() + ". Total count: " + Election.getInstance().getVotesCount() + " / " + Player.getInstance().getParticipantsCount());
+                    System.out.println("Vote from player " + participant.getId() + ". Count: " + Election.getInstance().getVotesCount() + " / " + Player.getInstance().getParticipantsCount());
                 }
 
                 if (Election.getInstance().getVotesCount() == Player.getInstance().getParticipantsCount()) {

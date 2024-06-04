@@ -44,8 +44,8 @@ public class PlayersRepository {
 
     /* Add the new player to the list */
     public synchronized GameInfo addPlayer(Node player) {
-        if(containsPlayer(player.getId())) {
-            System.out.println("The player " + player.getId() + " already exists.");
+        if (containsPlayer(player.getId())) {
+            System.out.println("The id " + player.getId() + " already exists.");
             return null;
         }
 

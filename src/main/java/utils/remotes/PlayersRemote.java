@@ -2,6 +2,7 @@ package utils.remotes;
 
 import administration.server.beans.Node;
 import com.google.gson.Gson;
+import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -9,11 +10,11 @@ import com.sun.jersey.api.client.WebResource;
 public class PlayersRemote {
 
     private static PlayersRemote instance;
-    private final com.sun.jersey.api.client.Client client;
+    private final Client client;
     private final Gson gson;
 
     private PlayersRemote() {
-        client = com.sun.jersey.api.client.Client.create();
+        client = Client.create();
         gson = new Gson();
     }
 
