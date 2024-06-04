@@ -49,10 +49,10 @@ public class InformationHandler extends Thread {
             @Override
             public void onNext(Information.AckPlayerInfo ackPlayerInfo) {
                 if (ackPlayerInfo.getRole().equals(Role.SEEKER.name())) {
-                    if (ackPlayerInfo.getState().equals(GameState.GAME_END.name())) {
-                        Player.getInstance().setState(GameState.GAME_END);
+                    if (ackPlayerInfo.getState().equals(GameState.GAME_OVER.name())) {
+                        Player.getInstance().setState(GameState.GAME_OVER);
                         System.out.println();
-                        System.out.println("The game is over!");
+                        System.out.println("\u001B[47m" + "\u001B[30m" + " THE GAME IS OVER " + "\033[0m");
                     } else {
                         Player.getInstance().setState(GameState.IN_GAME);
                         System.out.println("The seeker is the player " + participant.getId());
@@ -94,14 +94,14 @@ public class InformationHandler extends Thread {
             @Override
             public void onNext(Information.Ack ack) {
                 if (ack.getText().equals("YES")) {
-                    System.out.println("Congratulations you saved yourself in time!");
+                    System.out.println("\033[0;32m" + "You saved yourself!" + "\033[0m");
                 } else if (ack.getText().equals("NO")) {
-                    System.out.println("Unfortunately you have been tagged by the seeker!");
+                    System.out.println("\033[0;31m" + "You have been tagged!" + "\033[0m");
                 }
 
                 if (Hider.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && !ack.getText().equals("OK")) {
                     System.out.println();
-                    System.out.println(" *** THE END! *** ");
+                    System.out.println("\u001B[47m" + "\u001B[30m" + " GAME OVER " + "\033[0m");
                 }
             }
 

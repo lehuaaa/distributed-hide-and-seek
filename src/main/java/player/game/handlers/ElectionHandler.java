@@ -28,8 +28,7 @@ public class ElectionHandler extends Thread {
     public void run() {
         if (Player.getInstance().getState() == GameState.ELECTION) {
             System.out.println();
-            System.out.println(" *** ELECTION PHASE! *** ");
-
+            System.out.println("\u001B[47m" + "\u001B[30m" + " ELECTION PHASE " + "\033[0m");
             startElection();
         }
     }
@@ -67,7 +66,7 @@ public class ElectionHandler extends Thread {
                 if (Election.getInstance().getVotesCount() == Player.getInstance().getParticipantsCount()) {
                     Player.getInstance().setState(GameState.IN_GAME);
                     Player.getInstance().setRole(Role.SEEKER);
-                    System.out.println("You are the seeker!");
+                    System.out.println("\u001B[34m" + "You are the seeker!" + "\033[0m");
                     startElected();
                 }
             }
@@ -86,7 +85,7 @@ public class ElectionHandler extends Thread {
 
     public void startElected() {
         System.out.println();
-        System.out.println(" *** GAME PHASE! *** ");
+        System.out.println("\u001B[47m" + "\u001B[30m" + " GAME PHASE " + "\033[0m");
 
         for (Participant participant : Player.getInstance().getParticipants()) {
             sendElectedMessage(participant);

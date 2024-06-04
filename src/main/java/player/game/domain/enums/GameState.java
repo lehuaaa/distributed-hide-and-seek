@@ -6,5 +6,5 @@ public enum GameState {
     IN_GAME,
     REACHING_BASE,
     FINISHED,
-    GAME_END
+    GAME_OVER
 }

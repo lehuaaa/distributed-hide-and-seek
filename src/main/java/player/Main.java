@@ -12,6 +12,7 @@ import player.measurements.buffers.implementations.SendBuffer;
 import player.measurements.handlers.MeasurementsConsumer;
 import player.measurements.handlers.HRSimulator;
 import player.measurements.handlers.MeasurementsSender;
+import player.messages.InputHandler;
 import player.messages.MessagesHandler;
 import utils.remotes.PlayersRemote;
 
@@ -48,7 +49,7 @@ public class Main {
 
         while (response == null || response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             if (response != null)
-                System.out.println("Unfortunately id" + playerId + " has already been taken, please try with another one.");
+                System.out.println("Unfortunately id " + playerId + " has already been taken, please try with another one.");
 
             playerId = scanner.nextLine();
             while (playerId.isEmpty() || pattern.matcher(playerId).find()) {
@@ -82,6 +83,10 @@ public class Main {
                             ? "There is 1 other player in the game."
                             : "There are " + info.getOtherPlayers().size() + " other players in the game.");
         }
+
+
+        /* Start thread that handle user input */
+        new InputHandler().start();
 
 
         /* Buffers that store produced measurements and measurements to be sent to the server */

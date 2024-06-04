@@ -3,7 +3,7 @@ package player.measurements.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerMeasurements {
+public class PlayerMeasurements implements Comparable<PlayerMeasurements> {
 
     private String playerId;
     private List<Double> hrValues;
@@ -39,5 +39,12 @@ public class PlayerMeasurements {
         } else {
             this.hrValues = new ArrayList<>(hrValues);
         }
+    }
+
+    @Override
+    public int compareTo(PlayerMeasurements p) {
+        Long thisTimestamp = timestamp;
+        Long otherTimestamp = p.getTimestamp();
+        return thisTimestamp.compareTo(otherTimestamp);
     }
 }

@@ -27,10 +27,10 @@ public class BaseAccessHandler extends Thread {
     @Override
     public void run() {
         System.out.println();
-        System.out.println(" *** GAME PHASE! *** ");
+        System.out.println("\u001B[47m" + "\u001B[30m" + " GAME PHASE " + "\033[0m");
 
         Hider.getInstance().generateTimestampBaseAccessRequest();
-        System.out.println("Timestamp base access request: " + Hider.getInstance().getTimestampBaseAccessRequest());
+        System.out.println("Timestamp base request: " + Hider.getInstance().getTimestampBaseAccessRequest());
 
         for (Participant p: Player.getInstance().getParticipants()) {
             sendBaseRequest(p);
@@ -89,9 +89,7 @@ public class BaseAccessHandler extends Thread {
             public void onNext(Information.Ack ack) { }
 
             @Override
-            public void onError(Throwable throwable) {
-                System.out.println("Error sendBackConfirmation: " + throwable.getMessage());
-            }
+            public void onError(Throwable throwable) { System.out.println("Error sendBackConfirmation: " + throwable.getMessage()); }
 
             @Override
             public void onCompleted() {

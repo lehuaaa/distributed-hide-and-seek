@@ -52,16 +52,18 @@ public class MeasurementsRepository {
         }
 
         List<PlayerMeasurement> measurementsCopy = getMeasurements();
+
         double sum = 0;
         int count = 0;
 
         for (int i = measurementsCopy.size() - 1; i > -1; i--) {
-                if (measurementsCopy.get(i).getPlayerId().equals(playerId)){
-                    sum += measurementsCopy.get(i).getHrValue();
-                    count++;
-                    n--;
-                }
-                if (n == 0) break;
+            if (n == 0) break;
+
+            if (measurementsCopy.get(i).getPlayerId().equals(playerId)){
+                sum += measurementsCopy.get(i).getHrValue();
+                count++;
+                n--;
+            }
         }
 
         if (count == 0)

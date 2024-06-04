@@ -54,10 +54,10 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
             Hider.getInstance().addFinishedHiders(obtainedAccessInfo.getPlayerId());
 
             if (Hider.getInstance().getFinishedHidersCount() == Player.getInstance().getParticipantsCount() - 1 && Player.getInstance().getState() == GameState.FINISHED) {
-                Player.getInstance().setState(GameState.GAME_END);
+                Player.getInstance().setState(GameState.GAME_OVER);
 
                 System.out.println();
-                System.out.println(" *** THE END! *** ");
+                System.out.println("\u001B[47m" + "\u001B[30m" + " GAME OVER " + "\033[0m");
             }
             responseObserver.onNext(Information.Ack.newBuilder().setText("OK").build());
 
@@ -73,10 +73,10 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
             }
 
             if (Seeker.getInstance().getFinishedHiders() == Player.getInstance().getParticipantsCount()) {
-                Player.getInstance().setState(GameState.GAME_END);
+                Player.getInstance().setState(GameState.GAME_OVER);
 
                 System.out.println();
-                System.out.println(" *** THE END! *** ");
+                System.out.println("\u001B[47m" + "\u001B[30m" + " GAME OVER " + "\033[0m");
             }
         }
 

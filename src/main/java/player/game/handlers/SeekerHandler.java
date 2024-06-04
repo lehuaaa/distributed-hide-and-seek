@@ -17,7 +17,7 @@ public class SeekerHandler extends Thread {
 
     @Override
     public void run() {
-        while (Player.getInstance().getState() != GameState.GAME_END) {
+        while (Player.getInstance().getState() != GameState.GAME_OVER) {
             try {
                 Thread.sleep((int) (Seeker.getInstance().getDistanceNearestHider() * 1000));
             } catch (InterruptedException e) {
