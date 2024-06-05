@@ -13,6 +13,8 @@ import player.game.domain.singletons.Seeker;
 import player.game.handlers.ElectionHandler;
 import player.game.handlers.BaseAccessHandler;
 
+import java.text.DecimalFormat;
+
 public class InformationServiceImplementation extends InformationServiceGrpc.InformationServiceImplBase {
 
     @Override
@@ -68,13 +70,14 @@ public class InformationServiceImplementation extends InformationServiceGrpc.Inf
 
             if (taggingTime == -1 || taggingTime > obtainedAccessInfo.getTimeWaited()) {
                 responseObserver.onNext(Information.Ack.newBuilder().setText("YES").build());
+                System.out.println("\033[0;31m" + "You didn't tag player " + obtainedAccessInfo.getPlayerId() + " in time" + "\033[0m");
             } else {
                 responseObserver.onNext(Information.Ack.newBuilder().setText("NO").build());
+                System.out.println("\033[0;32m" + "You tagged the player " + obtainedAccessInfo.getPlayerId() + " in " + new DecimalFormat("0.00").format(taggingTime) + " seconds" + "\033[0m");
             }
 
             if (Seeker.getInstance().getFinishedHiders() == Player.getInstance().getParticipantsCount()) {
                 Player.getInstance().setState(GameState.GAME_OVER);
-
                 System.out.println();
                 System.out.println("\u001B[47m" + "\u001B[30m" + " GAME OVER " + "\033[0m");
             }

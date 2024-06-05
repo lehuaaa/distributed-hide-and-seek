@@ -17,10 +17,7 @@ import player.messages.MessagesHandler;
 import utils.remotes.PlayersRemote;
 
 import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.net.BindException;
 import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -32,14 +29,6 @@ public class Main {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-
-        /* Get player's id*/
-        System.out.println("Enter your player id:");
-        String playerId = scanner.nextLine();
-        while (playerId.isEmpty() || pattern.matcher(playerId).find()) {
-            System.out.println("The entered id is not valid, please try with another one.");
-            playerId = scanner.nextLine();
-        }
 
 
         /* Get player's listening port */
@@ -58,13 +47,22 @@ public class Main {
         }
 
 
+        /* Get player's id */
+        System.out.println("Enter your player id:");
+        String playerId = scanner.nextLine();
+        while (playerId.isEmpty() || pattern.matcher(playerId).find()) {
+            System.out.println("The entered id is not valid, please try with another one.");
+            playerId = scanner.nextLine();
+        }
+
+
         /* Registration to the REST server */
         Node node = new Node(playerId, address, listeningPort);
         ClientResponse response = PlayersRemote.getInstance().requestAddPlayer(serverAddress, node);
 
         while (response == null || response.getStatus() == Response.Status.BAD_REQUEST.getStatusCode()) {
             if (response != null)
-                System.out.println("Unfortunately id " + playerId + " has already been taken, please try with another one.");
+                System.out.println("The id " + playerId + " is already used, please try with another one.");
 
             playerId = scanner.nextLine();
             while (playerId.isEmpty() || pattern.matcher(playerId).find()) {

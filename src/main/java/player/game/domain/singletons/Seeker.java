@@ -75,9 +75,6 @@ public class Seeker {
         double timeToReachHider = minDistance / 2;
         timePassed += timeToReachHider;
         hidersTaggingTime.put(hiderId, timePassed);
-
-        System.out.println("You tag hider " + hiderId + " in " + new DecimalFormat("0.00").format(timePassed) + " seconds");
-
         Player.getInstance().setCoordinate(hiderCoordinate);
         hiders.remove(hiderId);
         return timeToReachHider;
