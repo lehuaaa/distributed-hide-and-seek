@@ -15,6 +15,10 @@ public class PlayersService {
     @Consumes({"application/json", "application/xml"})
     @Produces({"application/json", "application/xml"})
     public Response addPlayer(Node player){
+
+        /* Check synchronization
+        try { Thread.sleep(10000); } catch (InterruptedException e) { throw new RuntimeException(e); } */
+
         GameInfo gameInfo = PlayersRepository.getInstance().addPlayer(player);
         if(gameInfo != null){
             return Response.ok(gameInfo).build();
